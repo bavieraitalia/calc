@@ -5,19 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-
 :root{
   --bg:#0b1e45;--bg2:#0d2050;--card:#ffffff08;
   --b:#ffffff12;--b2:#ffffff1e;
   --tx:#e8f0f8;--mt:#6a85a8;--dm:#2e4468;
-  --od:#5ba8d4;--od-lt:#7dc0e4;--od-dim:#5ba8d422;--od-f:#5ba8d40d;
-  --oi:#3ecfb0;--oi-lt:#5de0c5;--oi-dim:#3ecfb022;--oi-f:#3ecfb00d;
+  --od:#5ba8d4;--od-lt:#7dc0e4;--od-f:#5ba8d40d;
+  --oi:#3ecfb0;--oi-lt:#5de0c5;--oi-f:#3ecfb00d;
   --ok:#6ddb52;--warn:#f0a030;--danger:#ff4d3a;--rdim:#ff4d3a40;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;}
-
-/* ── HEADER ── */
 .hdr{background:var(--bg2);border-bottom:1px solid var(--b);padding:14px 16px 12px;position:sticky;top:0;z-index:40;}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .logo{font-weight:800;font-size:20px;letter-spacing:7px;color:#fff;text-transform:uppercase;}
@@ -27,45 +24,20 @@ html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;
 .hdr-bottom{display:flex;flex-direction:column;gap:2px;}
 .hdr-t{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tx);}
 .hdr-s{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--od);}
-
-/* ── BOTTOM TAB BAR ── */
-.tabbar{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:430px;
-  background:var(--bg2);border-top:1px solid var(--b2);
-  display:flex;z-index:50;
-  padding-bottom:env(safe-area-inset-bottom,0px);
-}
-.tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:10px 0 12px;gap:4px;cursor:pointer;
-  border:none;background:transparent;color:var(--mt);
-  font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;
-  letter-spacing:1px;text-transform:uppercase;
-  transition:color .18s;position:relative;
-}
-.tab:first-child{border-right:1px solid var(--b);}
-.tab-icon{width:20px;height:20px;transition:transform .18s;}
+.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg2);border-top:1px solid var(--b2);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom,0px);}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 0 11px;gap:3px;cursor:pointer;border:none;background:transparent;color:var(--mt);font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;transition:color .18s;position:relative;border-right:1px solid var(--b);}
+.tab:last-child{border-right:none;}
+.tab-icon{width:18px;height:18px;}
 .tab.on{color:var(--od);}
-.tab.on .tab-indicator{
-  content:'';display:block;
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:32px;height:2px;border-radius:0 0 2px 2px;
-  background:var(--od);
-}
-.tab-indicator{display:block;position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:transparent;transition:width .2s;}
-
-/* ── VIEWS ── */
-.view{display:none;padding:12px 12px 80px;display:none;flex-direction:column;gap:10px;}
+.tab-indicator{display:block;position:absolute;top:0;left:50%;transform:translateX(-50%);height:2px;border-radius:0 0 2px 2px;background:var(--od);transition:width .2s;width:0;}
+.tab.on .tab-indicator{width:28px;}
+.view{display:none;flex-direction:column;gap:10px;padding:12px 12px 80px;}
 .view.active{display:flex;}
-
-/* ── EYE CARDS (shared) ── */
 .eye{border-radius:10px;overflow:hidden;}
 .eye.od-card{background:var(--od-f);border:1px solid var(--od);}
 .eye.oi-card{background:var(--oi-f);border:1px solid var(--oi);}
 .eye.od-card.focused{background:#5ba8d415;box-shadow:0 0 0 1px var(--od);}
 .eye.oi-card.focused{background:#3ecfb015;box-shadow:0 0 0 1px var(--oi);}
-
 .eye-id{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:6px 9px;border-right:1px solid var(--b);background:#ffffff05;min-width:30px;}
 .eye-dot{width:6px;height:6px;border-radius:50%;margin-bottom:5px;}
 .od-card .eye-dot{background:var(--od);}
@@ -73,8 +45,7 @@ html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;
 .eye-abbr{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);line-height:1;}
 .od-card .eye-abbr{color:var(--od);}
 .oi-card .eye-abbr{color:var(--oi);}
-
-/* ── RX GRID (shared) ── */
+.eye-top{display:flex;align-items:stretch;border-bottom:1px solid var(--b);}
 .rx{display:grid;grid-template-columns:1fr 1fr;flex:1;}
 .rx-cell{padding:8px 11px;}
 .rx-cell:first-child{border-right:1px solid var(--b);}
@@ -84,21 +55,21 @@ input[type="number"].nf::-webkit-inner-spin-button,input[type="number"].nf::-web
 input[type="number"].nf::placeholder{color:var(--dm);}
 input[type="number"].nf.err{color:var(--danger);}
 .rx-err{font-size:8px;color:var(--danger);margin-top:3px;min-height:11px;line-height:1;}
-
-/* ── TENEO: sliders ── */
-.eye-top{display:flex;align-items:stretch;border-bottom:1px solid var(--b);}
+input[type="number"].sf{width:40px;background:#ffffff0a;border:1px solid var(--dm);border-radius:4px;padding:3px 5px;color:var(--tx);font-family:'DM Mono',monospace;font-size:12px;text-align:right;outline:none;-moz-appearance:textfield;}
+input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-webkit-outer-spin-button{-webkit-appearance:none;}
+.od-card input[type="number"].sf:focus{border-color:var(--od);}
+.oi-card input[type="number"].sf:focus{border-color:var(--oi);}
 .sliders{padding:8px 11px;display:flex;flex-direction:column;gap:8px;}
 .sl{display:flex;align-items:center;gap:8px;}
 .sl-lbl{font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--mt);width:64px;flex-shrink:0;line-height:1;}
 .sl-mid{flex:1;display:flex;flex-direction:column;gap:3px;}
 input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2px;border-radius:1px;background:var(--dm);display:block;outline:none;cursor:pointer;}
-input[type="range"]::-webkit-slider-runnable-track{height:2px;border-radius:1px;}
 .od-card input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--od);cursor:pointer;box-shadow:0 0 6px #5ba8d455;margin-top:-7px;}
 .od-card input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--od);}
 .oi-card input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--oi);cursor:pointer;box-shadow:0 0 6px #3ecfb055;margin-top:-7px;}
 .oi-card input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--oi);}
-#flap-r::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--mt);cursor:pointer;margin-top:-7px;}
-#flap-r::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--mt);}
+.flap-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--mt);cursor:pointer;margin-top:-7px;}
+.flap-range::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--mt);}
 .sl-ticks{display:flex;justify-content:space-between;padding:0 5px;}
 .sl-ticks span{font-size:8px;color:var(--dm);font-family:'DM Mono',monospace;}
 .sl-val-wrap{display:flex;align-items:baseline;gap:3px;flex-shrink:0;min-width:42px;justify-content:flex-end;}
@@ -106,13 +77,10 @@ input[type="range"]::-webkit-slider-runnable-track{height:2px;border-radius:1px;
 .od-card .sl-val{color:var(--od-lt);}
 .oi-card .sl-val{color:var(--oi-lt);}
 .sl-val.neutral{color:var(--mt);}
-input[type="number"].sf{width:40px;background:#ffffff0a;border:1px solid var(--dm);border-radius:4px;padding:3px 5px;color:var(--tx);font-family:'DM Mono',monospace;font-size:12px;text-align:right;outline:none;-moz-appearance:textfield;}
-input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-webkit-outer-spin-button{-webkit-appearance:none;}
-.od-card input[type="number"].sf:focus{border-color:var(--od);}
-.oi-card input[type="number"].sf:focus{border-color:var(--oi);}
 .sl-unit{font-size:9px;color:var(--mt);font-family:'DM Mono',monospace;white-space:nowrap;}
-
-/* ── TENEO: results ── */
+.flap-row{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:8px 11px;}
+.flap-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.flap-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mt);}
 .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .res-card{border-radius:10px;overflow:hidden;}
 .res-card.od-res{background:var(--od-f);border:1px solid var(--od);}
@@ -142,13 +110,7 @@ input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-web
 .pta-x.on{display:inline;}
 .pta-tip{display:none;position:absolute;bottom:calc(100% + 5px);right:0;background:#0b1a36;border:1px solid var(--rdim);color:var(--danger);font-size:8px;font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:30;}
 .pta-row.bad:hover .pta-tip,.pta-row.bad.tip-show .pta-tip{display:block;}
-
-/* ── TENEO: flap ── */
-.flap-row{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:8px 11px;}
-.flap-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
-.flap-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mt);}
-
-/* ── TORIC: section labels ── */
+.eye-hdr{display:flex;align-items:stretch;}
 .sections{flex:1;display:flex;flex-direction:column;}
 .section{border-bottom:1px solid var(--b);}
 .section:last-child{border-bottom:none;}
@@ -156,16 +118,9 @@ input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-web
 .od-card .section-lbl.km{color:var(--od);}
 .oi-card .section-lbl.km{color:var(--oi);}
 .section-lbl.sia{color:var(--mt);}
-
-/* ── TORIC: eye-hdr (has sections not eye-top) ── */
-.eye-hdr{display:flex;align-items:stretch;}
-
-/* ── TORIC: SIA row ── */
 .sia-row{display:flex;align-items:center;justify-content:flex-end;padding:8px 11px;gap:8px;}
 .sia-field{display:flex;align-items:center;gap:4px;}
 .sia-unit{font-size:9px;color:var(--mt);font-family:'DM Mono',monospace;white-space:nowrap;}
-
-/* ── TORIC: result panel ── */
 .eye-res{display:none;align-items:center;justify-content:space-between;padding:10px 11px;border-top:1px solid var(--b);background:#ffffff04;}
 .eye-res.show{display:flex;}
 .res-left{display:flex;flex-direction:column;gap:2px;}
@@ -184,7 +139,6 @@ input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-web
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="hdr">
   <div class="hdr-top">
     <div class="logo">BAVIERA</div>
@@ -199,527 +153,275 @@ input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-web
   </div>
 </div>
 
-<!-- ═══════════ TENEO VIEW ═══════════ -->
+<!-- TENEO -->
 <div class="view active" id="view-teneo">
-
-  <!-- OD -->
-  <div class="eye od-card" id="t-card-od">
+  <div class="eye od-card" id="tn-card-od">
     <div class="eye-top">
-      <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="t-lod">OD</span></div>
+      <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="tn-lod">OD</span></div>
       <div class="rx">
-        <div class="rx-cell">
-          <label id="ls-od">Sfera (D)</label>
-          <input type="number" class="nf" id="od-s" step="0.25" placeholder="0" tabindex="1" oninput="tgo('od')" onkeydown="nt(event,'od-c')">
-          <div class="rx-err" id="e-od-s"></div>
-        </div>
-        <div class="rx-cell">
-          <label id="lc-od">Cilindro (D)</label>
-          <input type="number" class="nf" id="od-c" step="0.25" placeholder="0" tabindex="2" oninput="tgo('od')" onkeydown="nt(event,'oi-s')">
-          <div class="rx-err" id="e-od-c"></div>
-        </div>
+        <div class="rx-cell"><label id="tn-ls-od">Sfera (D)</label><input type="number" class="nf" id="tn-od-s" step="0.25" placeholder="0" tabindex="1" oninput="tngo('od')" onkeydown="nt(event,'tn-od-c')"><div class="rx-err" id="tn-e-od-s"></div></div>
+        <div class="rx-cell"><label id="tn-lc-od">Cilindro (D)</label><input type="number" class="nf" id="tn-od-c" step="0.25" placeholder="0" tabindex="2" oninput="tngo('od')" onkeydown="nt(event,'tn-oi-s')"><div class="rx-err" id="tn-e-od-c"></div></div>
       </div>
     </div>
     <div class="sliders">
-      <div class="sl">
-        <span class="sl-lbl" id="lp-od">Pachim.</span>
-        <div class="sl-mid">
-          <input type="range" id="od-pr" min="400" max="670" step="1" value="530" tabindex="-1" oninput="sRT('od-pr','od-pn');tcalc()">
-          <div class="sl-ticks"><span>400</span><span>500</span><span>600</span><span>670</span></div>
-        </div>
-        <div class="sl-val-wrap">
-          <input type="number" class="sf" id="od-pn" min="400" max="670" value="530" tabindex="-1" oninput="sNR('od-pn','od-pr');tcalc()">
-          <span class="sl-unit">&#956;m</span>
-        </div>
-      </div>
-      <div class="sl">
-        <span class="sl-lbl" id="lz-od">Zona Ott.</span>
-        <div class="sl-mid">
-          <input type="range" id="od-zr" min="6.0" max="7.0" step="0.1" value="6.5" tabindex="-1" oninput="updZ('od');tcalc()">
-          <div class="sl-ticks"><span>6.0</span><span>6.5</span><span>7.0</span></div>
-        </div>
-        <div class="sl-val-wrap">
-          <span class="sl-val" id="od-zd">6.5</span>
-          <span class="sl-unit">mm</span>
-        </div>
-      </div>
+      <div class="sl"><span class="sl-lbl" id="tn-lp-od">Pachim.</span><div class="sl-mid"><input type="range" id="tn-od-pr" min="400" max="670" step="1" value="530" tabindex="-1" oninput="sRT('tn-od-pr','tn-od-pn');tncalc()"><div class="sl-ticks"><span>400</span><span>500</span><span>600</span><span>670</span></div></div><div class="sl-val-wrap"><input type="number" class="sf" id="tn-od-pn" min="400" max="670" value="530" tabindex="-1" oninput="sNR('tn-od-pn','tn-od-pr');tncalc()"><span class="sl-unit">&#956;m</span></div></div>
+      <div class="sl"><span class="sl-lbl" id="tn-lz-od">Zona Ott.</span><div class="sl-mid"><input type="range" id="tn-od-zr" min="6.0" max="7.0" step="0.1" value="6.5" tabindex="-1" oninput="updZ('tn','od');tncalc()"><div class="sl-ticks"><span>6.0</span><span>6.5</span><span>7.0</span></div></div><div class="sl-val-wrap"><span class="sl-val" id="tn-od-zd">6.5</span><span class="sl-unit">mm</span></div></div>
     </div>
   </div>
-
-  <!-- OS -->
-  <div class="eye oi-card" id="t-card-oi">
+  <div class="eye oi-card" id="tn-card-oi">
     <div class="eye-top">
-      <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="t-loi">OS</span></div>
+      <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="tn-loi">OS</span></div>
       <div class="rx">
-        <div class="rx-cell">
-          <label id="ls-oi">Sfera (D)</label>
-          <input type="number" class="nf" id="oi-s" step="0.25" placeholder="0" tabindex="3" oninput="tgo('oi')" onkeydown="nt(event,'oi-c')">
-          <div class="rx-err" id="e-oi-s"></div>
-        </div>
-        <div class="rx-cell">
-          <label id="lc-oi">Cilindro (D)</label>
-          <input type="number" class="nf" id="oi-c" step="0.25" placeholder="0" tabindex="4" oninput="tgo('oi')" onkeydown="nt(event,null)">
-          <div class="rx-err" id="e-oi-c"></div>
-        </div>
+        <div class="rx-cell"><label id="tn-ls-oi">Sfera (D)</label><input type="number" class="nf" id="tn-oi-s" step="0.25" placeholder="0" tabindex="3" oninput="tngo('oi')" onkeydown="nt(event,'tn-oi-c')"><div class="rx-err" id="tn-e-oi-s"></div></div>
+        <div class="rx-cell"><label id="tn-lc-oi">Cilindro (D)</label><input type="number" class="nf" id="tn-oi-c" step="0.25" placeholder="0" tabindex="4" oninput="tngo('oi')" onkeydown="nt(event,null)"><div class="rx-err" id="tn-e-oi-c"></div></div>
       </div>
     </div>
     <div class="sliders">
-      <div class="sl">
-        <span class="sl-lbl" id="lp-oi">Pachim.</span>
-        <div class="sl-mid">
-          <input type="range" id="oi-pr" min="400" max="670" step="1" value="530" tabindex="-1" oninput="sRT('oi-pr','oi-pn');tcalc()">
-          <div class="sl-ticks"><span>400</span><span>500</span><span>600</span><span>670</span></div>
-        </div>
-        <div class="sl-val-wrap">
-          <input type="number" class="sf" id="oi-pn" min="400" max="670" value="530" tabindex="-1" oninput="sNR('oi-pn','oi-pr');tcalc()">
-          <span class="sl-unit">&#956;m</span>
-        </div>
-      </div>
-      <div class="sl">
-        <span class="sl-lbl" id="lz-oi">Zona Ott.</span>
-        <div class="sl-mid">
-          <input type="range" id="oi-zr" min="6.0" max="7.0" step="0.1" value="6.5" tabindex="-1" oninput="updZ('oi');tcalc()">
-          <div class="sl-ticks"><span>6.0</span><span>6.5</span><span>7.0</span></div>
-        </div>
-        <div class="sl-val-wrap">
-          <span class="sl-val" id="oi-zd">6.5</span>
-          <span class="sl-unit">mm</span>
-        </div>
-      </div>
+      <div class="sl"><span class="sl-lbl" id="tn-lp-oi">Pachim.</span><div class="sl-mid"><input type="range" id="tn-oi-pr" min="400" max="670" step="1" value="530" tabindex="-1" oninput="sRT('tn-oi-pr','tn-oi-pn');tncalc()"><div class="sl-ticks"><span>400</span><span>500</span><span>600</span><span>670</span></div></div><div class="sl-val-wrap"><input type="number" class="sf" id="tn-oi-pn" min="400" max="670" value="530" tabindex="-1" oninput="sNR('tn-oi-pn','tn-oi-pr');tncalc()"><span class="sl-unit">&#956;m</span></div></div>
+      <div class="sl"><span class="sl-lbl" id="tn-lz-oi">Zona Ott.</span><div class="sl-mid"><input type="range" id="tn-oi-zr" min="6.0" max="7.0" step="0.1" value="6.5" tabindex="-1" oninput="updZ('tn','oi');tncalc()"><div class="sl-ticks"><span>6.0</span><span>6.5</span><span>7.0</span></div></div><div class="sl-val-wrap"><span class="sl-val" id="tn-oi-zd">6.5</span><span class="sl-unit">mm</span></div></div>
     </div>
   </div>
-
-  <!-- RESULTS -->
   <div class="res-grid">
-    <div class="res-card od-res">
-      <div class="res-hdr" id="rh-od">Occhio Destro</div>
-      <div class="model">
-        <div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="ra-od">—</span><span class="abl-u">&#956;m</span></div></div>
-        <div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="pr-a-od"><span class="pta-n" id="pa-od">&mdash;</span><span class="pta-pct" id="pp-a-od"></span><span class="pta-x" id="px-a-od">!</span><span class="pta-tip" id="pt-a-od">Fuori range</span></div></div>
-      </div>
-      <div class="model">
-        <div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="re-od">—</span><span class="abl-u">&#956;m</span></div></div>
-        <div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="pr-e-od"><span class="pta-n" id="pe-od">&mdash;</span><span class="pta-pct" id="pp-e-od"></span><span class="pta-x" id="px-e-od">!</span><span class="pta-tip" id="pt-e-od">Fuori range</span></div></div>
-      </div>
+    <div class="res-card od-res"><div class="res-hdr" id="tn-rh-od">Occhio Destro</div>
+      <div class="model"><div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="tn-ra-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-a-od"><span class="pta-n" id="tn-pa-od">&mdash;</span><span class="pta-pct" id="tn-pp-a-od"></span><span class="pta-x" id="tn-px-a-od">!</span><span class="pta-tip" id="tn-pt-a-od">Fuori range</span></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="tn-re-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-e-od"><span class="pta-n" id="tn-pe-od">&mdash;</span><span class="pta-pct" id="tn-pp-e-od"></span><span class="pta-x" id="tn-px-e-od">!</span><span class="pta-tip" id="tn-pt-e-od">Fuori range</span></div></div></div>
     </div>
-    <div class="res-card oi-res">
-      <div class="res-hdr" id="rh-oi">Occhio Sinistro</div>
-      <div class="model">
-        <div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="ra-oi">—</span><span class="abl-u">&#956;m</span></div></div>
-        <div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="pr-a-oi"><span class="pta-n" id="pa-oi">&mdash;</span><span class="pta-pct" id="pp-a-oi"></span><span class="pta-x" id="px-a-oi">!</span><span class="pta-tip" id="pt-a-oi">Fuori range</span></div></div>
-      </div>
-      <div class="model">
-        <div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="re-oi">—</span><span class="abl-u">&#956;m</span></div></div>
-        <div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="pr-e-oi"><span class="pta-n" id="pe-oi">&mdash;</span><span class="pta-pct" id="pp-e-oi"></span><span class="pta-x" id="px-e-oi">!</span><span class="pta-tip" id="pt-e-oi">Fuori range</span></div></div>
-      </div>
+    <div class="res-card oi-res"><div class="res-hdr" id="tn-rh-oi">Occhio Sinistro</div>
+      <div class="model"><div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="tn-ra-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-a-oi"><span class="pta-n" id="tn-pa-oi">&mdash;</span><span class="pta-pct" id="tn-pp-a-oi"></span><span class="pta-x" id="tn-px-a-oi">!</span><span class="pta-tip" id="tn-pt-a-oi">Fuori range</span></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="tn-re-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-e-oi"><span class="pta-n" id="tn-pe-oi">&mdash;</span><span class="pta-pct" id="tn-pp-e-oi"></span><span class="pta-x" id="tn-px-e-oi">!</span><span class="pta-tip" id="tn-pt-e-oi">Fuori range</span></div></div></div>
     </div>
   </div>
-
-  <!-- FLAP -->
   <div class="flap-row">
-    <div class="flap-top">
-      <span class="flap-lbl" id="lf">Spessore Flap</span>
-      <div class="sl-val-wrap">
-        <span class="sl-val neutral" id="flap-d">100</span>
-        <span class="sl-unit">&#956;m</span>
-      </div>
-    </div>
-    <input type="range" id="flap-r" min="70" max="120" step="5" value="100" tabindex="-1"
-           oninput="document.getElementById('flap-d').textContent=this.value;fillR(this,'#6a85a8');tcalc()">
+    <div class="flap-top"><span class="flap-lbl" id="tn-lf">Spessore Flap</span><div class="sl-val-wrap"><span class="sl-val neutral" id="tn-flap-d">100</span><span class="sl-unit">&#956;m</span></div></div>
+    <input type="range" class="flap-range" id="tn-flap-r" min="70" max="120" step="5" value="100" tabindex="-1" oninput="document.getElementById('tn-flap-d').textContent=this.value;fillR(this,'#6a85a8');tncalc()">
     <div class="sl-ticks" style="padding:0 5px;margin-top:4px"><span>70</span><span>80</span><span>90</span><span>100</span><span>110</span><span>120</span></div>
   </div>
+</div>
 
-</div><!-- /view-teneo -->
+<!-- MEL-90 -->
+<div class="view" id="view-mel">
+  <div class="eye od-card" id="ml-card-od">
+    <div class="eye-top">
+      <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="ml-lod">OD</span></div>
+      <div class="rx">
+        <div class="rx-cell"><label id="ml-ls-od">Sfera (D)</label><input type="number" class="nf" id="ml-od-s" step="0.25" placeholder="0" tabindex="1" oninput="mlgo('od')" onkeydown="nt(event,'ml-od-c')"><div class="rx-err" id="ml-e-od-s"></div></div>
+        <div class="rx-cell"><label id="ml-lc-od">Cilindro (D)</label><input type="number" class="nf" id="ml-od-c" step="0.25" placeholder="0" tabindex="2" oninput="mlgo('od')" onkeydown="nt(event,'ml-oi-s')"><div class="rx-err" id="ml-e-od-c"></div></div>
+      </div>
+    </div>
+    <div class="sliders">
+      <div class="sl"><span class="sl-lbl" id="ml-lp-od">Pachim.</span><div class="sl-mid"><input type="range" id="ml-od-pr" min="400" max="670" step="1" value="530" tabindex="-1" oninput="sRT('ml-od-pr','ml-od-pn');mlcalc()"><div class="sl-ticks"><span>400</span><span>500</span><span>600</span><span>670</span></div></div><div class="sl-val-wrap"><input type="number" class="sf" id="ml-od-pn" min="400" max="670" value="530" tabindex="-1" oninput="sNR('ml-od-pn','ml-od-pr');mlcalc()"><span class="sl-unit">&#956;m</span></div></div>
+      <div class="sl"><span class="sl-lbl" id="ml-lz-od">Zona Ott.</span><div class="sl-mid"><input type="range" id="ml-od-zr" min="6.0" max="7.0" step="0.1" value="6.5" tabindex="-1" oninput="updZ('ml','od');mlcalc()"><div class="sl-ticks"><span>6.0</span><span>6.5</span><span>7.0</span></div></div><div class="sl-val-wrap"><span class="sl-val" id="ml-od-zd">6.5</span><span class="sl-unit">mm</span></div></div>
+    </div>
+  </div>
+  <div class="eye oi-card" id="ml-card-oi">
+    <div class="eye-top">
+      <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="ml-loi">OS</span></div>
+      <div class="rx">
+        <div class="rx-cell"><label id="ml-ls-oi">Sfera (D)</label><input type="number" class="nf" id="ml-oi-s" step="0.25" placeholder="0" tabindex="3" oninput="mlgo('oi')" onkeydown="nt(event,'ml-oi-c')"><div class="rx-err" id="ml-e-oi-s"></div></div>
+        <div class="rx-cell"><label id="ml-lc-oi">Cilindro (D)</label><input type="number" class="nf" id="ml-oi-c" step="0.25" placeholder="0" tabindex="4" oninput="mlgo('oi')" onkeydown="nt(event,null)"><div class="rx-err" id="ml-e-oi-c"></div></div>
+      </div>
+    </div>
+    <div class="sliders">
+      <div class="sl"><span class="sl-lbl" id="ml-lp-oi">Pachim.</span><div class="sl-mid"><input type="range" id="ml-oi-pr" min="400" max="670" step="1" value="530" tabindex="-1" oninput="sRT('ml-oi-pr','ml-oi-pn');mlcalc()"><div class="sl-ticks"><span>400</span><span>500</span><span>600</span><span>670</span></div></div><div class="sl-val-wrap"><input type="number" class="sf" id="ml-oi-pn" min="400" max="670" value="530" tabindex="-1" oninput="sNR('ml-oi-pn','ml-oi-pr');mlcalc()"><span class="sl-unit">&#956;m</span></div></div>
+      <div class="sl"><span class="sl-lbl" id="ml-lz-oi">Zona Ott.</span><div class="sl-mid"><input type="range" id="ml-oi-zr" min="6.0" max="7.0" step="0.1" value="6.5" tabindex="-1" oninput="updZ('ml','oi');mlcalc()"><div class="sl-ticks"><span>6.0</span><span>6.5</span><span>7.0</span></div></div><div class="sl-val-wrap"><span class="sl-val" id="ml-oi-zd">6.5</span><span class="sl-unit">mm</span></div></div>
+    </div>
+  </div>
+  <div class="res-grid">
+    <div class="res-card od-res"><div class="res-hdr" id="ml-rh-od">Occhio Destro</div>
+      <div class="model"><div class="model-left"><div class="model-lbl" id="ml-lbl-consumo-od">Consumo</div><div class="abl-wrap"><span class="abl-n" id="ml-ra-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="ml-pr-od"><span class="pta-n" id="ml-pa-od">&mdash;</span><span class="pta-pct" id="ml-pp-od"></span><span class="pta-x" id="ml-px-od">!</span><span class="pta-tip" id="ml-pt-od">Fuori range</span></div></div></div>
+    </div>
+    <div class="res-card oi-res"><div class="res-hdr" id="ml-rh-oi">Occhio Sinistro</div>
+      <div class="model"><div class="model-left"><div class="model-lbl" id="ml-lbl-consumo-oi">Consumo</div><div class="abl-wrap"><span class="abl-n" id="ml-ra-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="ml-pr-oi"><span class="pta-n" id="ml-pa-oi">&mdash;</span><span class="pta-pct" id="ml-pp-oi"></span><span class="pta-x" id="ml-px-oi">!</span><span class="pta-tip" id="ml-pt-oi">Fuori range</span></div></div></div>
+    </div>
+  </div>
+  <div class="flap-row">
+    <div class="flap-top"><span class="flap-lbl" id="ml-lf">Spessore Flap</span><div class="sl-val-wrap"><span class="sl-val neutral" id="ml-flap-d">100</span><span class="sl-unit">&#956;m</span></div></div>
+    <input type="range" class="flap-range" id="ml-flap-r" min="70" max="120" step="5" value="100" tabindex="-1" oninput="document.getElementById('ml-flap-d').textContent=this.value;fillR(this,'#6a85a8');mlcalc()">
+    <div class="sl-ticks" style="padding:0 5px;margin-top:4px"><span>70</span><span>80</span><span>90</span><span>100</span><span>110</span><span>120</span></div>
+  </div>
+</div>
 
-<!-- ═══════════ TORIC VIEW ═══════════ -->
+<!-- TORIC -->
 <div class="view" id="view-toric">
-
-  <!-- OD -->
   <div class="eye od-card" id="card-od">
     <div class="eye-hdr">
       <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="r-lod">OD</span></div>
       <div class="sections">
-        <div class="section">
-          <div class="section-lbl km" id="lkm-od">KM</div>
+        <div class="section"><div class="section-lbl km" id="lkm-od">KM</div>
           <div class="rx">
-            <div class="rx-cell">
-              <label id="lcil-od">Cilindro (D)</label>
-              <input type="number" class="nf" id="od-cil" step="0.25" value="0"
-                     tabindex="1" oninput="rgo('od')" onkeydown="nt(event,'od-ax')">
-              <div class="rx-err" id="e-od-cil"></div>
-            </div>
-            <div class="rx-cell">
-              <label id="lax-od">Asse piatto (°)</label>
-              <input type="number" class="nf" id="od-ax" step="1" value="180" min="1" max="180"
-                     tabindex="2" oninput="rgo('od')" onkeydown="nt(event,'od-sia-mag')">
-              <div class="rx-err" id="e-od-ax"></div>
-            </div>
+            <div class="rx-cell"><label id="lcil-od">Cilindro (D)</label><input type="number" class="nf" id="od-cil" step="0.25" value="0" tabindex="1" oninput="rgo('od')" onkeydown="nt(event,'od-ax')"><div class="rx-err" id="e-od-cil"></div></div>
+            <div class="rx-cell"><label id="lax-od">Asse piatto (°)</label><input type="number" class="nf" id="od-ax" step="1" value="180" min="1" max="180" tabindex="2" oninput="rgo('od')" onkeydown="nt(event,'od-sia-mag')"><div class="rx-err" id="e-od-ax"></div></div>
           </div>
         </div>
-        <div class="section">
-          <div class="section-lbl sia" id="lsia-lbl-od">SIA</div>
+        <div class="section"><div class="section-lbl sia" id="lsia-lbl-od">SIA</div>
           <div class="sia-row">
-            <div class="sia-field">
-              <input type="number" class="sf" id="od-sia-mag" step="0.01" min="0" max="1" value="0.10"
-                     tabindex="3" oninput="rgo('od')" onkeydown="nt(event,'od-sia-ax')">
-              <span class="sia-unit">D</span>
-            </div>
-            <div class="sia-field">
-              <input type="number" class="sf" id="od-sia-ax" step="1" min="1" max="180" value="180"
-                     tabindex="4" oninput="rgo('od')" onkeydown="nt(event,'oi-cil')">
-              <span class="sia-unit">°</span>
-            </div>
+            <div class="sia-field"><input type="number" class="sf" id="od-sia-mag" step="0.01" min="0" max="1" value="0.10" tabindex="3" oninput="rgo('od')" onkeydown="nt(event,'od-sia-ax')"><span class="sia-unit">D</span></div>
+            <div class="sia-field"><input type="number" class="sf" id="od-sia-ax" step="1" min="1" max="180" value="180" tabindex="4" oninput="rgo('od')" onkeydown="nt(event,'oi-cil')"><span class="sia-unit">°</span></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="eye-res" id="res-od">
-      <div class="res-left">
-        <span class="res-sublbl" id="lres-od">Astigmatismo residuale</span>
-        <div class="res-val">
-          <span class="res-n" id="rn-od">—</span>
-          <span class="res-u">D</span>
-          <span class="res-axis" id="rax-od"></span>
-        </div>
-      </div>
-      <div class="badge" id="badge-od"></div>
-    </div>
+    <div class="eye-res" id="res-od"><div class="res-left"><span class="res-sublbl" id="lres-od">Astigmatismo residuale</span><div class="res-val"><span class="res-n" id="rn-od">—</span><span class="res-u">D</span><span class="res-axis" id="rax-od"></span></div></div><div class="badge" id="badge-od"></div></div>
   </div>
-
-  <!-- OI -->
   <div class="eye oi-card" id="card-oi">
     <div class="eye-hdr">
       <div class="eye-id"><div class="eye-dot"></div><span class="eye-abbr" id="r-loi">OS</span></div>
       <div class="sections">
-        <div class="section">
-          <div class="section-lbl km" id="lkm-oi">KM</div>
+        <div class="section"><div class="section-lbl km" id="lkm-oi">KM</div>
           <div class="rx">
-            <div class="rx-cell">
-              <label id="lcil-oi">Cilindro (D)</label>
-              <input type="number" class="nf" id="oi-cil" step="0.25" value="0"
-                     tabindex="5" oninput="rgo('oi')" onkeydown="nt(event,'oi-ax')">
-              <div class="rx-err" id="e-oi-cil"></div>
-            </div>
-            <div class="rx-cell">
-              <label id="lax-oi">Asse piatto (°)</label>
-              <input type="number" class="nf" id="oi-ax" step="1" value="180" min="1" max="180"
-                     tabindex="6" oninput="rgo('oi')" onkeydown="nt(event,'oi-sia-mag')">
-              <div class="rx-err" id="e-oi-ax"></div>
-            </div>
+            <div class="rx-cell"><label id="lcil-oi">Cilindro (D)</label><input type="number" class="nf" id="oi-cil" step="0.25" value="0" tabindex="5" oninput="rgo('oi')" onkeydown="nt(event,'oi-ax')"><div class="rx-err" id="e-oi-cil"></div></div>
+            <div class="rx-cell"><label id="lax-oi">Asse piatto (°)</label><input type="number" class="nf" id="oi-ax" step="1" value="180" min="1" max="180" tabindex="6" oninput="rgo('oi')" onkeydown="nt(event,'oi-sia-mag')"><div class="rx-err" id="e-oi-ax"></div></div>
           </div>
         </div>
-        <div class="section">
-          <div class="section-lbl sia" id="lsia-lbl-oi">SIA</div>
+        <div class="section"><div class="section-lbl sia" id="lsia-lbl-oi">SIA</div>
           <div class="sia-row">
-            <div class="sia-field">
-              <input type="number" class="sf" id="oi-sia-mag" step="0.01" min="0" max="1" value="0.10"
-                     tabindex="7" oninput="rgo('oi')" onkeydown="nt(event,'oi-sia-ax')">
-              <span class="sia-unit">D</span>
-            </div>
-            <div class="sia-field">
-              <input type="number" class="sf" id="oi-sia-ax" step="1" min="1" max="180" value="180"
-                     tabindex="8" oninput="rgo('oi')" onkeydown="nt(event,null)">
-              <span class="sia-unit">°</span>
-            </div>
+            <div class="sia-field"><input type="number" class="sf" id="oi-sia-mag" step="0.01" min="0" max="1" value="0.10" tabindex="7" oninput="rgo('oi')" onkeydown="nt(event,'oi-sia-ax')"><span class="sia-unit">D</span></div>
+            <div class="sia-field"><input type="number" class="sf" id="oi-sia-ax" step="1" min="1" max="180" value="180" tabindex="8" oninput="rgo('oi')" onkeydown="nt(event,null)"><span class="sia-unit">°</span></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="eye-res" id="res-oi">
-      <div class="res-left">
-        <span class="res-sublbl" id="lres-oi">Astigmatismo residuale</span>
-        <div class="res-val">
-          <span class="res-n" id="rn-oi">—</span>
-          <span class="res-u">D</span>
-          <span class="res-axis" id="rax-oi"></span>
-        </div>
-      </div>
-      <div class="badge" id="badge-oi"></div>
-    </div>
+    <div class="eye-res" id="res-oi"><div class="res-left"><span class="res-sublbl" id="lres-oi">Astigmatismo residuale</span><div class="res-val"><span class="res-n" id="rn-oi">—</span><span class="res-u">D</span><span class="res-axis" id="rax-oi"></span></div></div><div class="badge" id="badge-oi"></div></div>
   </div>
+</div>
 
-</div><!-- /view-toric -->
-
-<!-- ═══════════ TAB BAR ═══════════ -->
+<!-- TAB BAR -->
 <nav class="tabbar">
   <button class="tab on" id="tab-teneo" onclick="switchTab('teneo')">
-    <span class="tab-indicator" id="ind-teneo"></span>
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
-      <path d="M6.34 6.34l2.12 2.12M15.54 15.54l2.12 2.12M6.34 17.66l2.12-2.12M15.54 8.46l2.12-2.12"/>
-    </svg>
-    <span id="tab-teneo-lbl">Laser</span>
+    <span class="tab-indicator"></span>
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M6.34 6.34l2.12 2.12M15.54 15.54l2.12 2.12M6.34 17.66l2.12-2.12M15.54 8.46l2.12-2.12"/></svg>
+    <span id="tab-teneo-lbl">Teneo</span>
+  </button>
+  <button class="tab" id="tab-mel" onclick="switchTab('mel')">
+    <span class="tab-indicator"></span>
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7" stroke-dasharray="3 2"/></svg>
+    <span id="tab-mel-lbl">MEL-90</span>
   </button>
   <button class="tab" id="tab-toric" onclick="switchTab('toric')">
-    <span class="tab-indicator" id="ind-toric"></span>
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="9"/>
-      <ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(45 12 12)"/>
-      <circle cx="12" cy="12" r="2"/>
-    </svg>
+    <span class="tab-indicator"></span>
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(45 12 12)"/><circle cx="12" cy="12" r="2"/></svg>
     <span id="tab-toric-lbl">LIO Torica</span>
   </button>
 </nav>
 
 <script>
-/* ══════════════════════════════════════════
-   SHARED: language, tab routing, select-all
-   ══════════════════════════════════════════ */
 const TT={
-  es:{
-    ht_laser:'Calculadora Teneo',   hs_laser:'Ablación Corneal',
-    ht_toric:'Calculadora LIO Tórica', hs_toric:'Eje = meridiano plano (notac. autorefr.)',
-    tab_laser:'Láser', tab_toric:'LIO Tórica',
-    od:'OD',oi:'OI',rhod:'Ojo Derecho',rhoi:'Ojo Izquierdo',
-    s:'Esfera (D)',c:'Cilindro (D)',z:'Zona Ópt.',p:'Paquim.',f:'Grosor Flap',
-    cil:'Cilindro (D)',ax:'Eje plano (°)',sia:'SIA',km:'KM',
-    res:'Astigmatismo residual',at:'@ ',
-    toric:'Tórica',sphere:'Esférica',border:'Borderline',
-    es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuera de rango',
-    ecil:'0–8 D',eax:'1–180°'
-  },
-  it:{
-    ht_laser:'Calcolatore Teneo',   hs_laser:'Ablazione Corneale',
-    ht_toric:'Calcolatore LIO Torica', hs_toric:'Asse = meridiano piatto (notaz. autorefr.)',
-    tab_laser:'Laser', tab_toric:'LIO Torica',
-    od:'OD',oi:'OS',rhod:'Occhio Destro',rhoi:'Occhio Sinistro',
-    s:'Sfera (D)',c:'Cilindro (D)',z:'Zona Ott.',p:'Pachim.',f:'Spessore Flap',
-    cil:'Cilindro (D)',ax:'Asse piatto (°)',sia:'SIA',km:'KM',
-    res:'Astigmatismo residuale',at:'@ ',
-    toric:'Torica',sphere:'Sferica',border:'Borderline',
-    es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuori range',
-    ecil:'0–8 D',eax:'1–180°'
-  }
+  es:{ht_teneo:'Calculadora Teneo',hs_teneo:'Ablación Corneal',ht_mel:'Calculadora MEL-90',hs_mel:'Ablación Corneal',ht_toric:'Calculadora LIO Tórica',hs_toric:'Eje = meridiano plano (notac. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Tórica',od:'OD',oi:'OI',rhod:'Ojo Derecho',rhoi:'Ojo Izquierdo',s:'Esfera (D)',c:'Cilindro (D)',z:'Zona Ópt.',p:'Paquim.',f:'Grosor Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Eje plano (°)',res:'Astigmatismo residual',at:'@ ',toric:'Tórica',sphere:'Esférica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuera de rango',ecil:'0–8 D',eax:'1–180°'},
+  it:{ht_teneo:'Calcolatore Teneo',hs_teneo:'Ablazione Corneale',ht_mel:'Calcolatore MEL-90',hs_mel:'Ablazione Corneale',ht_toric:'Calcolatore LIO Torica',hs_toric:'Asse = meridiano piatto (notaz. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Torica',od:'OD',oi:'OS',rhod:'Occhio Destro',rhoi:'Occhio Sinistro',s:'Sfera (D)',c:'Cilindro (D)',z:'Zona Ott.',p:'Pachim.',f:'Spessore Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Asse piatto (°)',res:'Astigmatismo residuale',at:'@ ',toric:'Torica',sphere:'Sferica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuori range',ecil:'0–8 D',eax:'1–180°'}
 };
-let lang='it', curTab='teneo';
+let lang='it',curTab='teneo';
 
 function setLang(l,btn){
-  lang=l;
-  updateHeader();
-  // teneo labels
-  const t=TT[l];
-  document.getElementById('lf').textContent=t.f;
-  document.getElementById('t-lod').textContent=t.od;
-  document.getElementById('t-loi').textContent=t.oi;
-  document.getElementById('rh-od').textContent=t.rhod;
-  document.getElementById('rh-oi').textContent=t.rhoi;
+  lang=l;const t=TT[l];updateHeader();
   ['od','oi'].forEach(e=>{
-    document.getElementById('ls-'+e).textContent=t.s;
-    document.getElementById('lc-'+e).textContent=t.c;
-    document.getElementById('lz-'+e).textContent=t.z;
-    document.getElementById('lp-'+e).textContent=t.p;
-    ['a','e'].forEach(m=>{document.getElementById('pt-'+m+'-'+e).textContent=t.fuori;});
+    document.getElementById('tn-ls-'+e).textContent=t.s;document.getElementById('tn-lc-'+e).textContent=t.c;document.getElementById('tn-lz-'+e).textContent=t.z;document.getElementById('tn-lp-'+e).textContent=t.p;
+    ['a','e'].forEach(m=>{const el=document.getElementById('tn-pt-'+m+'-'+e);if(el)el.textContent=t.fuori;});
+    document.getElementById('ml-ls-'+e).textContent=t.s;document.getElementById('ml-lc-'+e).textContent=t.c;document.getElementById('ml-lz-'+e).textContent=t.z;document.getElementById('ml-lp-'+e).textContent=t.p;
+    document.getElementById('ml-lbl-consumo-'+e).textContent=t.consumo;
+    const pt=document.getElementById('ml-pt-'+e);if(pt)pt.textContent=t.fuori;
+    document.getElementById('lkm-'+e).textContent=t.km;document.getElementById('lsia-lbl-'+e).textContent=t.sia;document.getElementById('lcil-'+e).textContent=t.cil;document.getElementById('lax-'+e).textContent=t.ax;document.getElementById('lres-'+e).textContent=t.res;
   });
-  // toric labels
-  document.getElementById('r-lod').textContent=t.od;
-  document.getElementById('r-loi').textContent=t.oi;
-  ['od','oi'].forEach(e=>{
-    document.getElementById('lkm-'+e).textContent=t.km;
-    document.getElementById('lsia-lbl-'+e).textContent=t.sia;
-    document.getElementById('lcil-'+e).textContent=t.cil;
-    document.getElementById('lax-'+e).textContent=t.ax;
-    document.getElementById('lres-'+e).textContent=t.res;
-  });
-  document.getElementById('tab-teneo-lbl').textContent=t.tab_laser;
-  document.getElementById('tab-toric-lbl').textContent=t.tab_toric;
-  document.querySelectorAll('.lang button').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  // recalc both
-  tcalc(); ['od','oi'].forEach(e=>rrender(e));
+  document.getElementById('tn-lod').textContent=t.od;document.getElementById('tn-loi').textContent=t.oi;document.getElementById('tn-rh-od').textContent=t.rhod;document.getElementById('tn-rh-oi').textContent=t.rhoi;document.getElementById('tn-lf').textContent=t.f;
+  document.getElementById('ml-lod').textContent=t.od;document.getElementById('ml-loi').textContent=t.oi;document.getElementById('ml-rh-od').textContent=t.rhod;document.getElementById('ml-rh-oi').textContent=t.rhoi;document.getElementById('ml-lf').textContent=t.f;
+  document.getElementById('r-lod').textContent=t.od;document.getElementById('r-loi').textContent=t.oi;
+  document.getElementById('tab-teneo-lbl').textContent=t.tab_teneo;document.getElementById('tab-mel-lbl').textContent=t.tab_mel;document.getElementById('tab-toric-lbl').textContent=t.tab_toric;
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  tncalc();mlcalc();['od','oi'].forEach(e=>rrender(e));
 }
+function updateHeader(){const t=TT[lang],m={teneo:['ht_teneo','hs_teneo'],mel:['ht_mel','hs_mel'],toric:['ht_toric','hs_toric']};document.getElementById('ht').textContent=t[m[curTab][0]];document.getElementById('hs').textContent=t[m[curTab][1]];}
+function switchTab(tab){curTab=tab;['teneo','mel','toric'].forEach(v=>{document.getElementById('view-'+v).classList.toggle('active',v===tab);const tb=document.getElementById('tab-'+v);tb.classList.toggle('on',v===tab);tb.querySelector('.tab-indicator').style.width=v===tab?'28px':'0';});updateHeader();window.scrollTo(0,0);}
 
-function updateHeader(){
-  const t=TT[lang];
-  if(curTab==='teneo'){
-    document.getElementById('ht').textContent=t.ht_laser;
-    document.getElementById('hs').textContent=t.hs_laser;
-  } else {
-    document.getElementById('ht').textContent=t.ht_toric;
-    document.getElementById('hs').textContent=t.hs_toric;
-  }
-}
-
-function switchTab(tab){
-  curTab=tab;
-  document.getElementById('view-teneo').classList.toggle('active', tab==='teneo');
-  document.getElementById('view-toric').classList.toggle('active', tab==='toric');
-  document.getElementById('tab-teneo').classList.toggle('on', tab==='teneo');
-  document.getElementById('tab-toric').classList.toggle('on', tab==='toric');
-  document.getElementById('ind-teneo').style.width = tab==='teneo'?'32px':'0';
-  document.getElementById('ind-toric').style.width = tab==='toric'?'32px':'0';
-  updateHeader();
-  window.scrollTo(0,0);
-}
-
-function setupSelectAll(){
-  document.querySelectorAll('input[type="number"].nf, input[type="number"].sf').forEach(el=>{
-    // only select-all for nf (bare inputs), not range-synced sf fields
-    if(!el.classList.contains('nf'))return;
-    let jf=false;
-    el.addEventListener('focus',()=>{jf=true;requestAnimationFrame(()=>el.select());});
-    el.addEventListener('mouseup',e=>{if(jf){e.preventDefault();jf=false;}});
-    el.addEventListener('touchend',()=>{if(jf){jf=false;requestAnimationFrame(()=>el.select());}});
-  });
-}
-
-function setupFocusTeneo(){
-  ['od','oi'].forEach(eye=>{
-    ['s','c'].forEach(f=>{
-      const el=document.getElementById(eye+'-'+f);
-      if(!el)return;
-      el.addEventListener('focus',()=>document.getElementById('t-card-'+eye).classList.add('focused'));
-      el.addEventListener('blur', ()=>document.getElementById('t-card-'+eye).classList.remove('focused'));
-    });
-  });
-}
-
-function setupFocusToric(){
-  ['od','oi'].forEach(eye=>{
-    ['cil','ax','sia-mag','sia-ax'].forEach(f=>{
-      const el=document.getElementById(eye+'-'+f);
-      if(!el)return;
-      el.addEventListener('focus',()=>document.getElementById('card-'+eye).classList.add('focused'));
-      el.addEventListener('blur', ()=>document.getElementById('card-'+eye).classList.remove('focused'));
-    });
-  });
-}
-
-function nt(e,nid){if(e.key!=='Enter')return;e.preventDefault();if(nid)document.getElementById(nid).focus();}
-function gv(id){const v=document.getElementById(id).value.trim();return v===''?null:parseFloat(v);}
-
-/* ══════════════════════════════════════════
-   TENEO
-   ══════════════════════════════════════════ */
-function fillR(r,color){
-  const c=color||(r.closest('.od-card')?'#5ba8d4':r.closest('.oi-card')?'#3ecfb0':'#6a85a8');
-  const p=((+r.value-+r.min)/(+r.max-+r.min))*100;
-  r.style.background=`linear-gradient(to right,${c} ${p}%,#2e4468 ${p}%)`;
-}
-function updZ(eye){
-  const r=document.getElementById(eye+'-zr');
-  document.getElementById(eye+'-zd').textContent=(+r.value).toFixed(1);
-  fillR(r);
-}
+function fillR(r,color){const c=color||(r.closest('.od-card')?'#5ba8d4':r.closest('.oi-card')?'#3ecfb0':'#6a85a8');const p=((+r.value-+r.min)/(+r.max-+r.min))*100;r.style.background=`linear-gradient(to right,${c} ${p}%,#2e4468 ${p}%)`;}
+function updZ(pfx,eye){const r=document.getElementById(pfx+'-'+eye+'-zr');document.getElementById(pfx+'-'+eye+'-zd').textContent=(+r.value).toFixed(1);fillR(r);}
 function sRT(rid,nid){const r=document.getElementById(rid),n=document.getElementById(nid);n.value=+r.step<1?(+r.value).toFixed(1):(+r.value|0);fillR(r);}
 function sNR(nid,rid){const n=document.getElementById(nid),r=document.getElementById(rid);let v=+n.value;if(isNaN(v))return;v=Math.max(+r.min,Math.min(+r.max,v));r.value=v;fillR(r);}
-function tgv(id){const v=document.getElementById(id).value.trim();return v===''?0:+v;}
-function tval(eye){
-  const t=TT[lang];
-  const E=tgv(eye+'-s'),C=tgv(eye+'-c');
-  const se=document.getElementById(eye+'-s'),sc=document.getElementById(eye+'-c');
-  const ee=document.getElementById('e-'+eye+'-s'),ec=document.getElementById('e-'+eye+'-c');
-  const eOk=E>=-15&&E<=6,cOk=C>=-8&&C<=0;
-  se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);
-  ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;
-  return eOk&&cOk;
-}
-function tgo(eye){document.getElementById('t-card-'+eye).classList.add('focused');tval(eye);tcalc();}
-function fAs(E,C,Z){return 17.58*E+45.44*C+8.62*E*C-5.17*E*Z-9.15*C*Z-1.38*E*C*Z;}
-function fEco(E,C,Z){return 13.22*E+11.36*C+2.03*E*C-4.39*E*Z-3.77*C*Z-0.36*E*C*Z;}
+function nt(e,nid){if(e.key!=='Enter')return;e.preventDefault();if(nid)document.getElementById(nid)?.focus();}
+function gv(id){const v=document.getElementById(id).value.trim();return v===''?null:parseFloat(v);}
+function gvz(id){const v=document.getElementById(id).value.trim();return v===''?0:+v;}
 function ptaCls(p){return p<=.35?'ok':p<=.40?'warn':'danger';}
-function setRes(ablId,ptaNId,ptaPId,ptaXId,ptaRId,raw,paq,flap){
-  const an=document.getElementById(ablId),pn=document.getElementById(ptaNId);
-  const pp=document.getElementById(ptaPId),px=document.getElementById(ptaXId);
-  const pr=document.getElementById(ptaRId);
-  const tid=ptaRId.replace('pr-','pt-');
-  if(document.getElementById(tid))document.getElementById(tid).textContent=TT[lang].fuori;
-  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';pp.className='pta-pct';px.classList.remove('on');pr.classList.remove('bad');return;}
+
+function setResOne(pfx,eye,raw,paq,flap){
+  const an=document.getElementById(pfx+'-ra-'+eye),pn=document.getElementById(pfx+'-pa-'+eye),pp=document.getElementById(pfx+'-pp-'+eye),px=document.getElementById(pfx+'-px-'+eye),pr=document.getElementById(pfx+'-pr-'+eye),pt=document.getElementById(pfx+'-pt-'+eye);
+  if(pt)pt.textContent=TT[lang].fuori;
+  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
   const abl=Math.max(0,raw),disp=abl>0?Math.ceil(abl*1.05):0;
   an.textContent=disp;
-  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';pp.className='pta-pct';px.classList.remove('on');pr.classList.remove('bad');return;}
-  const pta=(disp+flap)/paq;
-  const pct=(pta*100).toFixed(1);
-  const cls=ptaCls(pta);
+  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  const pta=(disp+flap)/paq,pct=(pta*100).toFixed(1),cls=ptaCls(pta);
   pn.textContent=pct;pn.className='pta-n '+cls;pp.textContent='%';
   if(cls==='danger'){pp.className='pta-pct danger';px.classList.add('on');pr.classList.add('bad');}
   else{pp.className='pta-pct';px.classList.remove('on');pr.classList.remove('bad');}
 }
-function tcalc(){
-  const odE=tgv('od-s'),odC=tgv('od-c'),oiE=tgv('oi-s'),oiC=tgv('oi-c');
-  const odZ=+document.getElementById('od-zr').value,oiZ=+document.getElementById('oi-zr').value;
-  const odP=+document.getElementById('od-pr').value,oiP=+document.getElementById('oi-pr').value;
-  const flap=+document.getElementById('flap-r').value;
-  const odOk=odE>=-15&&odE<=6&&odC>=-8&&odC<=0;
-  const oiOk=oiE>=-15&&oiE<=6&&oiC>=-8&&oiC<=0;
-  setRes('ra-od','pa-od','pp-a-od','px-a-od','pr-a-od',odOk?fAs(odE,odC,odZ):null,odP,flap);
-  setRes('re-od','pe-od','pp-e-od','px-e-od','pr-e-od',odOk?fEco(odE,odC,odZ):null,odP,flap);
-  setRes('ra-oi','pa-oi','pp-a-oi','px-a-oi','pr-a-oi',oiOk?fAs(oiE,oiC,oiZ):null,oiP,flap);
-  setRes('re-oi','pe-oi','pp-e-oi','px-e-oi','pr-e-oi',oiOk?fEco(oiC,oiC,oiZ):null,oiP,flap);
+function setResDual(pfx,eye,model,raw,paq,flap){
+  const an=document.getElementById(pfx+'-r'+model+'-'+eye),pn=document.getElementById(pfx+'-p'+model+'-'+eye),pp=document.getElementById(pfx+'-pp-'+model+'-'+eye),px=document.getElementById(pfx+'-px-'+model+'-'+eye),pr=document.getElementById(pfx+'-pr-'+model+'-'+eye),pt=document.getElementById(pfx+'-pt-'+model+'-'+eye);
+  if(pt)pt.textContent=TT[lang].fuori;
+  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  const abl=Math.max(0,raw),disp=abl>0?Math.ceil(abl*1.05):0;
+  an.textContent=disp;
+  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  const pta=(disp+flap)/paq,pct=(pta*100).toFixed(1),cls=ptaCls(pta);
+  pn.textContent=pct;pn.className='pta-n '+cls;pp.textContent='%';
+  if(cls==='danger'){pp.className='pta-pct danger';px.classList.add('on');pr.classList.add('bad');}
+  else{pp.className='pta-pct';px.classList.remove('on');pr.classList.remove('bad');}
 }
 
-/* ══════════════════════════════════════════
-   TORIC
-   ══════════════════════════════════════════ */
+/* TENEO */
+function fAs(E,C,Z){return 17.58*E+45.44*C+8.62*E*C-5.17*E*Z-9.15*C*Z-1.38*E*C*Z;}
+function fEco(E,C,Z){return 13.22*E+11.36*C+2.03*E*C-4.39*E*Z-3.77*C*Z-0.36*E*C*Z;}
+function tnval(eye){const t=TT[lang],E=gvz('tn-'+eye+'-s'),C=gvz('tn-'+eye+'-c');const se=document.getElementById('tn-'+eye+'-s'),sc=document.getElementById('tn-'+eye+'-c');const ee=document.getElementById('tn-e-'+eye+'-s'),ec=document.getElementById('tn-e-'+eye+'-c');const eOk=E>=-15&&E<=6,cOk=C>=-8&&C<=0;se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;return eOk&&cOk;}
+function tngo(eye){document.getElementById('tn-card-'+eye).classList.add('focused');tnval(eye);tncalc();}
+function tncalc(){['od','oi'].forEach(eye=>{const E=gvz('tn-'+eye+'-s'),C=gvz('tn-'+eye+'-c'),Z=+document.getElementById('tn-'+eye+'-zr').value,P=+document.getElementById('tn-'+eye+'-pr').value,flap=+document.getElementById('tn-flap-r').value;const ok=E>=-15&&E<=6&&C>=-8&&C<=0;setResDual('tn',eye,'a',ok?fAs(E,C,Z):null,P,flap);setResDual('tn',eye,'e',ok?fEco(E,C,Z):null,P,flap);});}
+
+/* MEL-90 — ajustado para que f(0,0,Z)=0 eliminando 2.2044 + 0.5432Z */
+function fMel(E,C,Z){return 16.2693*E+13.1010*C-0.0466*E*C-4.7536*E*Z-4.2084*C*Z-0.0247*E*C*Z;}
+function mlval(eye){const t=TT[lang],E=gvz('ml-'+eye+'-s'),C=gvz('ml-'+eye+'-c');const se=document.getElementById('ml-'+eye+'-s'),sc=document.getElementById('ml-'+eye+'-c');const ee=document.getElementById('ml-e-'+eye+'-s'),ec=document.getElementById('ml-e-'+eye+'-c');const eOk=E>=-15&&E<=6,cOk=C>=-8&&C<=0;se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;return eOk&&cOk;}
+function mlgo(eye){document.getElementById('ml-card-'+eye).classList.add('focused');mlval(eye);mlcalc();}
+function mlcalc(){['od','oi'].forEach(eye=>{const E=gvz('ml-'+eye+'-s'),C=gvz('ml-'+eye+'-c'),Z=+document.getElementById('ml-'+eye+'-zr').value,P=+document.getElementById('ml-'+eye+'-pr').value,flap=+document.getElementById('ml-flap-r').value;const ok=E>=-15&&E<=6&&C>=-8&&C<=0;setResOne('ml',eye,ok?fMel(E,C,Z):null,P,flap);});}
+
+/* TORIC */
 function toRad(d){return d*Math.PI/180;}
-function toJ(mag,flatDeg){const a=toRad(flatDeg)*2;return{j0:(mag/2)*Math.cos(a),j45:(mag/2)*Math.sin(a)};}
-function fromJ(j0,j45){
-  const mag=2*Math.sqrt(j0*j0+j45*j45);
-  let ax=Math.atan2(j45,j0)*90/Math.PI;
-  while(ax<0)ax+=180;while(ax>=180)ax-=180;
-  return{mag,flat:Math.round(ax)};
-}
-function calcTCA(cilRaw,flatAxis,siaMag,siaAxis){
-  const cil=Math.abs(cilRaw),sia=Math.abs(siaMag);
-  const K=toJ(cil,flatAxis);
-  const J0_pca=-0.15+(K.j0>0?-0.19*K.j0:0);
-  const S=toJ(sia,siaAxis);
-  return fromJ(K.j0+J0_pca+S.j0, K.j45+S.j45);
-}
-function rthreshold(flatAxis){
-  const dist90=Math.abs(flatAxis-90);
-  return 0.70+0.10*(dist90/90);
-}
-function rverdict(mag,flatAxis){
-  const th=rthreshold(flatAxis);
-  if(mag>th)       return 'toric';
-  if(mag>=th-0.25) return 'border';
-  return 'sphere';
-}
+function toJ(mag,fd){const a=toRad(fd)*2;return{j0:(mag/2)*Math.cos(a),j45:(mag/2)*Math.sin(a)};}
+function fromJ(j0,j45){const mag=2*Math.sqrt(j0*j0+j45*j45);let ax=Math.atan2(j45,j0)*90/Math.PI;while(ax<0)ax+=180;while(ax>=180)ax-=180;return{mag,flat:Math.round(ax)};}
+function calcTCA(cR,fa,sM,sA){const cil=Math.abs(cR),sia=Math.abs(sM);const K=toJ(cil,fa);const J0p=-0.15+(K.j0>0?-0.19*K.j0:0);const S=toJ(sia,sA);return fromJ(K.j0+J0p+S.j0,K.j45+S.j45);}
+
+/* ── Thresholds (updated: +0.05 on both toric and borderline) ──
+   ATR (flat≈90°):  toric > 0.75 D  (was 0.70)
+   WTR (flat≈180°): toric > 0.85 D  (was 0.80)
+   Gradient: 0.75 + 0.10*(dist90/90)
+   Borderline: residual within 0.25 D below toric threshold (threshold − 0.25)
+   → borderline lower bound also rises by 0.05 automatically
+*/
+function rth(f){return 0.75+0.10*(Math.abs(f-90)/90);}
+function rverdict(mag,f){const th=rth(f);if(mag>th)return'toric';if(mag>=th-0.25)return'border';return'sphere';}
+
 function rrender(eye){
-  const t=TT[lang];
-  const cil    = gv(eye+'-cil');
-  const ax     = gv(eye+'-ax');
-  const siaMag = gv(eye+'-sia-mag');
-  const siaAx  = gv(eye+'-sia-ax');
-  const cilUsed    = cil    !==null?cil    :0;
-  const axUsed     = ax     !==null?ax     :180;
-  const siaMagUsed = siaMag !==null?siaMag :0.10;
-  const siaAxUsed  = siaAx  !==null?siaAx  :180;
-  const eCil=document.getElementById('e-'+eye+'-cil');
-  const eAx =document.getElementById('e-'+eye+'-ax');
-  const resEl=document.getElementById('res-'+eye);
+  const t=TT[lang],cil=gv(eye+'-cil'),ax=gv(eye+'-ax'),sM=gv(eye+'-sia-mag'),sA=gv(eye+'-sia-ax');
+  const cU=cil!==null?cil:0,aU=ax!==null?ax:180,sU=sM!==null?sM:0.10,saU=sA!==null?sA:180;
+  const eCil=document.getElementById('e-'+eye+'-cil'),eAx=document.getElementById('e-'+eye+'-ax'),resEl=document.getElementById('res-'+eye);
   let valid=true;
-  if(Math.abs(cilUsed)>8){document.getElementById(eye+'-cil').classList.add('err');eCil.textContent=t.ecil;valid=false;}
-  else{document.getElementById(eye+'-cil').classList.remove('err');eCil.textContent='';}
-  if(axUsed<1||axUsed>180){document.getElementById(eye+'-ax').classList.add('err');eAx.textContent=t.eax;valid=false;}
-  else{document.getElementById(eye+'-ax').classList.remove('err');eAx.textContent='';}
-  if(Math.abs(cilUsed)<0.01||!valid){resEl.classList.remove('show');return;}
-  const res=calcTCA(cilUsed,axUsed,siaMagUsed,siaAxUsed);
+  if(Math.abs(cU)>8){document.getElementById(eye+'-cil').classList.add('err');eCil.textContent=t.ecil;valid=false;}else{document.getElementById(eye+'-cil').classList.remove('err');eCil.textContent='';}
+  if(aU<1||aU>180){document.getElementById(eye+'-ax').classList.add('err');eAx.textContent=t.eax;valid=false;}else{document.getElementById(eye+'-ax').classList.remove('err');eAx.textContent='';}
+  if(Math.abs(cU)<0.01||!valid){resEl.classList.remove('show');return;}
+  const res=calcTCA(cU,aU,sU,saU);
   document.getElementById('rn-'+eye).textContent='-'+res.mag.toFixed(2);
   document.getElementById('rax-'+eye).textContent=t.at+res.flat+'°';
-  const v=rverdict(res.mag,axUsed);
+  const v=rverdict(res.mag,aU);
   const badge=document.getElementById('badge-'+eye);
-  badge.textContent={toric:t.toric,border:t.border,sphere:t.sphere}[v];
-  badge.className='badge '+v;
+  badge.textContent={toric:t.toric,border:t.border,sphere:t.sphere}[v];badge.className='badge '+v;
   resEl.classList.add('show');
 }
 function rgo(eye){rrender(eye);}
 
-/* ══ INIT ══ */
-document.addEventListener('click',e=>{
-  const row=e.target.closest('.pta-row.bad');
-  document.querySelectorAll('.pta-row.bad').forEach(r=>{if(r!==row)r.classList.remove('tip-show');});
-  if(row)row.classList.toggle('tip-show');
-});
+function setupSelectAll(){document.querySelectorAll('input[type="number"].nf').forEach(el=>{let jf=false;el.addEventListener('focus',()=>{jf=true;requestAnimationFrame(()=>el.select());});el.addEventListener('mouseup',e=>{if(jf){e.preventDefault();jf=false;}});el.addEventListener('touchend',()=>{if(jf){jf=false;requestAnimationFrame(()=>el.select());}});});}
+function setupFocusPfx(pfx,eyes,fields){eyes.forEach(eye=>fields.forEach(f=>{const el=document.getElementById(pfx+'-'+eye+'-'+f);if(!el)return;el.addEventListener('focus',()=>document.getElementById(pfx+'-card-'+eye).classList.add('focused'));el.addEventListener('blur',()=>document.getElementById(pfx+'-card-'+eye).classList.remove('focused'));}));}
+function setupFocusToric(){['od','oi'].forEach(eye=>['cil','ax','sia-mag','sia-ax'].forEach(f=>{const el=document.getElementById(eye+'-'+f);if(!el)return;el.addEventListener('focus',()=>document.getElementById('card-'+eye).classList.add('focused'));el.addEventListener('blur',()=>document.getElementById('card-'+eye).classList.remove('focused'));}));}
+document.addEventListener('click',e=>{const row=e.target.closest('.pta-row.bad');document.querySelectorAll('.pta-row.bad').forEach(r=>{if(r!==row)r.classList.remove('tip-show');});if(row)row.classList.toggle('tip-show');});
 
 (function init(){
   document.querySelectorAll('input[type="range"]').forEach(r=>fillR(r));
-  setupFocusTeneo();
-  setupFocusToric();
-  setupSelectAll();
-  switchTab('teneo');
-  tcalc();
-  ['od','oi'].forEach(e=>rrender(e));
+  setupFocusPfx('tn',['od','oi'],['s','c']);setupFocusPfx('ml',['od','oi'],['s','c']);
+  setupFocusToric();setupSelectAll();
+  switchTab('teneo');tncalc();mlcalc();['od','oi'].forEach(e=>rrender(e));
 })();
 </script>
 </body>
