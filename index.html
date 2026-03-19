@@ -15,13 +15,13 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;}
-.hdr{background:var(--bg2);border-bottom:1px solid var(--b);padding:14px 16px 12px;position:sticky;top:0;z-index:40;}
-.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.logo-img{height:30px;width:auto;object-fit:contain;}
+.hdr{background:#001b58;border-bottom:none;padding:10px 16px;position:sticky;top:0;z-index:40;}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.logo-img{height:38px;width:auto;object-fit:contain;flex-shrink:0;}.hdr-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}.hdr-titles{display:flex;flex-direction:column;gap:1px;min-width:0;}
 .lang{display:flex;gap:4px;}
 .lang button{background:transparent;border:1px solid var(--dm);color:var(--mt);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 8px;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:background .15s,color .15s;}
 .lang button.on{background:var(--od);color:var(--bg);border-color:var(--od);}
-.hdr-bottom{display:flex;flex-direction:column;gap:2px;}
+
 .hdr-t{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tx);}
 .hdr-s{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--od);}
 .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg2);border-top:1px solid var(--b2);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom,0px);}
@@ -64,11 +64,11 @@ input[type="number"].sf::-webkit-inner-spin-button,input[type="number"].sf::-web
 .sl-lbl{font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--mt);width:64px;flex-shrink:0;line-height:1;}
 .sl-mid{flex:1;display:flex;flex-direction:column;gap:3px;}
 input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2px;border-radius:1px;background:var(--dm);display:block;outline:none;cursor:pointer;}
-.od-card input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--od);cursor:pointer;box-shadow:0 0 6px #5ba8d455;margin-top:-7px;}
+.od-card input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--od);cursor:pointer;box-shadow:0 0 6px #5ba8d455;}
 .od-card input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--od);}
-.oi-card input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--oi);cursor:pointer;box-shadow:0 0 6px #3ecfb055;margin-top:-7px;}
+.oi-card input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--oi);cursor:pointer;box-shadow:0 0 6px #3ecfb055;}
 .oi-card input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--oi);}
-.flap-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--mt);cursor:pointer;margin-top:-7px;}
+.flap-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--mt);cursor:pointer;}
 .flap-range::-moz-range-thumb{width:16px;height:16px;border-radius:50%;border:none;background:var(--mt);}
 .sl-ticks{display:flex;justify-content:space-between;padding:0 5px;}
 .sl-ticks span{font-size:8px;color:var(--dm);font-family:'DM Mono',monospace;}
@@ -153,15 +153,17 @@ input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2p
 
 <div class="hdr">
   <div class="hdr-top">
-    <img src="AF_Baviera_Logotipos_RGB_4.png" alt="Baviera" class="logo-img">
+    <div class="hdr-left">
+      <img src="AF_Baviera_Logotipos_RGB_4.png" alt="Baviera" class="logo-img">
+      <div class="hdr-titles">
+        <div class="hdr-t" id="ht">Calcolatore Teneo</div>
+        <div class="hdr-s" id="hs">Ablazione Corneale</div>
+      </div>
+    </div>
     <div class="lang">
       <button onclick="setLang('es',this)">ES</button>
       <button class="on" onclick="setLang('it',this)">IT</button>
     </div>
-  </div>
-  <div class="hdr-bottom">
-    <div class="hdr-t" id="ht">Calcolatore Teneo</div>
-    <div class="hdr-s" id="hs">Ablazione Corneale</div>
   </div>
 </div>
 
@@ -318,8 +320,8 @@ input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2p
 
 <script>
 const TT={
-  es:{ht_teneo:'Calculadora Teneo',hs_teneo:'Ablación Corneal',ht_mel:'Calculadora MEL-90',hs_mel:'Ablación Corneal',ht_toric:'Calculadora LIO Tórica',hs_toric:'Eje = meridiano plano (notac. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Tórica',od:'OD',oi:'OI',rhod:'Ojo Derecho',rhoi:'Ojo Izquierdo',s:'Esfera (D)',c:'Cilindro (D)',z:'Zona Ópt.',p:'Paquim.',f:'Grosor Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Eje plano (°)',res:'Astigmatismo residual',at:'@ ',toric:'Tórica',sphere:'Esférica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuera de rango',ecil:'0–8 D',eax:'1–180°'},
-  it:{ht_teneo:'Calcolatore Teneo',hs_teneo:'Ablazione Corneale',ht_mel:'Calcolatore MEL-90',hs_mel:'Ablazione Corneale',ht_toric:'Calcolatore LIO Torica',hs_toric:'Asse = meridiano piatto (notaz. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Torica',od:'OD',oi:'OS',rhod:'Occhio Destro',rhoi:'Occhio Sinistro',s:'Sfera (D)',c:'Cilindro (D)',z:'Zona Ott.',p:'Pachim.',f:'Spessore Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Asse piatto (°)',res:'Astigmatismo residuale',at:'@ ',toric:'Torica',sphere:'Sferica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuori range',ecil:'0–8 D',eax:'1–180°'}
+  es:{ht_teneo:'Calculadora Teneo',hs_teneo:'Ablación Corneal',ht_mel:'Calculadora MEL-90',hs_mel:'Ablación Corneal',ht_toric:'Calcolatore IOL',hs_toric:'Sferica vs Torica',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Tórica',od:'OD',oi:'OI',rhod:'Ojo Derecho',rhoi:'Ojo Izquierdo',s:'Esfera (D)',c:'Cilindro (D)',z:'Zona Ópt.',p:'Paquim.',f:'Grosor Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Eje plano (°)',res:'Astigmatismo residual',at:'@ ',toric:'Tórica',sphere:'Esférica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuera de rango',ecil:'0–8 D',eax:'1–180°'},
+  it:{ht_teneo:'Calcolatore Teneo',hs_teneo:'Ablazione Corneale',ht_mel:'Calcolatore MEL-90',hs_mel:'Ablazione Corneale',ht_toric:'Calcolatore IOL',hs_toric:'Sferica vs Torica',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Torica',od:'OD',oi:'OS',rhod:'Occhio Destro',rhoi:'Occhio Sinistro',s:'Sfera (D)',c:'Cilindro (D)',z:'Zona Ott.',p:'Pachim.',f:'Spessore Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Asse piatto (°)',res:'Astigmatismo residuale',at:'@ ',toric:'Torica',sphere:'Sferica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuori range',ecil:'0–8 D',eax:'1–180°'}
 };
 let lang='it',curTab='teneo';
 
