@@ -110,6 +110,18 @@ input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2p
 .pta-x.on{display:inline;}
 .pta-tip{display:none;position:absolute;bottom:calc(100% + 5px);right:0;background:#0b1a36;border:1px solid var(--rdim);color:var(--danger);font-size:8px;font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:30;}
 .pta-row.bad:hover .pta-tip,.pta-row.bad.tip-show .pta-tip{display:block;}
+.metrics-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.rsb-wrap{display:flex;flex-direction:column;align-items:flex-end;}
+.rsb-lbl{font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--dm);margin-bottom:2px;line-height:1;}
+.rsb-row{display:flex;align-items:baseline;gap:1px;position:relative;cursor:default;}
+.rsb-n{font-size:15px;font-weight:700;font-family:'DM Mono',monospace;}
+.rsb-n.ok{color:var(--ok);}
+.rsb-n.danger{color:var(--danger);}
+.rsb-u{font-size:9px;font-family:'DM Mono',monospace;color:var(--mt);}
+.rsb-x{display:none;font-size:11px;font-weight:700;color:var(--danger);margin-left:2px;}
+.rsb-x.on{display:inline;}
+.rsb-tip{display:none;position:absolute;bottom:calc(100% + 5px);right:0;background:#0b1a36;border:1px solid var(--rdim);color:var(--danger);font-size:8px;font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:30;}
+.rsb-row.bad:hover .rsb-tip,.rsb-row.bad.tip-show .rsb-tip{display:block;}
 .eye-hdr{display:flex;align-items:stretch;}
 .sections{flex:1;display:flex;flex-direction:column;}
 .section{border-bottom:1px solid var(--b);}
@@ -183,12 +195,12 @@ input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2p
   </div>
   <div class="res-grid">
     <div class="res-card od-res"><div class="res-hdr" id="tn-rh-od">Occhio Destro</div>
-      <div class="model"><div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="tn-ra-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-a-od"><span class="pta-n" id="tn-pa-od">&mdash;</span><span class="pta-pct" id="tn-pp-a-od"></span><span class="pta-x" id="tn-px-a-od">!</span><span class="pta-tip" id="tn-pt-a-od">Fuori range</span></div></div></div>
-      <div class="model"><div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="tn-re-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-e-od"><span class="pta-n" id="tn-pe-od">&mdash;</span><span class="pta-pct" id="tn-pp-e-od"></span><span class="pta-x" id="tn-px-e-od">!</span><span class="pta-tip" id="tn-pt-e-od">Fuori range</span></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="tn-ra-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="metrics-wrap"><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-a-od"><span class="pta-n" id="tn-pa-od">&mdash;</span><span class="pta-pct" id="tn-pp-a-od"></span><span class="pta-x" id="tn-px-a-od">!</span><span class="pta-tip" id="tn-pt-a-od">Fuori range</span></div></div><div class="rsb-wrap"><div class="rsb-lbl">RSB</div><div class="rsb-row" id="tn-rr-a-od"><span class="rsb-n" id="tn-rb-a-od">&mdash;</span><span class="rsb-u" id="tn-ru-a-od"></span><span class="rsb-x" id="tn-rx-a-od">!</span><span class="rsb-tip" id="tn-rtp-a-od">&lt;300&#956;m</span></div></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="tn-re-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="metrics-wrap"><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-e-od"><span class="pta-n" id="tn-pe-od">&mdash;</span><span class="pta-pct" id="tn-pp-e-od"></span><span class="pta-x" id="tn-px-e-od">!</span><span class="pta-tip" id="tn-pt-e-od">Fuori range</span></div></div><div class="rsb-wrap"><div class="rsb-lbl">RSB</div><div class="rsb-row" id="tn-rr-e-od"><span class="rsb-n" id="tn-rb-e-od">&mdash;</span><span class="rsb-u" id="tn-ru-e-od"></span><span class="rsb-x" id="tn-rx-e-od">!</span><span class="rsb-tip" id="tn-rtp-e-od">&lt;300&#956;m</span></div></div></div></div>
     </div>
     <div class="res-card oi-res"><div class="res-hdr" id="tn-rh-oi">Occhio Sinistro</div>
-      <div class="model"><div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="tn-ra-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-a-oi"><span class="pta-n" id="tn-pa-oi">&mdash;</span><span class="pta-pct" id="tn-pp-a-oi"></span><span class="pta-x" id="tn-px-a-oi">!</span><span class="pta-tip" id="tn-pt-a-oi">Fuori range</span></div></div></div>
-      <div class="model"><div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="tn-re-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-e-oi"><span class="pta-n" id="tn-pe-oi">&mdash;</span><span class="pta-pct" id="tn-pp-e-oi"></span><span class="pta-x" id="tn-px-e-oi">!</span><span class="pta-tip" id="tn-pt-e-oi">Fuori range</span></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl">Asferico</div><div class="abl-wrap"><span class="abl-n" id="tn-ra-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="metrics-wrap"><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-a-oi"><span class="pta-n" id="tn-pa-oi">&mdash;</span><span class="pta-pct" id="tn-pp-a-oi"></span><span class="pta-x" id="tn-px-a-oi">!</span><span class="pta-tip" id="tn-pt-a-oi">Fuori range</span></div></div><div class="rsb-wrap"><div class="rsb-lbl">RSB</div><div class="rsb-row" id="tn-rr-a-oi"><span class="rsb-n" id="tn-rb-a-oi">&mdash;</span><span class="rsb-u" id="tn-ru-a-oi"></span><span class="rsb-x" id="tn-rx-a-oi">!</span><span class="rsb-tip" id="tn-rtp-a-oi">&lt;300&#956;m</span></div></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl">ECO</div><div class="abl-wrap"><span class="abl-n" id="tn-re-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="metrics-wrap"><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="tn-pr-e-oi"><span class="pta-n" id="tn-pe-oi">&mdash;</span><span class="pta-pct" id="tn-pp-e-oi"></span><span class="pta-x" id="tn-px-e-oi">!</span><span class="pta-tip" id="tn-pt-e-oi">Fuori range</span></div></div><div class="rsb-wrap"><div class="rsb-lbl">RSB</div><div class="rsb-row" id="tn-rr-e-oi"><span class="rsb-n" id="tn-rb-e-oi">&mdash;</span><span class="rsb-u" id="tn-ru-e-oi"></span><span class="rsb-x" id="tn-rx-e-oi">!</span><span class="rsb-tip" id="tn-rtp-e-oi">&lt;300&#956;m</span></div></div></div></div>
     </div>
   </div>
   <div class="flap-row">
@@ -228,10 +240,10 @@ input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2p
   </div>
   <div class="res-grid">
     <div class="res-card od-res"><div class="res-hdr" id="ml-rh-od">Occhio Destro</div>
-      <div class="model"><div class="model-left"><div class="model-lbl" id="ml-lbl-consumo-od">Consumo</div><div class="abl-wrap"><span class="abl-n" id="ml-ra-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="ml-pr-od"><span class="pta-n" id="ml-pa-od">&mdash;</span><span class="pta-pct" id="ml-pp-od"></span><span class="pta-x" id="ml-px-od">!</span><span class="pta-tip" id="ml-pt-od">Fuori range</span></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl" id="ml-lbl-consumo-od">Consumo</div><div class="abl-wrap"><span class="abl-n" id="ml-ra-od">—</span><span class="abl-u">&#956;m</span></div></div><div class="metrics-wrap"><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="ml-pr-od"><span class="pta-n" id="ml-pa-od">&mdash;</span><span class="pta-pct" id="ml-pp-od"></span><span class="pta-x" id="ml-px-od">!</span><span class="pta-tip" id="ml-pt-od">Fuori range</span></div></div><div class="rsb-wrap"><div class="rsb-lbl">RSB</div><div class="rsb-row" id="ml-rr-od"><span class="rsb-n" id="ml-rb-od">&mdash;</span><span class="rsb-u" id="ml-ru-od"></span><span class="rsb-x" id="ml-rx-od">!</span><span class="rsb-tip" id="ml-rtp-od">&lt;300&#956;m</span></div></div></div></div>
     </div>
     <div class="res-card oi-res"><div class="res-hdr" id="ml-rh-oi">Occhio Sinistro</div>
-      <div class="model"><div class="model-left"><div class="model-lbl" id="ml-lbl-consumo-oi">Consumo</div><div class="abl-wrap"><span class="abl-n" id="ml-ra-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="ml-pr-oi"><span class="pta-n" id="ml-pa-oi">&mdash;</span><span class="pta-pct" id="ml-pp-oi"></span><span class="pta-x" id="ml-px-oi">!</span><span class="pta-tip" id="ml-pt-oi">Fuori range</span></div></div></div>
+      <div class="model"><div class="model-left"><div class="model-lbl" id="ml-lbl-consumo-oi">Consumo</div><div class="abl-wrap"><span class="abl-n" id="ml-ra-oi">—</span><span class="abl-u">&#956;m</span></div></div><div class="metrics-wrap"><div class="pta-wrap"><div class="pta-lbl">PTA</div><div class="pta-row" id="ml-pr-oi"><span class="pta-n" id="ml-pa-oi">&mdash;</span><span class="pta-pct" id="ml-pp-oi"></span><span class="pta-x" id="ml-px-oi">!</span><span class="pta-tip" id="ml-pt-oi">Fuori range</span></div></div><div class="rsb-wrap"><div class="rsb-lbl">RSB</div><div class="rsb-row" id="ml-rr-oi"><span class="rsb-n" id="ml-rb-oi">&mdash;</span><span class="rsb-u" id="ml-ru-oi"></span><span class="rsb-x" id="ml-rx-oi">!</span><span class="rsb-tip" id="ml-rtp-oi">&lt;300&#956;m</span></div></div></div></div>
     </div>
   </div>
   <div class="flap-row">
@@ -306,8 +318,8 @@ input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:2p
 
 <script>
 const TT={
-  es:{ht_teneo:'Calculadora Teneo',hs_teneo:'Ablación Corneal',ht_mel:'Calculadora MEL-90',hs_mel:'Ablación Corneal',ht_toric:'Calculadora LIO Tórica',hs_toric:'Eje = meridiano plano (notac. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Tórica',od:'OD',oi:'OI',rhod:'Ojo Derecho',rhoi:'Ojo Izquierdo',s:'Esfera (D)',c:'Cilindro (D)',z:'Zona Ópt.',p:'Paquim.',f:'Grosor Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Eje plano (°)',res:'Astigmatismo residual',at:'@ ',toric:'Tórica',sphere:'Esférica',border:'Borderline',es_err:'−20/+10 D',ec:'0/−10 D',fuori:'Fuera de rango',ecil:'0–8 D',eax:'1–180°'},
-  it:{ht_teneo:'Calcolatore Teneo',hs_teneo:'Ablazione Corneale',ht_mel:'Calcolatore MEL-90',hs_mel:'Ablazione Corneale',ht_toric:'Calcolatore LIO Torica',hs_toric:'Asse = meridiano piatto (notaz. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Torica',od:'OD',oi:'OS',rhod:'Occhio Destro',rhoi:'Occhio Sinistro',s:'Sfera (D)',c:'Cilindro (D)',z:'Zona Ott.',p:'Pachim.',f:'Spessore Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Asse piatto (°)',res:'Astigmatismo residuale',at:'@ ',toric:'Torica',sphere:'Sferica',border:'Borderline',es_err:'−20/+10 D',ec:'0/−10 D',fuori:'Fuori range',ecil:'0–8 D',eax:'1–180°'}
+  es:{ht_teneo:'Calculadora Teneo',hs_teneo:'Ablación Corneal',ht_mel:'Calculadora MEL-90',hs_mel:'Ablación Corneal',ht_toric:'Calculadora LIO Tórica',hs_toric:'Eje = meridiano plano (notac. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Tórica',od:'OD',oi:'OI',rhod:'Ojo Derecho',rhoi:'Ojo Izquierdo',s:'Esfera (D)',c:'Cilindro (D)',z:'Zona Ópt.',p:'Paquim.',f:'Grosor Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Eje plano (°)',res:'Astigmatismo residual',at:'@ ',toric:'Tórica',sphere:'Esférica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuera de rango',ecil:'0–8 D',eax:'1–180°'},
+  it:{ht_teneo:'Calcolatore Teneo',hs_teneo:'Ablazione Corneale',ht_mel:'Calcolatore MEL-90',hs_mel:'Ablazione Corneale',ht_toric:'Calcolatore LIO Torica',hs_toric:'Asse = meridiano piatto (notaz. autorefr.)',tab_teneo:'Teneo',tab_mel:'MEL-90',tab_toric:'LIO Torica',od:'OD',oi:'OS',rhod:'Occhio Destro',rhoi:'Occhio Sinistro',s:'Sfera (D)',c:'Cilindro (D)',z:'Zona Ott.',p:'Pachim.',f:'Spessore Flap',consumo:'Consumo',km:'KM',sia:'SIA',cil:'Cilindro (D)',ax:'Asse piatto (°)',res:'Astigmatismo residuale',at:'@ ',toric:'Torica',sphere:'Sferica',border:'Borderline',es_err:'−15/+6 D',ec:'0/−8 D',fuori:'Fuori range',ecil:'0–8 D',eax:'1–180°'}
 };
 let lang='it',curTab='teneo';
 
@@ -340,43 +352,58 @@ function gv(id){const v=document.getElementById(id).value.trim();return v===''?n
 function gvz(id){const v=document.getElementById(id).value.trim();return v===''?0:+v;}
 function ptaCls(p){return p<=.35?'ok':p<=.40?'warn':'danger';}
 
+/* RSB = pachymetry − flap − ablation. Green ≥ 300 μm, red < 300 μm */
+function setRSB(rsbId,rsbUId,rsbXId,rsbRId,rsbTId,disp,paq,flap){
+  const rn=document.getElementById(rsbId),ru=document.getElementById(rsbUId);
+  const rx=document.getElementById(rsbXId),rr=document.getElementById(rsbRId),rt=document.getElementById(rsbTId);
+  if(!rn)return;
+  if(!disp||disp===0){rn.textContent='—';rn.className='rsb-n';ru.textContent='';rx.classList.remove('on');rr.classList.remove('bad');return;}
+  const rsb=paq-flap-disp;
+  rn.textContent=rsb;
+  ru.textContent='μm';
+  if(rsb<300){rn.className='rsb-n danger';ru.style.color='var(--danger)';rx.classList.add('on');rr.classList.add('bad');if(rt)rt.textContent='RSB <300μm';}
+  else{rn.className='rsb-n ok';ru.style.color='';rx.classList.remove('on');rr.classList.remove('bad');}
+}
+
 function setResOne(pfx,eye,raw,paq,flap){
   const an=document.getElementById(pfx+'-ra-'+eye),pn=document.getElementById(pfx+'-pa-'+eye),pp=document.getElementById(pfx+'-pp-'+eye),px=document.getElementById(pfx+'-px-'+eye),pr=document.getElementById(pfx+'-pr-'+eye),pt=document.getElementById(pfx+'-pt-'+eye);
   if(pt)pt.textContent=TT[lang].fuori;
-  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');setRSB(pfx+'-rb-'+eye,pfx+'-ru-'+eye,pfx+'-rx-'+eye,pfx+'-rr-'+eye,pfx+'-rtp-'+eye,0,paq,flap);return;}
   const abl=Math.max(0,raw),disp=abl>0?Math.ceil(abl*1.05):0;
   an.textContent=disp;
-  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');setRSB(pfx+'-rb-'+eye,pfx+'-ru-'+eye,pfx+'-rx-'+eye,pfx+'-rr-'+eye,pfx+'-rtp-'+eye,0,paq,flap);return;}
   const pta=(disp+flap)/paq,pct=(pta*100).toFixed(1),cls=ptaCls(pta);
   pn.textContent=pct;pn.className='pta-n '+cls;pp.textContent='%';
   if(cls==='danger'){pp.className='pta-pct danger';px.classList.add('on');pr.classList.add('bad');}
   else{pp.className='pta-pct';px.classList.remove('on');pr.classList.remove('bad');}
+  setRSB(pfx+'-rb-'+eye,pfx+'-ru-'+eye,pfx+'-rx-'+eye,pfx+'-rr-'+eye,pfx+'-rtp-'+eye,disp,paq,flap);
 }
 function setResDual(pfx,eye,model,raw,paq,flap){
   const an=document.getElementById(pfx+'-r'+model+'-'+eye),pn=document.getElementById(pfx+'-p'+model+'-'+eye),pp=document.getElementById(pfx+'-pp-'+model+'-'+eye),px=document.getElementById(pfx+'-px-'+model+'-'+eye),pr=document.getElementById(pfx+'-pr-'+model+'-'+eye),pt=document.getElementById(pfx+'-pt-'+model+'-'+eye);
   if(pt)pt.textContent=TT[lang].fuori;
-  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  if(raw===null){an.textContent='—';pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');setRSB(pfx+'-rb-'+model+'-'+eye,pfx+'-ru-'+model+'-'+eye,pfx+'-rx-'+model+'-'+eye,pfx+'-rr-'+model+'-'+eye,pfx+'-rtp-'+model+'-'+eye,0,paq,flap);return;}
   const abl=Math.max(0,raw),disp=abl>0?Math.ceil(abl*1.05):0;
   an.textContent=disp;
-  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');return;}
+  if(disp===0){pn.textContent='—';pn.className='pta-n';pp.textContent='';px.classList.remove('on');pr.classList.remove('bad');setRSB(pfx+'-rb-'+model+'-'+eye,pfx+'-ru-'+model+'-'+eye,pfx+'-rx-'+model+'-'+eye,pfx+'-rr-'+model+'-'+eye,pfx+'-rtp-'+model+'-'+eye,0,paq,flap);return;}
   const pta=(disp+flap)/paq,pct=(pta*100).toFixed(1),cls=ptaCls(pta);
   pn.textContent=pct;pn.className='pta-n '+cls;pp.textContent='%';
   if(cls==='danger'){pp.className='pta-pct danger';px.classList.add('on');pr.classList.add('bad');}
   else{pp.className='pta-pct';px.classList.remove('on');pr.classList.remove('bad');}
+  setRSB(pfx+'-rb-'+model+'-'+eye,pfx+'-ru-'+model+'-'+eye,pfx+'-rx-'+model+'-'+eye,pfx+'-rr-'+model+'-'+eye,pfx+'-rtp-'+model+'-'+eye,disp,paq,flap);
 }
 
 /* TENEO */
 function fAs(E,C,Z){return 17.58*E+45.44*C+8.62*E*C-5.17*E*Z-9.15*C*Z-1.38*E*C*Z;}
 function fEco(E,C,Z){return 13.22*E+11.36*C+2.03*E*C-4.39*E*Z-3.77*C*Z-0.36*E*C*Z;}
-function tnval(eye){const t=TT[lang],E=gvz('tn-'+eye+'-s'),C=gvz('tn-'+eye+'-c');const se=document.getElementById('tn-'+eye+'-s'),sc=document.getElementById('tn-'+eye+'-c');const ee=document.getElementById('tn-e-'+eye+'-s'),ec=document.getElementById('tn-e-'+eye+'-c');const eOk=E>=-20&&E<=10,cOk=C>=-10&&C<=0;se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;return eOk&&cOk;}
+function tnval(eye){const t=TT[lang],E=gvz('tn-'+eye+'-s'),C=gvz('tn-'+eye+'-c');const se=document.getElementById('tn-'+eye+'-s'),sc=document.getElementById('tn-'+eye+'-c');const ee=document.getElementById('tn-e-'+eye+'-s'),ec=document.getElementById('tn-e-'+eye+'-c');const eOk=E>=-15&&E<=6,cOk=C>=-8&&C<=0;se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;return eOk&&cOk;}
 function tngo(eye){document.getElementById('tn-card-'+eye).classList.add('focused');tnval(eye);tncalc();}
-function tncalc(){['od','oi'].forEach(eye=>{const E=gvz('tn-'+eye+'-s'),C=gvz('tn-'+eye+'-c'),Z=+document.getElementById('tn-'+eye+'-zr').value,P=+document.getElementById('tn-'+eye+'-pr').value,flap=+document.getElementById('tn-flap-r').value;const ok=E>=-20&&E<=10&&C>=-10&&C<=0;setResDual('tn',eye,'a',ok?fAs(E,C,Z):null,P,flap);setResDual('tn',eye,'e',ok?fEco(E,C,Z):null,P,flap);});}
+function tncalc(){['od','oi'].forEach(eye=>{const E=gvz('tn-'+eye+'-s'),C=gvz('tn-'+eye+'-c'),Z=+document.getElementById('tn-'+eye+'-zr').value,P=+document.getElementById('tn-'+eye+'-pr').value,flap=+document.getElementById('tn-flap-r').value;const ok=E>=-15&&E<=6&&C>=-8&&C<=0;setResDual('tn',eye,'a',ok?fAs(E,C,Z):null,P,flap);setResDual('tn',eye,'e',ok?fEco(E,C,Z):null,P,flap);});}
 
 /* MEL-90 — ajustado para que f(0,0,Z)=0 eliminando 2.2044 + 0.5432Z */
 function fMel(E,C,Z){return 16.2693*E+13.1010*C-0.0466*E*C-4.7536*E*Z-4.2084*C*Z-0.0247*E*C*Z;}
-function mlval(eye){const t=TT[lang],E=gvz('ml-'+eye+'-s'),C=gvz('ml-'+eye+'-c');const se=document.getElementById('ml-'+eye+'-s'),sc=document.getElementById('ml-'+eye+'-c');const ee=document.getElementById('ml-e-'+eye+'-s'),ec=document.getElementById('ml-e-'+eye+'-c');const eOk=E>=-20&&E<=10,cOk=C>=-10&&C<=0;se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;return eOk&&cOk;}
+function mlval(eye){const t=TT[lang],E=gvz('ml-'+eye+'-s'),C=gvz('ml-'+eye+'-c');const se=document.getElementById('ml-'+eye+'-s'),sc=document.getElementById('ml-'+eye+'-c');const ee=document.getElementById('ml-e-'+eye+'-s'),ec=document.getElementById('ml-e-'+eye+'-c');const eOk=E>=-15&&E<=6,cOk=C>=-8&&C<=0;se.classList.toggle('err',!eOk);sc.classList.toggle('err',!cOk);ee.textContent=eOk?'':t.es_err;ec.textContent=cOk?'':t.ec;return eOk&&cOk;}
 function mlgo(eye){document.getElementById('ml-card-'+eye).classList.add('focused');mlval(eye);mlcalc();}
-function mlcalc(){['od','oi'].forEach(eye=>{const E=gvz('ml-'+eye+'-s'),C=gvz('ml-'+eye+'-c'),Z=+document.getElementById('ml-'+eye+'-zr').value,P=+document.getElementById('ml-'+eye+'-pr').value,flap=+document.getElementById('ml-flap-r').value;const ok=E>=-20&&E<=10&&C>=-10&&C<=0;setResOne('ml',eye,ok?fMel(E,C,Z):null,P,flap);});}
+function mlcalc(){['od','oi'].forEach(eye=>{const E=gvz('ml-'+eye+'-s'),C=gvz('ml-'+eye+'-c'),Z=+document.getElementById('ml-'+eye+'-zr').value,P=+document.getElementById('ml-'+eye+'-pr').value,flap=+document.getElementById('ml-flap-r').value;const ok=E>=-15&&E<=6&&C>=-8&&C<=0;setResOne('ml',eye,ok?fMel(E,C,Z):null,P,flap);});}
 
 /* TORIC */
 function toRad(d){return d*Math.PI/180;}
@@ -415,7 +442,7 @@ function rgo(eye){rrender(eye);}
 function setupSelectAll(){document.querySelectorAll('input[type="number"].nf').forEach(el=>{let jf=false;el.addEventListener('focus',()=>{jf=true;requestAnimationFrame(()=>el.select());});el.addEventListener('mouseup',e=>{if(jf){e.preventDefault();jf=false;}});el.addEventListener('touchend',()=>{if(jf){jf=false;requestAnimationFrame(()=>el.select());}});});}
 function setupFocusPfx(pfx,eyes,fields){eyes.forEach(eye=>fields.forEach(f=>{const el=document.getElementById(pfx+'-'+eye+'-'+f);if(!el)return;el.addEventListener('focus',()=>document.getElementById(pfx+'-card-'+eye).classList.add('focused'));el.addEventListener('blur',()=>document.getElementById(pfx+'-card-'+eye).classList.remove('focused'));}));}
 function setupFocusToric(){['od','oi'].forEach(eye=>['cil','ax','sia-mag','sia-ax'].forEach(f=>{const el=document.getElementById(eye+'-'+f);if(!el)return;el.addEventListener('focus',()=>document.getElementById('card-'+eye).classList.add('focused'));el.addEventListener('blur',()=>document.getElementById('card-'+eye).classList.remove('focused'));}));}
-document.addEventListener('click',e=>{const row=e.target.closest('.pta-row.bad');document.querySelectorAll('.pta-row.bad').forEach(r=>{if(r!==row)r.classList.remove('tip-show');});if(row)row.classList.toggle('tip-show');});
+document.addEventListener('click',e=>{const row=e.target.closest('.pta-row.bad');document.querySelectorAll('.pta-row.bad').forEach(r=>{if(r!==row)r.classList.remove('tip-show');});if(row)row.classList.toggle('tip-show');const rrow=e.target.closest('.rsb-row.bad');document.querySelectorAll('.rsb-row.bad').forEach(r=>{if(r!==rrow)r.classList.remove('tip-show');});if(rrow)rrow.classList.toggle('tip-show');});
 
 (function init(){
   document.querySelectorAll('input[type="range"]').forEach(r=>fillR(r));
