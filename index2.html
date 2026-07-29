@@ -20,10 +20,7 @@
   --sans:"Inter",system-ui,sans-serif;
 }
 *{box-sizing:border-box;}
-body.simple .adv-hide{display:none !important;}
-body.simple .hint{display:none !important;}
 body:not(.simple) .short-footer{display:none;}
-#viewToggle{font-family:var(--mono);}
 .why-short{font-size:.8rem;color:var(--text);font-weight:600;}
 body{
   margin:0;
@@ -75,6 +72,7 @@ header .sub{color:var(--text3);font-size:.74rem;margin-top:2px;}
   white-space:nowrap;
 }
 .hdr-toggle.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.pill-toggle .hdr-toggle{border:none;border-right:1px solid var(--border);border-radius:0;}
 .grid{display:grid;grid-template-columns:1.05fr 1fr;gap:14px;}
 @media (max-width:760px){.grid{grid-template-columns:1fr;}}
 .card{
@@ -253,19 +251,19 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 /* ── Risk panel ── */
 .risk-panel{display:flex;flex-direction:column;gap:4px;margin-bottom:6px;}
 .risk-panel.sm{gap:3px;margin-bottom:4px;}
-.risk-row{display:flex;align-items:center;gap:7px;}
-.risk-row .risk-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);width:42px;flex-shrink:0;}
-.risk-row .risk-bar-wrap{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.risk-row{display:flex;align-items:center;gap:5px;}
+.risk-row .risk-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);width:58px;flex-shrink:0;}
+.risk-row .risk-bar-wrap{flex:1;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;}
 .risk-row .risk-bar{height:100%;border-radius:3px;transition:width .3s;}
-.risk-row .risk-val{font-family:var(--mono);font-size:.7rem;font-weight:700;width:36px;flex-shrink:0;text-align:right;}
-.risk-row .risk-n{font-size:.6rem;color:var(--text3);flex-shrink:0;}
-.risk-row .risk-warn{font-size:.6rem;color:var(--warn-color,#c97b5a);font-style:italic;}
+.risk-row .risk-val{font-family:var(--mono);font-size:.68rem;font-weight:700;width:34px;flex-shrink:0;text-align:right;}
+.risk-row .risk-n{font-size:.58rem;color:var(--text3);flex-shrink:0;}
+.risk-row .risk-warn{font-size:.58rem;color:var(--warn-color,#c97b5a);font-style:italic;}
 .risk-low   .risk-bar{background:#6fae8a;} .risk-low   .risk-val{color:#3a7a5a;}
 .risk-mid   .risk-bar{background:#c9a03a;} .risk-mid   .risk-val{color:#8a6a10;}
 .risk-high  .risk-bar{background:#c97b5a;} .risk-high  .risk-val{color:#a04030;}
-.risk-panel.sm .risk-row .risk-lbl{font-size:.55rem;width:34px;}
-.risk-panel.sm .risk-row .risk-val{font-size:.65rem;width:30px;}
-.risk-panel.sm .risk-row .risk-n{font-size:.55rem;}
+.risk-panel.sm .risk-row .risk-lbl{font-size:.55rem;width:52px;}
+.risk-panel.sm .risk-row .risk-val{font-size:.62rem;width:28px;}
+.risk-panel.sm .risk-row .risk-n{font-size:.52rem;}
 /* ── Justification index ── */
 .jfi{margin-top:5px;border-radius:6px;padding:6px 8px;font-size:.72rem;}
 .jfi-neutral{background:var(--surface2);color:var(--text3);}
@@ -291,7 +289,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 }
 </style>
 </head>
-<body class="simple">
+<body>
 <div class="wrap">
 
   <header>
@@ -299,12 +297,12 @@ input[type=range]{width:100%;accent-color:var(--accent);}
       <div class="logo-mark">M</div>
       <div>
         <h1>Anillo &amp; Tope · SBK One Use-Plus</h1>
-        <div class="sub adv-hide">K horizontal + exigencia de ablación · Baviera Italia</div>
+        
       </div>
     </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-      <button id="eyeModeToggle" class="hdr-toggle active">AO ✓</button>
-      <button id="viewToggle" class="hdr-toggle">Vista avanzada ▾</button>
+    <div class="pill-toggle" style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin:0;">
+      <button id="eyeModeSingle" class="hdr-toggle" style="font-size:.72rem;padding:6px 12px;">Un ojo</button>
+      <button id="eyeModeBoth"   class="hdr-toggle active" style="font-size:.72rem;padding:6px 12px;">Ambos ojos</button>
     </div>
   </header>
 
@@ -392,10 +390,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             <input type="number" step="0.1" id="bb" value="11.6">
           </div>
         </div>
-        <div class="hint">
-          BB &lt; 11 mm → se mantiene la regla del fabricante (anillo más pequeño / tope 7,5, máxima cobertura periférica).<br>
-          BB ≥ 11 mm → el tope ya NO se decide automáticamente por tamaño; se decide por exigencia horizontal de la ablación (panel derecho).
-        </div>
+
       </div>
 
       </div>
@@ -502,11 +497,11 @@ input[type=range]{width:100%;accent-color:var(--accent);}
               <div class="field"><label>BB (mm)</label><input type="number" step="0.1" id="bb_oi" value="11.6"></div>
             </div>
           </div>
-          <div class="hint">La fila de K horizontal se unifica entre OD y OI si difieren (ver resultado). El tope se decide después, por ojo, con su propio BB y score.</div>
+          
         </div>
       </div>
 
-      <div class="card adv-hide" style="margin-top:18px;">
+      <div class="card" style="margin-top:18px;display:none;">
         <div class="params-toggle" id="paramsToggle">⚙ Ajustar pesos del modelo de exigencia horizontal</div>
         <div class="params-body" id="paramsBody">
           <div class="slider-row">
@@ -557,7 +552,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
     <!-- RIGHT: RESULTS -->
     <div>
       <div id="singleEyeResult" style="display:none;">
-      <div class="card adv-hide" style="margin-bottom:18px;">
+      <div class="card" style="margin-bottom:18px;display:none;">
         <h2>Componente horizontal de la ablación</h2>
         <div class="dial-wrap">
           <svg class="dial" viewBox="0 0 320 190" id="dialSvg"></svg>
@@ -747,8 +742,8 @@ function setModeAO(mode){
 
 function setEyeMode(mode){
   eyeMode = mode;
-  $('eyeModeToggle').classList.toggle('active', mode === 'both');
-  $('eyeModeToggle').textContent = mode === 'both' ? 'AO ✓' : 'AO (ambos ojos)';
+  $('eyeModeSingle').classList.toggle('active', mode === 'one');
+  $('eyeModeBoth').classList.toggle('active', mode === 'both');
   $('singleEyeInputs').style.display = mode === 'both' ? 'none' : '';
   $('bothEyesInputs').style.display = mode === 'both' ? '' : 'none';
   $('singleEyeResult').style.display = mode === 'both' ? 'none' : '';
@@ -799,7 +794,7 @@ function renderRiskPanel(panelId, ring, stop, score, bb){
       return `<div class="risk-row"><span class="risk-lbl">${id}</span><span class="risk-warn">Sin datos suficientes</span></div>`;
     }
     const cls = val < thLow ? 'risk-low' : val < thHigh ? 'risk-mid' : 'risk-high';
-    const scale = id==='Cap libre' ? SCALE_LC : SCALE_BA;
+    const scale = id==='Completo' ? SCALE_LC : SCALE_BA;
     const barW = Math.min(100, (val/scale)*100);
     const nNote = lowN
       ? `<span class="risk-warn">&nbsp;IC amplio (n=${d.n})</span>`
@@ -811,8 +806,8 @@ function renderRiskPanel(panelId, ring, stop, score, bb){
       ${nNote}
     </div>`;
   }
-  let html = bar(d.lc, 0.5, 1.5, 'Cap libre', false) +
-             bar(d.ba, 0.3, 0.8, 'Bis. ancha', d.ba === null);
+  let html = bar(d.lc, 0.5, 1.5, 'Completo', false) +
+             bar(d.ba, 0.3, 0.8, 'B.ancha', d.ba === null);
   if(score !== undefined && score !== null) html += buildJustificationIndex(ring, stop, score, bb);
   panel.innerHTML = html;
 }
@@ -840,17 +835,30 @@ function buildJustificationIndex(ring, stop, score, bb){
   const tooConservative = (stop <= 7.5 && !smallBB) || idx < -0.4;
   const tooAggressive   = idx > 0.5;
 
+  // 5-level gradient: demasiado conservador ← algo conservador ← adecuado → algo agresivo → demasiado agresivo
   let cls, icon, phrase;
-  if(tooAggressive){
-    cls = idx > 3 ? 'jfi-bad' : 'jfi-warn';
-    icon = idx > 3 ? '✕' : '⚠';
-    phrase = 'Tope agresivo para la ablación configurada';
+  if(idx > 10 || (tooConservative && idx > 0)){
+    // completo muy alto sin justificación, o agresivo en zona conservadora
+    cls='jfi-bad'; icon='✕';
+    phrase='Tope demasiado agresivo para la ablación configurada';
+  } else if(idx > 1.2){
+    cls='jfi-warn'; icon='⚠';
+    phrase='Tope algo agresivo para la ablación configurada';
   } else if(tooConservative){
-    cls = 'jfi-warn'; icon = '⚠';
-    phrase = 'Tope demasiado conservador para la ablación configurada';
+    cls = idx < -0.8 ? 'jfi-bad' : 'jfi-warn';
+    icon = idx < -0.8 ? '✕' : '⚠';
+    phrase = idx < -0.8
+      ? 'Tope demasiado conservador para la ablación configurada'
+      : 'Tope algo conservador para la ablación configurada';
+  } else if(idx < -0.8){
+    cls='jfi-bad'; icon='✕';
+    phrase='Tope demasiado conservador para la ablación configurada';
+  } else if(idx < -0.2){
+    cls='jfi-warn'; icon='⚠';
+    phrase='Tope algo conservador para la ablación configurada';
   } else {
-    cls = 'jfi-ok'; icon = '✓';
-    phrase = 'Tope adecuado a la ablación configurada';
+    cls='jfi-ok'; icon='✓';
+    phrase='Tope adecuado a la ablación configurada';
   }
 
   return `<div class="jfi ${cls}" style="display:flex;align-items:center;gap:6px;padding:5px 8px;">
@@ -1408,19 +1416,8 @@ document.querySelectorAll('.reset-btn[data-reset]').forEach(btn => {
 $('paramsToggle').addEventListener('click', ()=>{
   $('paramsBody').classList.toggle('open');
 });
-$('eyeModeToggle').addEventListener('click', ()=>{
-  setEyeMode(eyeMode === 'both' ? 'one' : 'both');
-});
-$('viewToggle').addEventListener('click', ()=>{
-  const isSimple = document.body.classList.contains('simple');
-  if (isSimple){
-    document.body.classList.remove('simple');
-    $('viewToggle').textContent = 'Vista simple ▴';
-  } else {
-    document.body.classList.add('simple');
-    $('viewToggle').textContent = 'Vista avanzada ▾';
-  }
-});
+$('eyeModeSingle').addEventListener('click', ()=> setEyeMode('one'));
+$('eyeModeBoth').addEventListener('click',   ()=> setEyeMode('both'));
 
 render();
 </script>
