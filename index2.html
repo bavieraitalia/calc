@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moria SBK · Anillo y Tope</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#f0f6fc; --surface:#ffffff; --surface2:#f4f8fc;
+  --border:#c2d0e0; --border2:#b0c2d8;
+  --primary:#3d5a80; --primary-dark:#2c4260; --primary-light:#e8f0f8;
+  --accent:#1e8a8a; --accent-light:#e0f4f4;
+  --text:#1a2b3c; --text2:#4a6070; --text3:#7a9ab0;
+  --danger:#c0392b; --danger-bg:#fdecea;
+  --shadow:0 2px 8px rgba(40,70,100,.10),0 1px 3px rgba(40,70,100,.07);
+  --radius:10px; --radius-sm:7px;
+  --mono:"IBM Plex Mono","SF Mono",Menlo,monospace;
+  --sans:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+body.simple .adv-hide{display:none !important;}
+body.simple .hint{display:none !important;}
+body:not(.simple) .short-footer{display:none;}
+#viewToggle{font-family:var(--mono);}
+.why-short{font-size:.8rem;color:var(--text);font-weight:600;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:18px 16px 48px;}
+header{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:12px 16px;
+  margin-bottom:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+header .h-left{display:flex;align-items:center;gap:10px;}
+.logo-mark{
+  width:36px;height:36px;border-radius:50%;border:2px solid var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:var(--primary);flex-shrink:0;
+  font-family:var(--mono);
+}
+header h1{
+  font-size:.92rem;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin:0;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.25;
+}
+header .sub{color:var(--text3);font-size:.74rem;margin-top:2px;}
+.hdr-toggle{
+  font-size:.66rem;
+  font-family:var(--mono);
+  color:var(--text2);
+  background:var(--surface2);
+  border:1px solid var(--border);
+  padding:5px 10px;
+  border-radius:6px;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+.hdr-toggle.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.grid{display:grid;grid-template-columns:1.05fr 1fr;gap:14px;}
+@media (max-width:760px){.grid{grid-template-columns:1fr;}}
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:13px 15px 14px;
+}
+.card h2{
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--text2);
+  margin:0 0 10px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.card h2::before{
+  content:"";
+  width:6px;height:6px;border-radius:50%;
+  background:var(--primary);
+  display:inline-block;
+  flex-shrink:0;
+}
+.card.brass h2::before{background:var(--accent);}
+.field-row{display:flex;gap:8px;margin-bottom:8px;}
+.field{flex:1;min-width:0;}
+.field label{
+  display:block;
+  font-size:.65rem;
+  color:var(--text3);
+  margin-bottom:3px;
+  letter-spacing:.02em;
+}
+.field input, .field select{
+  width:100%;
+  background:var(--surface2);
+  border:1.5px solid var(--border);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:.88rem;
+  font-weight:600;
+  padding:7px 8px;
+  border-radius:var(--radius-sm);
+  outline:none;
+  transition:border-color .15s;
+}
+.field input:focus, .field select:focus{border-color:var(--primary);}
+.field input.invalid{border-color:var(--danger);background:var(--danger-bg);}
+.field input:disabled{opacity:.5;cursor:not-allowed;}
+.hint{font-size:.64rem;color:var(--text3);margin-top:2px;line-height:1.4;}
+.pill-toggle{
+  display:flex;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:10px;
+}
+.pill-toggle button{
+  flex:1;background:var(--surface2);border:none;color:var(--text2);
+  font-family:var(--mono);font-size:.7rem;font-weight:600;padding:7px 0;cursor:pointer;
+  border-right:1px solid var(--border);transition:all .15s;
+}
+.pill-toggle button:last-child{border-right:none;}
+.pill-toggle button.active{background:var(--primary);color:#fff;}
+
+/* dial */
+.dial-wrap{display:flex;justify-content:center;margin:4px 0 2px;}
+.ablation-wrap{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:6px;flex-wrap:wrap;}
+.ablation-svg{width:120px;height:120px;display:block;}
+.ablation-svg-sm{width:60px;height:60px;display:block;margin:0 auto 6px;}
+.ablation-legend{font-size:.62rem;color:var(--text3);line-height:1.5;max-width:160px;}
+svg.dial{width:100%;max-width:300px;height:auto;}
+.dial-label{font-family:var(--mono);font-size:.6rem;fill:var(--text3);}
+
+/* results */
+.result-top{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.stat{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:8px 11px;
+  min-width:96px;
+  flex:1;
+}
+.stat .v{font-family:var(--mono);font-size:1.1rem;color:var(--primary);font-weight:700;}
+.stat .l{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
+
+.reco{
+  background:linear-gradient(135deg, var(--accent-light), var(--surface));
+  border:1.5px solid var(--accent);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px 16px;
+  margin-bottom:14px;
+  text-align:center;
+}
+.reco-main{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:4px;}
+.reco-main .combo{font-family:var(--mono);font-size:2.6rem;font-weight:800;color:var(--primary-dark);letter-spacing:-.01em;line-height:1;}
+.reco-main .combo-label{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;align-self:flex-end;margin-bottom:8px;}
+.reco .why-short{text-align:center;}
+.reco .why{font-size:.74rem;color:var(--text2);line-height:1.5;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;text-align:left;}
+.reco .why b{color:var(--text);}
+
+table.nomo{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.74rem;}
+table.nomo th{
+  text-align:left;color:var(--text3);font-weight:600;
+  font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;
+  padding:5px 7px;border-bottom:1.5px solid var(--border);
+}
+table.nomo td{padding:6px 7px;border-bottom:1px solid var(--border);color:var(--text);}
+table.nomo tr.selected td{background:var(--accent-light);font-weight:700;}
+table.nomo tr.selected td:first-child{border-left:3px solid var(--accent);}
+
+.flag{
+  margin-top:8px;
+  font-size:.66rem;
+  color:#9a5a1a;
+  border-left:2px solid #d4830a;
+  padding:5px 9px;
+  background:#fef3e2;
+  border-radius:0 4px 4px 0;
+}
+
+.footer-note{
+  margin-top:18px;
+  font-size:.64rem;
+  color:var(--text3);
+  line-height:1.55;
+  border-top:1px solid var(--border);
+  padding-top:10px;
+}
+
+.params-toggle{
+  font-size:.68rem;color:var(--primary);cursor:pointer;display:inline-block;margin-top:2px;
+  user-select:none;font-weight:600;
+}
+.params-body{display:none;margin-top:10px;}
+.params-body.open{display:block;}
+.slider-row{margin-bottom:11px;}
+.slider-row label{display:flex;justify-content:space-between;font-size:.66rem;color:var(--text2);margin-bottom:4px;}
+.slider-row label span{font-family:var(--mono);color:var(--primary);font-weight:700;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+.eye-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.eye-block{border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 9px;background:var(--surface2);}
+.eye-block h3{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin:0 0 6px;font-weight:700;}
+.ao-reco-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ao-reco-grid .reco{margin-bottom:0;padding:10px 12px;}
+.ao-reco-grid .reco-main .combo{font-size:1.7rem;}
+
+/* ── Selector combo ── */
+.sel-combo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+.sel-combo.ao-sel{margin-bottom:4px;}
+.sel-group{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.sel-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);}
+.combo-sel{
+  font-family:var(--mono);font-size:1.5rem;font-weight:800;
+  color:var(--primary-dark);
+  background:var(--surface);border:2px solid var(--accent);
+  border-radius:8px;padding:4px 8px;
+  text-align:center;cursor:pointer;outline:none;
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
+  min-width:68px;
+}
+.combo-sel:focus{border-color:var(--primary);}
+.combo-sel.sm{font-size:1.05rem;min-width:54px;padding:3px 6px;border-radius:6px;}
+.sel-sep{font-family:var(--mono);font-size:1.8rem;font-weight:300;color:var(--text3);line-height:1;}
+.reset-btn{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text3);border-radius:6px;padding:4px 7px;
+  cursor:pointer;font-size:.9rem;line-height:1;
+  transition:all .15s;align-self:flex-end;margin-bottom:2px;
+}
+.reset-btn:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary);}
+.reset-btn.sm{font-size:.78rem;padding:3px 6px;border-radius:5px;}
+
+/* ── Risk panel ── */
+.risk-panel{display:flex;flex-direction:column;gap:4px;margin-bottom:6px;}
+.risk-panel.sm{gap:3px;margin-bottom:4px;}
+.risk-row{display:flex;align-items:center;gap:7px;}
+.risk-row .risk-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);width:42px;flex-shrink:0;}
+.risk-row .risk-bar-wrap{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.risk-row .risk-bar{height:100%;border-radius:3px;transition:width .3s;}
+.risk-row .risk-val{font-family:var(--mono);font-size:.7rem;font-weight:700;width:36px;flex-shrink:0;text-align:right;}
+.risk-row .risk-n{font-size:.6rem;color:var(--text3);flex-shrink:0;}
+.risk-row .risk-warn{font-size:.6rem;color:var(--warn-color,#c97b5a);font-style:italic;}
+.risk-low   .risk-bar{background:#6fae8a;} .risk-low   .risk-val{color:#3a7a5a;}
+.risk-mid   .risk-bar{background:#c9a03a;} .risk-mid   .risk-val{color:#8a6a10;}
+.risk-high  .risk-bar{background:#c97b5a;} .risk-high  .risk-val{color:#a04030;}
+.risk-panel.sm .risk-row .risk-lbl{font-size:.55rem;width:34px;}
+.risk-panel.sm .risk-row .risk-val{font-size:.65rem;width:30px;}
+.risk-panel.sm .risk-row .risk-n{font-size:.55rem;}
+/* ── Justification index ── */
+.jfi{margin-top:5px;border-radius:6px;padding:6px 8px;font-size:.72rem;}
+.jfi-neutral{background:var(--surface2);color:var(--text3);}
+.jfi-ok  {background:#e8f6ee;border-left:3px solid #3a7a5a;}
+.jfi-warn{background:#fef8e7;border-left:3px solid #c9a03a;}
+.jfi-bad {background:#fdecea;border-left:3px solid var(--warn,#c97b5a);}
+.jfi-head{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.jfi-icon{font-size:.8rem;font-weight:700;width:14px;text-align:center;}
+.jfi-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);font-weight:700;}
+.jfi-text{font-size:.7rem;color:var(--text2);}
+.jfi-bars{display:flex;flex-direction:column;gap:3px;margin-bottom:4px;}
+.jfi-bar-row{display:flex;align-items:center;gap:5px;font-size:.65rem;}
+.jfi-bl{width:46px;flex-shrink:0;color:var(--text3);}
+.jfi-bar-track{flex:1;height:5px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+.jfi-bar-d{height:100%;background:#1e8a8a;border-radius:3px;}
+.jfi-bar-r{height:100%;background:#c97b5a;border-radius:3px;}
+.jfi-bv{width:28px;text-align:right;color:var(--text3);flex-shrink:0;}
+.jfi-msg{font-size:.68rem;color:var(--text2);line-height:1.4;}
+.ao-eye-tag{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);font-weight:700;margin-bottom:2px;}
+.ao-advisory{
+  margin-top:10px;font-size:.72rem;color:#9a5a1a;border-left:2px solid #d4830a;
+  padding:7px 10px;background:#fef3e2;border-radius:0 4px 4px 0;line-height:1.5;
+}
+</style>
+</head>
+<body class="simple">
+<div class="wrap">
+
+  <header>
+    <div class="h-left">
+      <div class="logo-mark">M</div>
+      <div>
+        <h1>Anillo &amp; Tope · SBK One Use-Plus</h1>
+        <div class="sub adv-hide">K horizontal + exigencia de ablación · Baviera Italia</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button id="eyeModeToggle" class="hdr-toggle active">AO ✓</button>
+      <button id="viewToggle" class="hdr-toggle">Vista avanzada ▾</button>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- LEFT: INPUTS -->
+    <div>
+      <div id="singleEyeInputs" style="display:none;">
+      <div class="card" style="margin-bottom:18px;">
+        <h2>Queratometría</h2>
+        <div class="pill-toggle" style="margin-bottom:14px;">
+          <button id="modeK12">K1 / K2</button>
+          <button id="modeAvg" class="active">K media + Cil + eje</button>
+        </div>
+
+        <div id="groupK12" style="display:none;">
+          <div class="field-row">
+            <div class="field" style="flex:1.3;">
+              <label>K1 (D)</label>
+              <input type="number" step="0.1" id="k1" value="42.5">
+            </div>
+            <div class="field">
+              <label>Eje de K1 (°)</label>
+              <input type="number" step="1" id="ax1" value="180">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" style="flex:1.3;">
+              <label>K2 (D)</label>
+              <input type="number" step="0.1" id="k2" value="43.5">
+            </div>
+            <div class="field">
+              <label>Eje de K2 (°)</label>
+              <input type="number" id="ax2" value="0" disabled style="opacity:.55;cursor:not-allowed;">
+            </div>
+          </div>
+          <div class="hint">K1 y K2 son las dos lecturas perpendiculares del queratómetro/topógrafo, en cualquier orden. El eje de K2 se fija automáticamente a 90° del de K1 y no es editable.</div>
+          <div class="flag" id="k12Warning" style="display:none;">K1 debería ser la K más plana (la de menor potencia) y K2 la más curva. Con los valores actuales K1 &gt; K2 — revisa cuál lectura va en cada campo.</div>
+        </div>
+
+        <div id="groupAvg">
+          <div class="field-row">
+            <div class="field">
+              <label>K media (D)</label>
+              <input type="number" step="0.1" id="kavg" value="43.0">
+            </div>
+            <div class="field">
+              <label>Cilindro K (D)</label>
+              <input type="number" step="0.1" id="kcyl" value="-1.0" max="0">
+            </div>
+            <div class="field">
+              <label>Eje (°)</label>
+              <input type="number" step="1" id="kax" value="180">
+            </div>
+          </div>
+          <div class="hint">K media = (K1+K2)/2. El cilindro K siempre se expresa en negativo (igual que el de refracción): el eje introducido es el del meridiano plano (K1), y K2 (a 90°) sale más curva automáticamente. Si lo metes en positivo, se convierte solo.</div>
+          <div class="flag" id="kCylNote" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h2>Refracción manifiesta a tratar</h2>
+        <div class="field-row">
+          <div class="field">
+            <label>Esfera (D)</label>
+            <input type="number" step="0.25" id="sph" value="-2.00">
+          </div>
+          <div class="field">
+            <label>Cilindro (D)</label>
+            <input type="number" step="0.25" id="cyl" value="-2.00" max="0">
+          </div>
+          <div class="field">
+            <label>Eje (°)</label>
+            <input type="number" step="1" id="rax" value="180">
+          </div>
+        </div>
+        <div class="hint" id="cylConvertNote" style="display:none;"></div>
+      </div>
+
+      <div class="card brass">
+        <h2>White-to-white</h2>
+        <div class="field-row">
+          <div class="field">
+            <label>BB (mm)</label>
+            <input type="number" step="0.1" id="bb" value="11.6">
+          </div>
+        </div>
+        <div class="hint">
+          BB &lt; 11 mm → se mantiene la regla del fabricante (anillo más pequeño / tope 7,5, máxima cobertura periférica).<br>
+          BB ≥ 11 mm → el tope ya NO se decide automáticamente por tamaño; se decide por exigencia horizontal de la ablación (panel derecho).
+        </div>
+      </div>
+
+      </div>
+
+      <div id="bothEyesInputs">
+        <div class="card" style="margin-bottom:18px;">
+          <h2>Queratometría — OD / OI</h2>
+          <div class="pill-toggle" style="margin-bottom:10px;">
+            <button id="modeK12AO">K1 / K2</button>
+            <button id="modeAvgAO" class="active">K media + Cil + eje</button>
+          </div>
+
+          <div id="groupAvgAO">
+            <div class="eye-grid">
+              <div class="eye-block">
+                <h3>OD</h3>
+                <div class="field-row">
+                  <div class="field"><label>K media (D)</label><input type="number" step="0.1" id="kavg_od" value="43.0"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>Cil. K (D)</label><input type="number" step="0.1" id="kcyl_od" value="-1.0" max="0"></div>
+                  <div class="field"><label>Eje (°)</label><input type="number" step="1" id="kax_od" value="180"></div>
+                </div>
+              </div>
+              <div class="eye-block">
+                <h3>OI</h3>
+                <div class="field-row">
+                  <div class="field"><label>K media (D)</label><input type="number" step="0.1" id="kavg_oi" value="43.0"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>Cil. K (D)</label><input type="number" step="0.1" id="kcyl_oi" value="-1.0" max="0"></div>
+                  <div class="field"><label>Eje (°)</label><input type="number" step="1" id="kax_oi" value="180"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="groupK12AO" style="display:none;">
+            <div class="eye-grid">
+              <div class="eye-block">
+                <h3>OD</h3>
+                <div class="field-row">
+                  <div class="field"><label>K1 plana (D)</label><input type="number" step="0.1" id="k1_od" value="42.5"></div>
+                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" id="ax1_od" value="180"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>K2 curva (D)</label><input type="number" step="0.1" id="k2_od" value="43.5"></div>
+                  <div class="field"><label>Eje K2 (°)</label><input type="number" id="ax2_od" value="90" disabled style="opacity:.55;cursor:not-allowed;"></div>
+                </div>
+                <div class="flag" id="k12WarningOD" style="display:none;">K1 &gt; K2 — revisa los campos.</div>
+              </div>
+              <div class="eye-block">
+                <h3>OI</h3>
+                <div class="field-row">
+                  <div class="field"><label>K1 plana (D)</label><input type="number" step="0.1" id="k1_oi" value="42.5"></div>
+                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" id="ax1_oi" value="180"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>K2 curva (D)</label><input type="number" step="0.1" id="k2_oi" value="43.5"></div>
+                  <div class="field"><label>Eje K2 (°)</label><input type="number" id="ax2_oi" value="90" disabled style="opacity:.55;cursor:not-allowed;"></div>
+                </div>
+                <div class="flag" id="k12WarningOI" style="display:none;">K1 &gt; K2 — revisa los campos.</div>
+              </div>
+            </div>
+          </div>
+          <div class="hint">Cilindro K siempre negativo (eje = meridiano plano). K horizontal calculada sobre Kmedia en ambos modos.</div>
+        </div>
+
+        <div class="card" style="margin-bottom:18px;">
+          <h2>Refracción manifiesta — OD / OI</h2>
+          <div class="eye-grid">
+            <div class="eye-block">
+              <h3>OD</h3>
+              <div class="field-row">
+                <div class="field"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_od" value="-2.00"></div>
+              </div>
+              <div class="field-row">
+                <div class="field"><label>Cil. (D)</label><input type="number" step="0.25" id="cyl_od" value="-2.00" max="0"></div>
+                <div class="field"><label>Eje (°)</label><input type="number" step="1" id="rax_od" value="180"></div>
+              </div>
+            </div>
+            <div class="eye-block">
+              <h3>OI</h3>
+              <div class="field-row">
+                <div class="field"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_oi" value="-2.00"></div>
+              </div>
+              <div class="field-row">
+                <div class="field"><label>Cil. (D)</label><input type="number" step="0.25" id="cyl_oi" value="-2.00" max="0"></div>
+                <div class="field"><label>Eje (°)</label><input type="number" step="1" id="rax_oi" value="180"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card brass">
+          <h2>White-to-white — OD / OI</h2>
+          <div class="eye-grid">
+            <div class="eye-block">
+              <h3>OD</h3>
+              <div class="field"><label>BB (mm)</label><input type="number" step="0.1" id="bb_od" value="11.6"></div>
+            </div>
+            <div class="eye-block">
+              <h3>OI</h3>
+              <div class="field"><label>BB (mm)</label><input type="number" step="0.1" id="bb_oi" value="11.6"></div>
+            </div>
+          </div>
+          <div class="hint">La fila de K horizontal se unifica entre OD y OI si difieren (ver resultado). El tope se decide después, por ojo, con su propio BB y score.</div>
+        </div>
+      </div>
+
+      <div class="card adv-hide" style="margin-top:18px;">
+        <div class="params-toggle" id="paramsToggle">⚙ Ajustar pesos del modelo de exigencia horizontal</div>
+        <div class="params-body" id="paramsBody">
+          <div class="slider-row">
+            <label>Peso del cilindro horizontal <span id="wCylVal">0.46</span></label>
+            <input type="range" id="wCyl" min="0" max="3" step="0.1" value="0.46">
+          </div>
+          <div class="slider-row">
+            <label>Exponente del cilindro (no lineal) <span id="cylExpVal">1.5</span></label>
+            <input type="range" id="cylExp" min="1" max="4" step="0.1" value="1.5">
+          </div>
+          <div class="slider-row">
+            <label>Peso hipermetropía → subir tope <span id="wHypStopVal">0.58</span></label>
+            <input type="range" id="wHypStop" min="0" max="3" step="0.02" value="0.58">
+          </div>
+          <div class="slider-row">
+            <label>Peso hipermetropía → redondear a la baja <span id="wHypRoundVal">3.0</span></label>
+            <input type="range" id="wHypRound" min="0" max="5" step="0.1" value="3.0">
+          </div>
+          <div class="slider-row">
+            <label>BB mínimo para poder subir de tope <span id="bbFloorVal">11.6</span> mm</label>
+            <input type="range" id="bbFloor" min="11.0" max="12.0" step="0.1" value="11.6">
+          </div>
+          <div class="slider-row">
+            <label>Multiplicador de umbral en ese BB mínimo <span id="bbMultVal">2.8</span>×</label>
+            <input type="range" id="bbMult" min="1" max="8" step="0.1" value="2.8">
+          </div>
+          <div class="slider-row">
+            <label>Umbral de subida de tope en BB≥12 <span id="thHighVal">3.2</span></label>
+            <input type="range" id="thHigh" min="0.5" max="8" step="0.1" value="3.2">
+          </div>
+          <div class="slider-row">
+            <label>Multiplicador extra para combinación −1/8.5 <span id="thRing1Val">2.6</span>×</label>
+            <input type="range" id="thRing1" min="1.0" max="5.0" step="0.1" value="2.6">
+          </div>
+          <div class="slider-row">
+            <label>Sesgo conservador de redondeo de Khoriz (exigencia 0) <span id="roundBiasVal">0.42</span></label>
+            <input type="range" id="roundBias" min="0" max="0.49" step="0.01" value="0.42">
+          </div>
+          <div class="slider-row">
+            <label>Sensibilidad del redondeo a la exigencia <span id="roundSensVal">0.06</span></label>
+            <input type="range" id="roundSens" min="0" max="0.5" step="0.01" value="0.06">
+          </div>
+          <div class="hint">Componente cilíndrico = peso_cil × |Cyl|^exponente × cos²(eje) (el exponente controla cómo escala: con 2, un cilindro pequeño apenas influye y uno grande mucho más, sin corte brusco). <b>Subir tope</b> usa ese componente + un peso pequeño de la hipermetropía. <b>Redondear K horizontal</b> usa ese mismo componente cilíndrico (empuja al alza, más espacio horizontal) MENOS la hipermetropía con su propio peso, más alto (empuja a la baja → anillo físicamente más grande, espacio en todos los ejes, no solo el horizontal) — son sesgos opuestos. La subida de tope solo es posible con BB por encima del mínimo configurado: justo ahí se exige un score muy alto (umbral × multiplicador), bajando progresivamente hasta el umbral normal en BB=12mm. Ajusta estos valores con tu casuística; se recalcula al vuelo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div>
+      <div id="singleEyeResult" style="display:none;">
+      <div class="card adv-hide" style="margin-bottom:18px;">
+        <h2>Componente horizontal de la ablación</h2>
+        <div class="dial-wrap">
+          <svg class="dial" viewBox="0 0 320 190" id="dialSvg"></svg>
+        </div>
+        <div class="ablation-wrap">
+          <svg class="ablation-svg" viewBox="0 0 140 140" id="ablationSvg"></svg>
+          <div class="ablation-legend">Forma orientativa de la ablación: se alarga en el eje plano. Azul=miopía, naranja=hipermetropía (halo=zona ampliada en todos los ejes).</div>
+        </div>
+        <div class="result-top">
+          <div class="stat"><div class="v" id="statHorizComp">—</div><div class="l">% horizontal (cos²eje)</div></div>
+          <div class="stat"><div class="v" id="statCylW">—</div><div class="l">cil. ponderado (|Cyl|^n)</div></div>
+          <div class="stat"><div class="v" id="statHyp">—</div><div class="l">EE hiperópico</div></div>
+          <div class="stat"><div class="v" id="statScore">—</div><div class="l">score exigencia</div></div>
+        </div>
+      </div>
+
+      <div class="reco" id="recoBox">
+        <div class="sel-combo">
+          <div class="sel-group">
+            <label class="sel-lbl">Anillo</label>
+            <select id="selRing" class="combo-sel"></select>
+          </div>
+          <div class="sel-sep">/</div>
+          <div class="sel-group">
+            <label class="sel-lbl">Tope</label>
+            <select id="selStop" class="combo-sel"></select>
+          </div>
+          <button id="resetSel" class="reset-btn" title="Volver a la combinación recomendada">↺</button>
+        </div>
+        <div id="riskPanel" class="risk-panel"></div>
+        <div class="why-short adv-hide" id="recoWhyShort"></div>
+        <div class="why adv-hide" id="recoWhy"></div>
+        <div class="flag" id="rowFlag" style="display:none;"></div>
+      </div>
+
+      <div class="card">
+        <h2>Nomograma <span id="khorizTag" class="adv-hide" style="color:var(--primary);margin-left:4px;font-weight:600;text-transform:none;letter-spacing:0;"></span></h2>
+        <table class="nomo">
+          <thead><tr><th>Anillo</th><th>Tope</th><th>Flap</th><th>Estroma</th><th>Bisagra</th></tr></thead>
+          <tbody id="nomoBody"></tbody>
+        </table>
+      </div>
+      </div>
+
+      <div id="aoResult">
+        <div class="ao-reco-grid">
+          <div class="reco">
+            <div class="ao-eye-tag">OD</div>
+            <svg class="ablation-svg-sm" viewBox="0 0 100 100" id="ablationSvgOD"></svg>
+            <div class="sel-combo ao-sel">
+              <select id="selRingOD" class="combo-sel sm"></select>
+              <span class="sel-sep">/</span>
+              <select id="selStopOD" class="combo-sel sm"></select>
+              <button class="reset-btn sm" data-reset="OD" title="Volver a la recomendada">↺</button>
+            </div>
+            <div id="riskOD" class="risk-panel sm"></div>
+          </div>
+          <div class="reco">
+            <div class="ao-eye-tag">OI</div>
+            <svg class="ablation-svg-sm" viewBox="0 0 100 100" id="ablationSvgOI"></svg>
+            <div class="sel-combo ao-sel">
+              <select id="selRingOI" class="combo-sel sm"></select>
+              <span class="sel-sep">/</span>
+              <select id="selStopOI" class="combo-sel sm"></select>
+              <button class="reset-btn sm" data-reset="OI" title="Volver a la recomendada">↺</button>
+            </div>
+            <div id="riskOI" class="risk-panel sm"></div>
+          </div>
+        </div>
+        <div class="ablation-legend adv-hide" style="text-align:center;max-width:none;margin-top:8px;">Forma orientativa de la ablación, alargada en el eje plano. Azul=miopía, naranja=hipermetropía (halo=zona ampliada en todos los ejes).</div>
+        <div class="ao-advisory" id="aoAdvisory" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span class="short-footer">Nomograma Moria #65067EN_D, no contractual — guía general, valida siempre tu propio criterio.</span>
+    <span class="adv-hide">
+    K horizontal calculada siempre sobre K media + cilindro K + eje (negativo, eje = meridiano plano). Redondeo adaptativo a la fila del nomograma: con baja exigencia horizontal sesga a la baja (conservador, evita free-flap); con alta exigencia sesga al alza — nunca más de un entero.
+    Regla de selección: punto de partida = combinación mediana de la fila. Para BB&lt;11mm se fuerza el tope mínimo de la fila (regla de fabricante). Para BB≥11mm el tope sólo sube si el score de exigencia horizontal supera el umbral configurado, con un umbral mucho más exigente justo por encima del BB mínimo que baja progresivamente hasta BB=12mm.
+    La fila K=45 (opción central) usa tope 7,5 en lugar de 8 — es una excepción real del documento del fabricante, no un error de transcripción, y se mantiene tal cual.
+    </span>
+  </div>
+
+</div>
+
+<script>
+// ---------- NOMOGRAM TABLE (Moria #65067EN_D, SBK One Use-Plus, metal ring) ----------
+// row45 ring2: stop 7.5 is an official manufacturer exception (not an OCR error) — kept as-is, flagged for visibility
+const NOMO = {
+  39: [
+    {ring:-1, stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+    {ring:0,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  40: [
+    {ring:-1, stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:0,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  41: [
+    {ring:-1, stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:0,  stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+    {ring:1,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  42: [
+    {ring:-1, stop:8.5, flap:10.3, stroma:9.4, hinge:5.7},
+    {ring:0,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:1,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  43: [
+    {ring:0,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:1,  stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+    {ring:2,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  44: [
+    {ring:0,  stop:8.5, flap:10.3, stroma:9.4, hinge:5.7},
+    {ring:1,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:2,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  45: [
+    {ring:1,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:2,  stop:7.5, flap:9.5,  stroma:8.5, hinge:5.8, flagged:true},
+    {ring:3,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  46: [
+    {ring:2,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:3,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  47: [
+    {ring:2,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:3,  stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+  ],
+  48: [
+    {ring:2,  stop:8.5, flap:10.3, stroma:9.4, hinge:5.7},
+    {ring:3,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+  ],
+  49: [
+    {ring:2,  stop:9,   flap:10.5, stroma:9.8, hinge:5.4},
+    {ring:3,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+  ],
+};
+const K_MIN = 39, K_MAX = 49;
+
+// Redondeo adaptativo: solo entre floor(x) y ceil(x). El umbral de paso (normalmente 0,5) se
+// desplaza según el score de exigencia horizontal: a más score, menos frac hace falta para
+// redondear al alza; a menos score, hace falta un frac más alto (más cerca del entero superior).
+function adaptiveRound(x, score, baseBias, sens){
+  const lower = Math.floor(x);
+  const frac = x - lower;
+  if (frac === 0) return lower;
+  let t = 0.5 + baseBias - sens*score;
+  t = clamp(t, 0, 1);
+  return frac >= t ? lower+1 : lower;
+}
+function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
+function deg2rad(d){ return d * Math.PI / 180; }
+
+function $(id){ return document.getElementById(id); }
+
+function computeKhorizFromAvg(kmedia, kcyl, eje){
+  // K_horiz = K media + (Cil K / 2) * cos(2*eje) — siempre sobre la K media, nunca sobre K1 ni K2 directamente.
+  return kmedia + (kcyl/2) * Math.cos(2*deg2rad(eje));
+}
+
+function normalizeCylNegative(sph, cyl, ax){
+  if (cyl > 0){
+    const newSph = sph + cyl;
+    const newCyl = -cyl;
+    let newAx = ax + 90;
+    newAx = ((newAx % 180) + 180) % 180;
+    return {sph:newSph, cyl:newCyl, ax:newAx, converted:true};
+  }
+  return {sph, cyl, ax, converted:false};
+}
+
+let kMode = 'avg'; // 'k12' | 'avg'
+let eyeMode = 'both'; // 'one' | 'both'
+let kModeAO = 'avg'; // 'avg' | 'k12'
+
+function setModeAO(mode){
+  kModeAO = mode;
+  $('modeK12AO').classList.toggle('active', mode==='k12');
+  $('modeAvgAO').classList.toggle('active', mode==='avg');
+  $('groupAvgAO').style.display = mode==='avg' ? '' : 'none';
+  $('groupK12AO').style.display = mode==='k12' ? '' : 'none';
+  render();
+}
+
+function setEyeMode(mode){
+  eyeMode = mode;
+  $('eyeModeToggle').classList.toggle('active', mode === 'both');
+  $('eyeModeToggle').textContent = mode === 'both' ? 'AO ✓' : 'AO (ambos ojos)';
+  $('singleEyeInputs').style.display = mode === 'both' ? 'none' : '';
+  $('bothEyesInputs').style.display = mode === 'both' ? '' : 'none';
+  $('singleEyeResult').style.display = mode === 'both' ? 'none' : '';
+  $('aoResult').style.display = mode === 'both' ? '' : 'none';
+  render();
+}
+
+// ── RISK DATA (combinado: España 225k casos + Baviera Italia 27.5k casos) ──
+// LC: lentículo completo (free flap). BA: bisagra ancha (solo datos Baviera Italia).
+// key: "ring_stop.decimal"
+const RISK = {
+  '-1_8.5': {n:10705, lc:4.52, ba:0.09},  // ⚠ riesgo alto confirmado
+  '-1_8.0': {n:25785, lc:1.26, ba:0.26},
+  '-1_7.5': {n: 1163, lc:0.60, ba:null},   // BA: sin datos suficientes
+  '0_8.5':  {n:18980, lc:1.47, ba:0.05},
+  '0_8.0':  {n:67845, lc:0.46, ba:0.15},
+  '0_7.5':  {n: 3444, lc:0.23, ba:0.98},
+  '1_8.5':  {n: 3942, lc:0.58, ba:0.00},
+  '1_8.0':  {n:110650, lc:0.18, ba:0.18},
+  '1_7.5':  {n: 3813, lc:0.13, ba:1.62},
+  '2_8.5':  {n:  310, lc:11.61, ba:0.00}, // n bajo, IC amplio — K curva muy agresivo
+  '2_8.0':  {n:14932, lc:1.79, ba:0.38},
+  '2_7.5':  {n:29723, lc:0.20, ba:0.75},
+  '3_8.5':  null,
+  '3_8.0':  {n:  193, lc:0.52, ba:null},   // n bajo
+  '3_7.5':  {n: 1850, lc:0.05, ba:null},
+  '2_9.0':  null,
+};
+// ── Escala dinámica de barras: basada en el máximo real del dataset (n≥500) + margen
+// Guarda la combinación recomendada por el algoritmo para cada selector
+const REC = { selRing:null, selStop:null, selRingOD:null, selStopOD:null, selRingOI:null, selStopOI:null };
+
+function riskKey(ring, stop){ return `${ring}_${stop.toFixed(1)}`; }
+// Escala dinámica basada en el máximo real (n≥500) + margen
+const _lcVals = Object.values(RISK).filter(d=>d&&d.n>=500).map(d=>d.lc);
+const _baVals = Object.values(RISK).filter(d=>d&&d.ba!=null&&d.n>=500).map(d=>d.ba);
+const SCALE_LC = Math.max(..._lcVals) * 1.25;
+const SCALE_BA = Math.max(..._baVals) * 1.25;
+
+function renderRiskPanel(panelId, ring, stop, score, bb){
+  const panel = $(panelId);
+  if(!panel) return;
+  const d = RISK[riskKey(ring, stop)];
+  if(!d){ panel.innerHTML = `<div class="risk-row"><span class="risk-warn">Sin datos para esta combinación</span></div>`; return; }
+  const lowN = d.n < 500;
+  function bar(val, thLow, thHigh, id, noData){
+    if(noData || val === null){
+      return `<div class="risk-row"><span class="risk-lbl">${id}</span><span class="risk-warn">Sin datos suficientes</span></div>`;
+    }
+    const cls = val < thLow ? 'risk-low' : val < thHigh ? 'risk-mid' : 'risk-high';
+    const scale = id==='Cap libre' ? SCALE_LC : SCALE_BA;
+    const barW = Math.min(100, (val/scale)*100);
+    const nNote = lowN
+      ? `<span class="risk-warn">&nbsp;IC amplio (n=${d.n})</span>`
+      : `<span class="risk-n">&nbsp;n=${d.n.toLocaleString()}</span>`;
+    return `<div class="risk-row ${cls}">
+      <span class="risk-lbl">${id}</span>
+      <div class="risk-bar-wrap"><div class="risk-bar" style="width:${barW}%"></div></div>
+      <span class="risk-val">${val.toFixed(2)}%</span>
+      ${nNote}
+    </div>`;
+  }
+  let html = bar(d.lc, 0.5, 1.5, 'Cap libre', false) +
+             bar(d.ba, 0.3, 0.8, 'Bis. ancha', d.ba === null);
+  if(score !== undefined && score !== null) html += buildJustificationIndex(ring, stop, score, bb);
+  panel.innerHTML = html;
+}
+
+// ── Índice de justificación clínica ──
+// Demanda: score normalizado; escala = thHigh del algoritmo (umbral a partir del cual justifica subir)
+// Riesgo:  LC% de la combinación elegida normalizado sobre el máximo con buena estadística (5%)
+// Bisagra: BA% relativa para 7.5 (las más expuestas)
+const DEMAND_SCALE_JFI = 3.2;
+const SAFE_LC = 0.5;
+const I_SCALE = 6.0;
+
+function buildJustificationIndex(ring, stop, score, bb){
+  const d = RISK[riskKey(ring, stop)];
+  if(!d) return '';
+
+  const dem      = Math.min(1, score / DEMAND_SCALE_JFI);
+  const excessLC = Math.max(0, d.lc - SAFE_LC);
+  const I_LC     = excessLC / Math.max(dem, 0.1);
+  const I_BA     = (d.ba !== null) ? d.ba * dem : 0;
+  const idx      = I_LC - I_BA;
+
+  // Stop 7.5 deja poco estroma — demasiado conservador salvo ojo muy pequeño (BB<11)
+  const smallBB       = (bb !== undefined && bb !== null && bb < 11);
+  const tooConservative = (stop <= 7.5 && !smallBB) || idx < -0.4;
+  const tooAggressive   = idx > 0.5;
+
+  let cls, icon, phrase;
+  if(tooAggressive){
+    cls = idx > 3 ? 'jfi-bad' : 'jfi-warn';
+    icon = idx > 3 ? '✕' : '⚠';
+    phrase = 'Tope agresivo para la ablación configurada';
+  } else if(tooConservative){
+    cls = 'jfi-warn'; icon = '⚠';
+    phrase = 'Tope demasiado conservador para la ablación configurada';
+  } else {
+    cls = 'jfi-ok'; icon = '✓';
+    phrase = 'Tope adecuado a la ablación configurada';
+  }
+
+  return `<div class="jfi ${cls}" style="display:flex;align-items:center;gap:6px;padding:5px 8px;">
+    <span class="jfi-icon">${icon}</span>
+    <span style="font-size:.76rem;">${phrase}</span>
+  </div>`;
+}
+
+function buildSelects(selRingId, selStopId, rows, chosenRing, chosenStop){
+  const selR = $(selRingId); const selS = $(selStopId);
+  if(!selR || !selS) return;
+
+  // Guardar la combinación recomendada por el algoritmo
+  REC[selRingId] = chosenRing;
+  REC[selStopId] = chosenStop;
+
+  // Todos los anillos y topes presentes en los datos de riesgo
+  const ALL_RINGS = [-1, 0, 1, 2, 3];
+  const ALL_STOPS = [8.5, 8.0, 7.5];  // 9.0 solo K=49, se añade si aplica
+  const stops = rows.some(r => r.stop === 9.0)
+    ? [9.0, 8.5, 8.0, 7.5]
+    : ALL_STOPS;
+
+  selR.innerHTML = ALL_RINGS.map(ring => {
+    const rTxt = (ring>0?'+':'')+ring;
+    const sel  = ring===chosenRing ? ' selected' : '';
+    return `<option value="${ring}"${sel}>${rTxt}</option>`;
+  }).join('');
+
+  selS.innerHTML = stops.map(stop => {
+    const sTxt = stop.toFixed(1).replace('.',',');
+    const sel  = Math.abs(stop-chosenStop)<0.01 ? ' selected' : '';
+    return `<option value="${stop}"${sel}>${sTxt}</option>`;
+  }).join('');
+
+  selR.onchange = () => triggerRisk(selRingId, selStopId);
+  selS.onchange = () => triggerRisk(selRingId, selStopId);
+}
+
+function triggerRisk(selRingId, selStopId){
+  const ring = parseInt($(selRingId).value);
+  const stop = parseFloat($(selStopId).value);
+  const panelId  = selRingId === 'selRing'   ? 'riskPanel'
+                 : selRingId === 'selRingOD' ? 'riskOD' : 'riskOI';
+  const scoreKey = selRingId === 'selRing'   ? 'score'
+                 : selRingId === 'selRingOD' ? 'scoreOD' : 'scoreOI';
+  const bbKey    = selRingId === 'selRing'   ? 'bb'
+                 : selRingId === 'selRingOD' ? 'bbOD' : 'bbOI';
+  renderRiskPanel(panelId, ring, stop, REC[scoreKey], REC[bbKey]);
+  if(selRingId === 'selRing') highlightNomoRow(ring, stop);
+}
+
+function highlightNomoRow(ring, stop){
+  document.querySelectorAll('#nomoBody tr').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if(cells.length < 2) return;
+    const r = parseInt(cells[0].textContent);
+    const s = parseFloat(cells[1].textContent.replace(',','.'));
+    tr.classList.toggle('selected', r===ring && Math.abs(s-stop)<0.01);
+  });
+}
+function stopFmt(stop){
+  return stop.toFixed(1).replace('.0','').replace('.',',');
+}
+
+// Calcula khoriz/score/roundDrive/fila propia para un ojo dado, leyendo campos con sufijo ('_od'/'_oi').
+// P = pesos y umbrales compartidos (ya leídos una vez en render()).
+function computeEyeAO(sfx, P){
+  let kavg, kcyl, kax;
+  if (kModeAO === 'k12'){
+    let k1 = parseFloat($('k1'+sfx).value);
+    let ax1 = parseFloat($('ax1'+sfx).value);
+    let k2 = parseFloat($('k2'+sfx).value);
+    const bad = k1 > k2;
+    $('k1'+sfx).classList.toggle('invalid', bad);
+    $('k2'+sfx).classList.toggle('invalid', bad);
+    $('k12Warning'+sfx.replace('_','').toUpperCase()).style.display = bad ? 'block' : 'none';
+    $('ax2'+sfx).value = (((ax1+90)%180)+180)%180;
+    kavg = (k1+k2)/2;
+    kcyl = k1-k2; // negativo si K1 es la plana
+    kax = ax1;
+  } else {
+    kavg = parseFloat($('kavg'+sfx).value);
+    kcyl = parseFloat($('kcyl'+sfx).value);
+    kax = parseFloat($('kax'+sfx).value);
+    if (kcyl > 0){
+      kcyl = -kcyl;
+      kax = ((kax + 90) % 180 + 180) % 180;
+      $('kcyl'+sfx).value = kcyl;
+      $('kax'+sfx).value = kax;
+    }
+  }
+  const khoriz = computeKhorizFromAvg(kavg, kcyl, kax);
+
+  let sph = parseFloat($('sph'+sfx).value);
+  let cyl = parseFloat($('cyl'+sfx).value);
+  let rax = parseFloat($('rax'+sfx).value);
+  if (cyl > 0){
+    sph = sph + cyl;
+    cyl = -cyl;
+    rax = ((rax + 90) % 180 + 180) % 180;
+    $('sph'+sfx).value = sph;
+    $('cyl'+sfx).value = cyl;
+    $('rax'+sfx).value = rax;
+  }
+
+  const bb = parseFloat($('bb'+sfx).value);
+
+  const horizComp = Math.pow(Math.cos(deg2rad(rax)), 2);
+  const cylWeighted = Math.pow(Math.abs(cyl), P.cylExp);
+  const se = sph + cyl/2;
+  const hyperopicComp = Math.max(0, se);
+  const cylDrive = P.wCyl * cylWeighted * horizComp;
+  const score = cylDrive + P.wHypStop * hyperopicComp;
+  const roundDrive = cylDrive - P.wHypRound * hyperopicComp;
+  const ownRow = clamp(adaptiveRound(khoriz, roundDrive, P.roundBias, P.roundSens), K_MIN, K_MAX);
+
+  return {khoriz, bb, score, roundDrive, ownRow, sph, cyl, rax, hyperopicComp};
+}
+
+// Dada una fila ya decidida (posiblemente unificada entre ojos) y el BB/score propios del ojo,
+// elige la combinación (idx) dentro de esa fila — misma regla que en el modo de un ojo.
+function pickIdxAndLookup(row, bb, score, P){
+  const {k: kRow, rows} = findRowOption(row);
+  const n = rows.length;
+  let idx = defaultMidIndex(rows);
+  if (bb < 11){
+    idx = n - 1;
+  } else if (bb < P.bbFloor){
+    // se queda en idx mediana
+  } else {
+    let effThreshold;
+    if (bb >= 12){
+      effThreshold = P.thHigh;
+    } else {
+      const t = clamp((bb - P.bbFloor) / (12 - P.bbFloor), 0, 1);
+      effThreshold = P.thHigh * (P.bbMult - t * (P.bbMult - 1));
+    }
+    if (score >= effThreshold){
+      // Combinación -1/8.5: la más agresiva del nomograma — requiere un umbral extra.
+      const topOpt = rows[0];
+      const isRingMinus1 = topOpt.ring === -1 && topOpt.stop === 8.5;
+      const required = isRingMinus1 ? effThreshold * P.thRing1 : effThreshold;
+      if (score >= required) idx = 0;
+    }
+  }
+  return { kRow, chosen: rows[idx] };
+}
+
+function r2(x){ return Math.round(x*100)/100; }
+
+// Reads the K1/ax1/K2 fields exactly as entered — no reordering, no correction.
+function corneaFromK12Fields(){
+  const k1 = parseFloat($('k1').value);
+  const ax1 = parseFloat($('ax1').value);
+  const k2 = parseFloat($('k2').value);
+  if (isNaN(k1) || isNaN(ax1) || isNaN(k2)) return null;
+  return {k1, ax1, k2};
+}
+
+// Reads the Kmedia/Cil/eje fields, returns the same {k1, ax1, k2} shape.
+function corneaFromAvgFields(){
+  const kavg = parseFloat($('kavg').value);
+  const kcyl = parseFloat($('kcyl').value);
+  const kax = parseFloat($('kax').value);
+  if (isNaN(kavg) || isNaN(kcyl) || isNaN(kax)) return null;
+  // Convención de cilindro negativo: K1 (plana) está en el eje dado, K2 (curva) a 90°.
+  // Con kcyl negativo, K1 = kmedia + kcyl/2 sale menor que kmedia (más plana) — correcto.
+  const k1 = kavg + kcyl/2;
+  const k2 = kavg - kcyl/2;
+  const ax1 = kax;
+  return {k1, ax1, k2};
+}
+
+function setMode(mode){
+  if (mode !== kMode){
+    // capture the cornea from whichever mode is currently active, then push it
+    // into the OTHER mode's fields so both tabs always describe the same cornea.
+    const cornea = (kMode === 'k12') ? corneaFromK12Fields() : corneaFromAvgFields();
+    if (cornea){
+      if (mode === 'k12'){
+        $('k1').value = r2(cornea.k1);
+        $('ax1').value = Math.round(cornea.ax1);
+        $('k2').value = r2(cornea.k2);
+        $('ax2').value = Math.round(((cornea.ax1+90)%180+180)%180);
+      } else {
+        $('kavg').value = r2((cornea.k1+cornea.k2)/2);
+        $('kcyl').value = r2(cornea.k1-cornea.k2); // negativo si K1 es la plana
+        $('kax').value = Math.round(cornea.ax1);
+      }
+    }
+  }
+  kMode = mode;
+  $('modeK12').classList.toggle('active', mode==='k12');
+  $('modeAvg').classList.toggle('active', mode==='avg');
+  $('groupK12').style.display = mode==='k12' ? '' : 'none';
+  $('groupAvg').style.display = mode==='avg' ? '' : 'none';
+  render();
+}
+
+function computeKhorizFromInputs(){
+  if (kMode === 'k12'){
+    const cornea = corneaFromK12Fields();
+    if (!cornea) return NaN;
+    $('ax2').value = (((cornea.ax1+90) % 180)+180)%180;
+
+    // K1 must be the flattest meridian by convention — flag, don't auto-fix.
+    const bad = cornea.k1 > cornea.k2;
+    $('k1').classList.toggle('invalid', bad);
+    $('k2').classList.toggle('invalid', bad);
+    $('k12Warning').style.display = bad ? 'block' : 'none';
+
+    // Derive Kmedia/CilK/eje — la fórmula corre siempre sobre Kmedia.
+    // CilK = K1-K2 (negativo cuando K1 es la plana, eje = ax1 = eje del meridiano plano).
+    const kmedia = (cornea.k1 + cornea.k2) / 2;
+    const kcyl = cornea.k1 - cornea.k2;
+    return computeKhorizFromAvg(kmedia, kcyl, cornea.ax1);
+  } else {
+    $('k1').classList.remove('invalid');
+    $('k2').classList.remove('invalid');
+    $('k12Warning').style.display = 'none';
+
+    const kavg = parseFloat($('kavg').value);
+    let kcyl = parseFloat($('kcyl').value);
+    let kax = parseFloat($('kax').value);
+
+    // El cilindro K siempre se calcula en negativo — el eje lleva el meridiano plano.
+    // Si se introduce en positivo, se convierte automáticamente (no se permite calcular en positivo).
+    if (kcyl > 0){
+      kcyl = -kcyl;
+      kax = ((kax + 90) % 180 + 180) % 180;
+      $('kcyl').value = kcyl;
+      $('kax').value = kax;
+      $('kCylNote').style.display = 'block';
+      $('kCylNote').textContent = `Convertido automáticamente a cilindro negativo: K media ${kavg.toFixed(2)}  ${kcyl.toFixed(2)} x ${Math.round(kax)}°`;
+    } else {
+      $('kCylNote').style.display = 'none';
+    }
+
+    return computeKhorizFromAvg(kavg, kcyl, kax);
+  }
+}
+function findRowOption(k_int){
+  const kc = clamp(k_int, K_MIN, K_MAX);
+
+  return {k: kc, rows: NOMO[kc]};
+}
+
+function defaultMidIndex(rows){
+  // For 3-option rows, the manufacturer's own middle row IS the median —
+  // use its position, not its stop value, so table exceptions (e.g. K=45) don't break the logic.
+  if (rows.length === 3) return 1;
+  // For 2-option rows there's no literal middle: pick whichever option has stop closest to 8.
+  let bestIdx = 0, bestDist = Infinity;
+  rows.forEach((r,i)=>{
+    const d = Math.abs(r.stop - 8);
+    if (d < bestDist){ bestDist = d; bestIdx = i; }
+  });
+  return bestIdx;
+}
+
+function render(){
+  let sph = parseFloat($('sph').value);
+  let cyl = parseFloat($('cyl').value);
+  let rax = parseFloat($('rax').value);
+  const bb = parseFloat($('bb').value);
+
+  const wCyl = parseFloat($('wCyl').value);
+  const cylExp = parseFloat($('cylExp').value);
+  const wHypStop = parseFloat($('wHypStop').value);
+  const wHypRound = parseFloat($('wHypRound').value);
+  const bbFloor = parseFloat($('bbFloor').value);
+  const bbMult = parseFloat($('bbMult').value);
+  const thHigh = parseFloat($('thHigh').value);
+  const thRing1 = parseFloat($('thRing1').value);
+  $('wCylVal').textContent = wCyl.toFixed(1);
+  $('cylExpVal').textContent = cylExp.toFixed(1);
+  $('wHypStopVal').textContent = wHypStop.toFixed(1);
+  $('wHypRoundVal').textContent = wHypRound.toFixed(1);
+  $('bbFloorVal').textContent = bbFloor.toFixed(1);
+  $('bbMultVal').textContent = bbMult.toFixed(1);
+  $('thHighVal').textContent = thHigh.toFixed(1);
+  $('thRing1Val').textContent = thRing1.toFixed(1);
+
+  // force negative cylinder convention
+  const norm = normalizeCylNegative(sph, cyl, rax);
+  if (norm.converted){
+    $('cylConvertNote').style.display = 'block';
+    $('cylConvertNote').textContent = `Convertido automáticamente a cilindro negativo: ${norm.sph.toFixed(2)} ${norm.cyl.toFixed(2)} x ${Math.round(norm.ax)}°`;
+  } else {
+    $('cylConvertNote').style.display = 'none';
+  }
+  sph = norm.sph; cyl = norm.cyl; rax = norm.ax;
+
+  // K horizontal (sin redondear todavía)
+  const khoriz = computeKhorizFromInputs();
+
+  // horizontal component of astigmatism: 100% at axis 180/0, 0% at axis 90
+  const horizComp = Math.pow(Math.cos(deg2rad(rax)), 2); // 0..1
+  const cylWeighted = Math.pow(Math.abs(cyl), cylExp);
+  const se = sph + cyl/2;
+  const hyperopicComp = Math.max(0, se);
+
+  // Score "subir tope": lo decide casi todo el cilindro horizontal; la hipermetropía pesa poco aquí.
+  const cylDrive = wCyl * cylWeighted * horizComp;
+  const score = cylDrive + wHypStop * hyperopicComp;
+
+  // Redondeo adaptativo de K horizontal: el cilindro horizontal empuja a redondear AL ALZA (más
+  // espacio en ese eje); la hipermetropía empuja a redondear A LA BAJA (anillo más grande, espacio
+  // en todos los ejes, no solo el horizontal) — son sesgos en direcciones opuestas. Solo entre el
+  // entero inferior y el superior — nunca salta más allá — y graduado por lo cerca que esté del entero.
+  const roundBias = parseFloat($('roundBias').value);
+  const roundSens = parseFloat($('roundSens').value);
+  const roundDrive = cylDrive - wHypRound * hyperopicComp;
+  const khorizRounded = adaptiveRound(khoriz, roundDrive, roundBias, roundSens);
+  $('roundBiasVal').textContent = roundBias.toFixed(2);
+  $('roundSensVal').textContent = roundSens.toFixed(2);
+  $('khorizTag').textContent = `${khoriz.toFixed(2)} D → fila ${clamp(khorizRounded,K_MIN,K_MAX)}`;
+
+  // Threshold required to jump to the larger stop, as a function of BB:
+  // - BB < bbFloor (11.6mm by default): jump is never allowed, whatever the score.
+  // - bbFloor <= BB < 12: required threshold scales down from bbMult*thHigh (at bbFloor) to thHigh (at 12).
+  // - BB >= 12: normal threshold (thHigh).
+  let effThreshold;
+  if (bb < bbFloor){
+    effThreshold = Infinity;
+  } else {
+    const t = clamp((bb - bbFloor) / (12 - bbFloor), 0, 1);
+    const mult = bbMult - t * (bbMult - 1); // bbMult at t=0, 1 at t=1
+    effThreshold = thHigh * mult;
+  }
+
+  $('statHorizComp').textContent = (horizComp*100).toFixed(0) + '%';
+  $('statCylW').textContent = cylWeighted.toFixed(2);
+  $('statHyp').textContent = hyperopicComp.toFixed(2);
+  $('statScore').textContent = score.toFixed(2);
+
+  // table row
+  const {k: kRow, rows} = findRowOption(khorizRounded);
+  const n = rows.length;
+  let idx = defaultMidIndex(rows);
+
+  let why = '';
+  let whyShort = '';
+  let rowFlagText = '';
+
+  if (bb < 11){
+    idx = n - 1; // smallest flap option (manufacturer rule kept)
+    why = `<b>BB &lt; 11 mm</b>: se aplica la regla de fabricante — anillo más pequeño / tope más bajo de la fila, priorizando que el flap quepa con seguridad. No se evalúa exigencia horizontal en este caso.`;
+    whyShort = `Tope mínimo de fila — regla BB < 11 mm`;
+  } else if (bb < bbFloor){
+    why = `BB=${bb.toFixed(1)} mm está por debajo de ${bbFloor.toFixed(1)} mm: la subida de tope no está permitida con este BB, sea cual sea el score (${score.toFixed(2)}). Se mantiene la combinación mediana (tope≈8) de la fila K=${kRow}.`;
+    whyShort = `Combinación mediana — BB aún por debajo de ${bbFloor.toFixed(1)} mm`;
+  } else {
+    if (score >= effThreshold){
+      const topOpt = rows[0];
+      const isRingMinus1 = topOpt.ring === -1 && topOpt.stop === 8.5;
+      const required = isRingMinus1 ? effThreshold * thRing1 : effThreshold;
+      if (score >= required){
+        idx = 0;
+        const bbNote = bb < 12 ? ` (umbral exigido en BB=${bb.toFixed(1)}: ${effThreshold.toFixed(2)})` : '';
+        const ring1Note = isRingMinus1 ? ` Combinación −1/8.5: se exigía score ≥ ${required.toFixed(2)} (×${thRing1.toFixed(1)} por ser la más agresiva).` : '';
+        why = `Score (${score.toFixed(2)}) ≥ umbral requerido${bbNote}: se sube al tope máximo de la fila — exigencia de ablación (${(horizComp*100).toFixed(0)}% horizontal, hipermetropía ${hyperopicComp.toFixed(2)} D).${ring1Note}`;
+        whyShort = isRingMinus1
+          ? `Combinación −1/8.5 — exigencia muy alta justificada (score ${score.toFixed(2)})`
+          : `Tope ampliado — exigencia horizontal alta (score ${score.toFixed(2)})`;
+      } else {
+        // Score justifica idx=0 genérico pero no la combinación -1/8.5 extra-agresiva
+        why = `Score (${score.toFixed(2)}) ≥ umbral general (${effThreshold.toFixed(2)}) pero no alcanza el umbral extra para −1/8.5 (${required.toFixed(2)} = ${effThreshold.toFixed(2)}×${thRing1.toFixed(1)}). Se mantiene la combinación mediana de la fila K=${kRow}.`;
+        whyShort = `Combinación mediana — score insuficiente para −1/8.5`;
+      }
+    } else {
+      const bbNote = bb < 12 ? ` (con BB=${bb.toFixed(1)} mm se exigía score ≥ ${effThreshold.toFixed(2)})` : '';
+      why = `Score (${score.toFixed(2)}) por debajo del umbral requerido${bbNote}. Se mantiene la combinación mediana (tope≈8) de la fila K=${kRow}.`;
+      whyShort = `Combinación mediana de la fila K=${kRow}`;
+    }
+  }
+
+  const chosen = rows[idx];
+
+  const ringStr = (chosen.ring > 0 ? '+' : '') + chosen.ring;
+  const stopStr = chosen.stop.toFixed(1).replace('.0','').replace('.',',');
+  buildSelects('selRing','selStop', rows, chosen.ring, chosen.stop);
+  REC['score'] = score; REC['bb'] = bb;
+  renderRiskPanel('riskPanel', chosen.ring, chosen.stop, score, bb);
+  $('recoWhy').innerHTML = why;
+  $('recoWhyShort').textContent = whyShort;
+
+  if (khorizRounded < K_MIN || khorizRounded > K_MAX){
+    rowFlagText = `K horizontal calculada (${khoriz.toFixed(2)} D) está fuera del rango de la tabla (${K_MIN}–${K_MAX} D). Se ha usado el límite ${kRow} D — revisa el caso manualmente.`;
+  }
+  if (chosen.flagged){
+    rowFlagText += (rowFlagText? ' · ' : '') + `K=45, opción central: el nomograma del fabricante usa tope 7,5 aquí (no 8 como en el resto de filas de 3 opciones) — es una excepción real del documento original, no un error de transcripción.`;
+  }
+  $('rowFlag').style.display = rowFlagText ? 'block' : 'none';
+  $('rowFlag').textContent = rowFlagText;
+
+  // table render
+  const tbody = $('nomoBody');
+  tbody.innerHTML = '';
+  rows.forEach((r,i)=>{
+    const tr = document.createElement('tr');
+    if (i === idx) tr.className = 'selected';
+    tr.innerHTML = `<td>${r.ring>0?'+':''}${r.ring}</td><td>${r.stop.toFixed(1).replace('.',',')}</td><td>${r.flap.toFixed(1).replace('.',',')}</td><td>${r.stroma.toFixed(1).replace('.',',')}</td><td>${r.hinge.toFixed(1).replace('.',',')}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  drawDial(rax, horizComp);
+  drawAblationShape('ablationSvg', sph, cyl, rax, hyperopicComp);
+
+  // ---- Ambos ojos (OD/OI) ----
+  if (eyeMode === 'both'){
+    const P = {wCyl, cylExp, wHypStop, wHypRound, roundBias, roundSens, bbFloor, bbMult, thHigh, thRing1};
+    const od = computeEyeAO('_od', P);
+    const oi = computeEyeAO('_oi', P);
+    const sameCombo = (a, b) => a.ring === b.ring && a.stop === b.stop;
+
+    // Combo de cada ojo con su propia K (sin forzar ninguna unificación)
+    const odOwnPick = pickIdxAndLookup(od.ownRow, od.bb, od.score, P);
+    const oiOwnPick = pickIdxAndLookup(oi.ownRow, oi.bb, oi.score, P);
+
+    let odFinal = odOwnPick;
+    let oiFinal = oiOwnPick;
+    let advisory = '';
+
+    // Solo tiene sentido plantear la unificación de filas si los ojos caen en filas distintas
+    // Y solo tiene sentido el aviso/descentramiento si el resultado unificado es la MISMA combo
+    if (od.ownRow !== oi.ownRow && !sameCombo(odOwnPick.chosen, oiOwnPick.chosen)){
+      const lowRow  = Math.min(od.ownRow, oi.ownRow);
+      const highRow = Math.max(od.ownRow, oi.ownRow);
+      const combinedDrive = (od.roundDrive + oi.roundDrive) / 2;
+      const unified = combinedDrive >= 0 ? highRow : lowRow;
+      const odUnifiedPick = pickIdxAndLookup(unified, od.bb, od.score, P);
+      const oiUnifiedPick = pickIdxAndLookup(unified, oi.bb, oi.score, P);
+
+      if (sameCombo(odUnifiedPick.chosen, oiUnifiedPick.chosen)){
+        // La unificación da la misma combo para ambos → tiene sentido aplicarla y avisar
+        odFinal = odUnifiedPick;
+        oiFinal = oiUnifiedPick;
+        const highEye = od.ownRow > oi.ownRow ? 'OD' : 'OI';
+        const lowEye  = od.ownRow < oi.ownRow ? 'OD' : 'OI';
+        if (unified === lowRow){
+          advisory = `K horizontal distinta entre ojos (OD fila ${od.ownRow} · OI fila ${oi.ownRow}): se unifica a la fila ${lowRow} (más conservadora) para que ambos usen la misma combinación. Se recomienda un ligero descentramiento del anillo en ${highEye} (K más alta).`;
+        } else {
+          advisory = `K horizontal distinta entre ojos (OD fila ${od.ownRow} · OI fila ${oi.ownRow}): se unifica a la fila ${highRow} para que ambos usen la misma combinación. Se recomienda no descentrar demasiado el anillo en ${lowEye} (K más baja).`;
+        }
+      }
+      // Si la unificación daría combos distintas de todos modos, cada ojo va con su propia K —
+      // no hay unificación ni aviso: el tratamiento ya es diferente por otros motivos (BB, score…)
+    }
+
+    const ringTxt = (rg) => (rg.ring > 0 ? '+' : '') + rg.ring;
+    const odRows = findRowOption(odFinal.kRow || od.ownRow).rows;
+    const oiRows = findRowOption(oiFinal.kRow || oi.ownRow).rows;
+    buildSelects('selRingOD','selStopOD', odRows, odFinal.chosen.ring, odFinal.chosen.stop);
+    buildSelects('selRingOI','selStopOI', oiRows, oiFinal.chosen.ring, oiFinal.chosen.stop);
+    REC['scoreOD'] = od.score; REC['bbOD'] = od.bb;
+    REC['scoreOI'] = oi.score; REC['bbOI'] = oi.bb;
+    renderRiskPanel('riskOD', odOwnPick.chosen.ring, odOwnPick.chosen.stop, od.score, od.bb);
+    renderRiskPanel('riskOI', oiOwnPick.chosen.ring, oiOwnPick.chosen.stop, oi.score, oi.bb);
+    drawAblationShape('ablationSvgOD', od.sph, od.cyl, od.rax, od.hyperopicComp);
+    drawAblationShape('ablationSvgOI', oi.sph, oi.cyl, oi.rax, oi.hyperopicComp);
+    $('aoAdvisory').style.display = advisory ? 'block' : 'none';
+    $('aoAdvisory').textContent = advisory;
+  }
+}
+
+// Forma orientativa de la ablación: elipse alargada en el eje plano (axis), con halo si hay
+// componente hiperópico (necesita espacio en todos los ejes, no solo el horizontal).
+function drawAblationShape(svgId, sph, cyl, axis, hyperComp){
+  const svg = $(svgId);
+  if (!svg) return;
+  const vb = svg.viewBox.baseVal;
+  const cx = vb.width/2, cy = vb.height/2;
+  const R0 = vb.width * 0.24;
+  const amp = clamp(Math.abs(cyl) * (vb.width*0.028), 0, R0*0.55);
+  const a = R0 + amp, b = R0 - amp;
+  const se = sph + cyl/2;
+  const isHyper = se > 0.05;
+  const isMyope = se < -0.05;
+  const fill = isHyper ? 'rgba(212,131,10,0.18)' : isMyope ? 'rgba(61,90,128,0.18)' : 'rgba(122,154,176,0.18)';
+  const stroke = isHyper ? '#d4830a' : '#3d5a80';
+  let html = '';
+  html += `<line x1="${cx-R0-vb.width*0.12}" y1="${cy}" x2="${cx+R0+vb.width*0.12}" y2="${cy}" stroke="#c2d0e0" stroke-width="1" stroke-dasharray="2,2"/>`;
+  if (hyperComp > 0.05){
+    const haloR = R0 + vb.width*0.07 + Math.min(hyperComp,6)*(vb.width*0.02);
+    html += `<circle cx="${cx}" cy="${cy}" r="${haloR}" fill="none" stroke="${stroke}" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.55"/>`;
+  }
+  html += `<ellipse cx="${cx}" cy="${cy}" rx="${a}" ry="${b}" fill="${fill}" stroke="${stroke}" stroke-width="2" transform="rotate(${axis} ${cx} ${cy})"/>`;
+  svg.innerHTML = html;
+}
+
+function drawDial(axis, horizComp){
+  const svg = $('dialSvg');
+  const cx = 160, cy = 165, r = 130;
+  let html = '';
+
+  // background arc band showing cos^2 weighting (darker = more horizontal weight)
+  const steps = 60;
+  for (let i=0; i<steps; i++){
+    const a0 = 180 * i/steps;
+    const a1 = 180 * (i+1)/steps;
+    const mid = deg2rad((a0+a1)/2);
+    const w = Math.pow(Math.cos(mid), 2);
+    const col = `rgba(30,138,138,${0.06 + 0.30*w})`;
+    const p0 = polar(cx,cy,r,a0);
+    const p1 = polar(cx,cy,r,a1);
+    const p2 = polar(cx,cy,r-22,a1);
+    const p3 = polar(cx,cy,r-22,a0);
+    html += `<path d="M${p0.x},${p0.y} A${r},${r} 0 0,0 ${p1.x},${p1.y} L${p2.x},${p2.y} A${r-22},${r-22} 0 0,1 ${p3.x},${p3.y} Z" fill="${col}" stroke="none"/>`;
+  }
+
+  // baseline
+  html += `<line x1="${cx-r}" y1="${cy}" x2="${cx+r}" y2="${cy}" stroke="#c2d0e0" stroke-width="1"/>`;
+  html += `<text x="${cx-r-6}" y="${cy+4}" text-anchor="end" class="dial-label">180°</text>`;
+  html += `<text x="${cx+r+6}" y="${cy+4}" text-anchor="start" class="dial-label">0°</text>`;
+  html += `<text x="${cx}" y="${cy-r-8}" text-anchor="middle" class="dial-label">90° (vertical)</text>`;
+
+  // needle
+  const ang = 180 - clamp(axis,0,180);
+  const tip = polar(cx,cy,r-10,ang);
+  html += `<line x1="${cx}" y1="${cy}" x2="${tip.x}" y2="${tip.y}" stroke="#3d5a80" stroke-width="2.5"/>`;
+  html += `<circle cx="${cx}" cy="${cy}" r="4" fill="#3d5a80"/>`;
+  html += `<text x="${cx}" y="${cy+22}" text-anchor="middle" class="dial-label" style="font-size:.7rem;fill:#1a2b3c;font-weight:600;">eje ${Math.round(axis)}° · ${(horizComp*100).toFixed(0)}% horizontal</text>`;
+
+  svg.innerHTML = html;
+}
+
+function polar(cx,cy,r,angDeg){
+  const a = deg2rad(angDeg);
+  return { x: cx - r*Math.cos(a), y: cy - r*Math.sin(a) };
+}
+
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', render));
+$('modeK12').addEventListener('click', ()=> setMode('k12'));
+$('modeAvg').addEventListener('click', ()=> setMode('avg'));
+$('modeK12AO').addEventListener('click', ()=> setModeAO('k12'));
+$('modeAvgAO').addEventListener('click', ()=> setModeAO('avg'));
+
+// Reset: restaura la combinación recomendada por el algoritmo
+$('resetSel').addEventListener('click', ()=>{
+  if(REC.selRing!=null){ $('selRing').value = REC.selRing; }
+  if(REC.selStop!=null){ $('selStop').value = REC.selStop; }
+  triggerRisk('selRing','selStop');
+});
+document.querySelectorAll('.reset-btn[data-reset]').forEach(btn => {
+  btn.addEventListener('click', ()=>{
+    const eye = btn.dataset.reset;  // 'OD' | 'OI'
+    const rId = `selRing${eye}`, sId = `selStop${eye}`;
+    if(REC[rId]!=null){ $(rId).value = REC[rId]; }
+    if(REC[sId]!=null){ $(sId).value = REC[sId]; }
+    triggerRisk(rId, sId);
+  });
+});
+$('paramsToggle').addEventListener('click', ()=>{
+  $('paramsBody').classList.toggle('open');
+});
+$('eyeModeToggle').addEventListener('click', ()=>{
+  setEyeMode(eyeMode === 'both' ? 'one' : 'both');
+});
+$('viewToggle').addEventListener('click', ()=>{
+  const isSimple = document.body.classList.contains('simple');
+  if (isSimple){
+    document.body.classList.remove('simple');
+    $('viewToggle').textContent = 'Vista simple ▴';
+  } else {
+    document.body.classList.add('simple');
+    $('viewToggle').textContent = 'Vista avanzada ▾';
+  }
+});
+
+render();
+</script>
+</body>
+</html>
