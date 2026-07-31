@@ -286,6 +286,30 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 .jfi-bar-r{height:100%;background:#c97b5a;border-radius:3px;}
 .jfi-bv{width:28px;text-align:right;color:var(--text3);flex-shrink:0;}
 .jfi-msg{font-size:.68rem;color:var(--text2);line-height:1.4;}
+/* ── Vista unificada AO: ambos ojos + nariz ── */
+.ao-face{
+  position:relative;
+  display:flex; align-items:center; justify-content:center; gap:2px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px 12px 22px;
+  margin-bottom:10px;
+}
+.ao-face .ablation-svg-eye{ width:100%; max-width:170px; height:auto; display:block; }
+.ao-face .ao-nose{ width:56px; height:150px; flex:0 0 auto; align-self:center; object-fit:contain; opacity:0.55; transform:translateY(14px); }
+.ao-corner-tag{
+  position:absolute; top:7px;
+  font-size:.7rem; font-weight:700; letter-spacing:.09em;
+  color:var(--primary); text-transform:uppercase;
+}
+.ao-corner-tag.left{ left:12px; }
+.ao-corner-tag.right{ right:12px; }
+@media (max-width:520px){
+  .ao-face{ gap:0; padding:12px 6px 8px; }
+  .ao-face .ao-nose{ width:38px; height:108px; transform:translateY(10px); }
+}
 .ao-eye-tag{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);font-weight:700;margin-bottom:2px;}
 .ao-advisory{
   margin-top:10px;font-size:.72rem;color:#9a5a1a;border-left:2px solid #d4830a;
@@ -554,7 +578,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
               <button id="sideOI" style="padding:3px 10px;font-size:.62rem;">OI</button>
             </div>
           </div>
-          <div class="ablation-legend">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal, punto gris). Diámetro fijo según tipo (miopía ≈8mm, hipermetropía/cilindro ≈9mm); la opacidad indica la profundidad. El círculo punteado es el lentículo previsto, con hueco en la bisagra nasal.</div>
+          <div class="ablation-legend">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal). Diámetro fijo según tipo (miopía ≈8mm, hipermetropía/cilindro ≈9mm); la opacidad indica la profundidad.</div>
         </div>
         <div class="result-top">
           <div class="stat"><div class="v" id="statHorizComp">—</div><div class="l">% horizontal (cos²eje)</div></div>
@@ -593,10 +617,15 @@ input[type=range]{width:100%;accent-color:var(--accent);}
       </div>
 
       <div id="aoResult">
+        <div class="ao-face">
+          <span class="ao-corner-tag left">OD</span>
+          <span class="ao-corner-tag right">OI</span>
+          <svg class="ablation-svg-eye" viewBox="0 0 100 100" id="ablationSvgOD"></svg>
+          <img class="ao-nose" src="nariz.png" alt="" aria-hidden="true">
+          <svg class="ablation-svg-eye" viewBox="0 0 100 100" id="ablationSvgOI"></svg>
+        </div>
         <div class="ao-reco-grid">
           <div class="reco">
-            <div class="ao-eye-tag">OD</div>
-            <svg class="ablation-svg-sm" viewBox="0 0 100 100" id="ablationSvgOD"></svg>
             <div class="sel-combo ao-sel">
               <select id="selRingOD" class="combo-sel sm"></select>
               <span class="sel-sep">/</span>
@@ -606,8 +635,6 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             <div id="riskOD" class="risk-panel sm"></div>
           </div>
           <div class="reco">
-            <div class="ao-eye-tag">OI</div>
-            <svg class="ablation-svg-sm" viewBox="0 0 100 100" id="ablationSvgOI"></svg>
             <div class="sel-combo ao-sel">
               <select id="selRingOI" class="combo-sel sm"></select>
               <span class="sel-sep">/</span>
@@ -617,7 +644,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             <div id="riskOI" class="risk-panel sm"></div>
           </div>
         </div>
-        <div class="ablation-legend adv-hide" style="text-align:center;max-width:none;margin-top:8px;">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal, punto gris). Diámetro fijo según tipo (miopía ≈8mm, hipermetropía/cilindro ≈9mm); la opacidad indica la profundidad.</div>
+        <div class="ablation-legend adv-hide" style="text-align:center;max-width:none;margin-top:8px;">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal). Diámetro fijo según tipo (miopía ≈8mm, hipermetropía/cilindro ≈9mm); la opacidad indica la profundidad.</div>
         <div class="ao-advisory" id="aoAdvisory" style="display:none;"></div>
       </div>
     </div>
@@ -1566,8 +1593,7 @@ function drawAblationShape(svgId, sph, cyl, axis, hyperComp, bb, flapMm, hingeSi
   const pcy = cy;
 
   // Pupila (fotópica ~3 mm Ø) en su posición real, desplazada a nasal
-  html += `<circle cx="${pcx.toFixed(2)}" cy="${pcy}" r="${(PUPIL_DIAM_MM/2*MM_TO_PX).toFixed(2)}" fill="rgba(30,40,55,0.14)" stroke="#2b3a4a" stroke-width="1" stroke-opacity="0.5"/>`;
-  html += `<circle cx="${cx}" cy="${cy}" r="1.3" fill="#5a7a94" opacity="0.55"/>`;
+  html += `<circle cx="${pcx.toFixed(2)}" cy="${pcy}" r="${(PUPIL_DIAM_MM/2*MM_TO_PX).toFixed(2)}" fill="none" stroke="#b8c6d4" stroke-width="0.8" stroke-opacity="0.35" stroke-dasharray="1.5,2"/>`;
 
   if (type === 'myopic'){
     // Disco central, diámetro ~fijo (8mm-equivalente); solo se elonga levemente en el eje
