@@ -218,6 +218,10 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 .eye-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .eye-block{border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 9px;background:var(--surface2);}
 .eye-block h3{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin:0 0 6px;font-weight:700;}
+.eye-grid .eye-block:last-child h3{text-align:right;}
+.field-inline{display:flex;align-items:center;gap:6px;}
+.field-inline label{margin-bottom:0;white-space:nowrap;flex-shrink:0;}
+.field-inline input{flex:1;min-width:0;}
 .ao-reco-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .ao-reco-grid .reco{margin-bottom:0;padding:10px 12px;}
 .ao-reco-grid .reco-main .combo{font-size:1.7rem;}
@@ -312,7 +316,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
     <div>
       <div id="singleEyeInputs" style="display:none;">
       <div class="card" style="margin-bottom:18px;">
-        <h2>Queratometría</h2>
+        <h2>Medidas</h2>
         <div class="pill-toggle" style="margin-bottom:14px;">
           <button id="modeK12">K1 / K2</button>
           <button id="modeAvg" class="active">K media + Cil + eje</button>
@@ -326,7 +330,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             </div>
             <div class="field">
               <label>Eje de K1 (°)</label>
-              <input type="number" step="1" id="ax1" value="180">
+              <input type="number" step="1" min="0" max="180" id="ax1" value="180">
             </div>
           </div>
           <div class="field-row">
@@ -339,7 +343,6 @@ input[type=range]{width:100%;accent-color:var(--accent);}
               <input type="number" id="ax2" value="0" disabled style="opacity:.55;cursor:not-allowed;">
             </div>
           </div>
-          <div class="hint">K1 y K2 son las dos lecturas perpendiculares del queratómetro/topógrafo, en cualquier orden. El eje de K2 se fija automáticamente a 90° del de K1 y no es editable.</div>
           <div class="flag" id="k12Warning" style="display:none;">K1 debería ser la K más plana (la de menor potencia) y K2 la más curva. Con los valores actuales K1 &gt; K2 — revisa cuál lectura va en cada campo.</div>
         </div>
 
@@ -355,11 +358,14 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             </div>
             <div class="field">
               <label>Eje (°)</label>
-              <input type="number" step="1" id="kax" value="180">
+              <input type="number" step="1" min="0" max="180" id="kax" value="180">
             </div>
           </div>
-          <div class="hint">K media = (K1+K2)/2. El cilindro K siempre se expresa en negativo (igual que el de refracción): el eje introducido es el del meridiano plano (K1), y K2 (a 90°) sale más curva automáticamente. Si lo metes en positivo, se convierte solo.</div>
           <div class="flag" id="kCylNote" style="display:none;"></div>
+        </div>
+        <div class="field field-inline" style="margin-top:8px;">
+          <label>BB (mm)</label>
+          <input type="number" step="0.1" id="bb" value="11.6">
         </div>
       </div>
 
@@ -376,28 +382,17 @@ input[type=range]{width:100%;accent-color:var(--accent);}
           </div>
           <div class="field">
             <label>Eje (°)</label>
-            <input type="number" step="1" id="rax" value="180">
+            <input type="number" step="1" min="0" max="180" id="rax" value="180">
           </div>
         </div>
         <div class="hint" id="cylConvertNote" style="display:none;"></div>
-      </div>
-
-      <div class="card brass">
-        <h2>White-to-white</h2>
-        <div class="field-row">
-          <div class="field">
-            <label>BB (mm)</label>
-            <input type="number" step="0.1" id="bb" value="11.6">
-          </div>
-        </div>
-
       </div>
 
       </div>
 
       <div id="bothEyesInputs">
         <div class="card" style="margin-bottom:18px;">
-          <h2>Queratometría — OD / OI</h2>
+          <h2>Medidas — OD / OI</h2>
           <div class="pill-toggle" style="margin-bottom:10px;">
             <button id="modeK12AO">K1 / K2</button>
             <button id="modeAvgAO" class="active">K media + Cil + eje</button>
@@ -412,7 +407,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
                 </div>
                 <div class="field-row">
                   <div class="field"><label>Cil. K (D)</label><input type="number" step="0.1" id="kcyl_od" value="-1.0" max="0"></div>
-                  <div class="field"><label>Eje (°)</label><input type="number" step="1" id="kax_od" value="180"></div>
+                  <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="kax_od" value="180"></div>
                 </div>
               </div>
               <div class="eye-block">
@@ -422,7 +417,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
                 </div>
                 <div class="field-row">
                   <div class="field"><label>Cil. K (D)</label><input type="number" step="0.1" id="kcyl_oi" value="-1.0" max="0"></div>
-                  <div class="field"><label>Eje (°)</label><input type="number" step="1" id="kax_oi" value="180"></div>
+                  <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="kax_oi" value="180"></div>
                 </div>
               </div>
             </div>
@@ -434,7 +429,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
                 <h3>OD</h3>
                 <div class="field-row">
                   <div class="field"><label>K1 plana (D)</label><input type="number" step="0.1" id="k1_od" value="42.5"></div>
-                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" id="ax1_od" value="180"></div>
+                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" min="0" max="180" id="ax1_od" value="180"></div>
                 </div>
                 <div class="field-row">
                   <div class="field"><label>K2 curva (D)</label><input type="number" step="0.1" id="k2_od" value="43.5"></div>
@@ -446,7 +441,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
                 <h3>OI</h3>
                 <div class="field-row">
                   <div class="field"><label>K1 plana (D)</label><input type="number" step="0.1" id="k1_oi" value="42.5"></div>
-                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" id="ax1_oi" value="180"></div>
+                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" min="0" max="180" id="ax1_oi" value="180"></div>
                 </div>
                 <div class="field-row">
                   <div class="field"><label>K2 curva (D)</label><input type="number" step="0.1" id="k2_oi" value="43.5"></div>
@@ -454,6 +449,14 @@ input[type=range]{width:100%;accent-color:var(--accent);}
                 </div>
                 <div class="flag" id="k12WarningOI" style="display:none;">K1 &gt; K2 — revisa los campos.</div>
               </div>
+            </div>
+          </div>
+          <div class="eye-grid" style="margin-top:8px;">
+            <div class="eye-block">
+              <div class="field field-inline"><label>BB OD (mm)</label><input type="number" step="0.1" id="bb_od" value="11.6"></div>
+            </div>
+            <div class="eye-block">
+              <div class="field field-inline"><label>BB OI (mm)</label><input type="number" step="0.1" id="bb_oi" value="11.6"></div>
             </div>
           </div>
           <div class="hint">Cilindro K siempre negativo (eje = meridiano plano). K horizontal calculada sobre Kmedia en ambos modos.</div>
@@ -465,40 +468,26 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             <div class="eye-block">
               <h3>OD</h3>
               <div class="field-row">
-                <div class="field"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_od" value="-2.00"></div>
+                <div class="field field-inline"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_od" value="-2.00"></div>
               </div>
               <div class="field-row">
                 <div class="field"><label>Cil. (D)</label><input type="number" step="0.25" id="cyl_od" value="-2.00" max="0"></div>
-                <div class="field"><label>Eje (°)</label><input type="number" step="1" id="rax_od" value="180"></div>
+                <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="rax_od" value="180"></div>
               </div>
             </div>
             <div class="eye-block">
               <h3>OI</h3>
               <div class="field-row">
-                <div class="field"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_oi" value="-2.00"></div>
+                <div class="field field-inline"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_oi" value="-2.00"></div>
               </div>
               <div class="field-row">
                 <div class="field"><label>Cil. (D)</label><input type="number" step="0.25" id="cyl_oi" value="-2.00" max="0"></div>
-                <div class="field"><label>Eje (°)</label><input type="number" step="1" id="rax_oi" value="180"></div>
+                <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="rax_oi" value="180"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="card brass">
-          <h2>White-to-white — OD / OI</h2>
-          <div class="eye-grid">
-            <div class="eye-block">
-              <h3>OD</h3>
-              <div class="field"><label>BB (mm)</label><input type="number" step="0.1" id="bb_od" value="11.6"></div>
-            </div>
-            <div class="eye-block">
-              <h3>OI</h3>
-              <div class="field"><label>BB (mm)</label><input type="number" step="0.1" id="bb_oi" value="11.6"></div>
-            </div>
-          </div>
-          
-        </div>
       </div>
 
       <div class="card" style="margin-top:18px;display:none;">
@@ -558,8 +547,14 @@ input[type=range]{width:100%;accent-color:var(--accent);}
           <svg class="dial" viewBox="0 0 320 190" id="dialSvg"></svg>
         </div>
         <div class="ablation-wrap">
-          <svg class="ablation-svg" viewBox="0 0 140 140" id="ablationSvg"></svg>
-          <div class="ablation-legend">Forma orientativa de la ablación: se alarga en el eje plano. Azul=miopía, naranja=hipermetropía (halo=zona ampliada en todos los ejes).</div>
+          <div>
+            <svg class="ablation-svg" viewBox="0 0 140 140" id="ablationSvg"></svg>
+            <div class="pill-toggle" style="width:fit-content;margin:4px auto 0;">
+              <button id="sideOD" class="active" style="padding:3px 10px;font-size:.62rem;">OD</button>
+              <button id="sideOI" style="padding:3px 10px;font-size:.62rem;">OI</button>
+            </div>
+          </div>
+          <div class="ablation-legend">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal, punto gris). Diámetro fijo según tipo (miopía ≈8mm, hipermetropía/cilindro ≈9mm); la opacidad indica la profundidad. El círculo punteado es el lentículo previsto, con hueco en la bisagra nasal.</div>
         </div>
         <div class="result-top">
           <div class="stat"><div class="v" id="statHorizComp">—</div><div class="l">% horizontal (cos²eje)</div></div>
@@ -622,7 +617,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
             <div id="riskOI" class="risk-panel sm"></div>
           </div>
         </div>
-        <div class="ablation-legend adv-hide" style="text-align:center;max-width:none;margin-top:8px;">Forma orientativa de la ablación, alargada en el eje plano. Azul=miopía, naranja=hipermetropía (halo=zona ampliada en todos los ejes).</div>
+        <div class="ablation-legend adv-hide" style="text-align:center;max-width:none;margin-top:8px;">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal, punto gris). Diámetro fijo según tipo (miopía ≈8mm, hipermetropía/cilindro ≈9mm); la opacidad indica la profundidad.</div>
         <div class="ao-advisory" id="aoAdvisory" style="display:none;"></div>
       </div>
     </div>
@@ -729,6 +724,7 @@ function normalizeCylNegative(sph, cyl, ax){
 
 let kMode = 'avg'; // 'k12' | 'avg'
 let eyeMode = 'both'; // 'one' | 'both'
+let singleEyeSide = 'OD'; // 'OD' | 'OI' — solo para el modo de un ojo, determina el lado de la bisagra nasal
 let kModeAO = 'avg'; // 'avg' | 'k12'
 
 function setModeAO(mode){
@@ -755,21 +751,21 @@ function setEyeMode(mode){
 // LC: lentículo completo (free flap). BA: bisagra ancha (solo datos Baviera Italia).
 // key: "ring_stop.decimal"
 const RISK = {
-  '-1_8.5': {n:10705, lc:4.52, ba:0.09},  // ⚠ riesgo alto confirmado
-  '-1_8.0': {n:25785, lc:1.26, ba:0.26},
-  '-1_7.5': {n: 1163, lc:0.60, ba:null},   // BA: sin datos suficientes
-  '0_8.5':  {n:18980, lc:1.47, ba:0.05},
-  '0_8.0':  {n:67845, lc:0.46, ba:0.15},
-  '0_7.5':  {n: 3444, lc:0.23, ba:0.98},
-  '1_8.5':  {n: 3942, lc:0.58, ba:0.00},
-  '1_8.0':  {n:110650, lc:0.18, ba:0.18},
-  '1_7.5':  {n: 3813, lc:0.13, ba:1.62},
-  '2_8.5':  {n:  310, lc:11.61, ba:0.00}, // n bajo, IC amplio — K curva muy agresivo
-  '2_8.0':  {n:14932, lc:1.79, ba:0.38},
-  '2_7.5':  {n:29723, lc:0.20, ba:0.75},
+  '-1_8.5': {n: 9423, lc:4.754, ba:0.09},  // ⚠ riesgo alto confirmado
+  '-1_8.0': {n:21142, lc:1.112, ba:0.26},
+  '-1_7.5': {n: 1106, lc:0.633, ba:null},   // BA: sin datos suficientes
+  '0_8.5':  {n:16663, lc:1.518, ba:0.05},
+  '0_8.0':  {n:60287, lc:0.411, ba:0.15},
+  '0_7.5':  {n: 3020, lc:0.232, ba:0.98},
+  '1_8.5':  {n: 3425, lc:0.672, ba:0.00},
+  '1_8.0':  {n:100146, lc:0.175, ba:0.18},
+  '1_7.5':  {n: 3638, lc:0.110, ba:1.62},
+  '2_8.5':  {n:  361, lc:11.357, ba:0.00}, // n bajo, IC amplio — K curva muy alto
+  '2_8.0':  {n:14682, lc:1.764, ba:0.38},
+  '2_7.5':  {n:27506, lc:0.196, ba:0.75},
   '3_8.5':  null,
-  '3_8.0':  {n:  193, lc:0.52, ba:null},   // n bajo
-  '3_7.5':  {n: 1850, lc:0.05, ba:null},
+  '3_8.0':  {n:  261, lc:0.383, ba:null},   // n bajo
+  '3_7.5':  {n: 1916, lc:0.052, ba:null},
   '2_9.0':  null,
 };
 // ── Escala dinámica de barras: basada en el máximo real del dataset (n≥500) + margen
@@ -777,13 +773,63 @@ const RISK = {
 const REC = { selRing:null, selStop:null, selRingOD:null, selStopOD:null, selRingOI:null, selStopOI:null };
 
 function riskKey(ring, stop){ return `${ring}_${stop.toFixed(1)}`; }
+
+// El ANILLO determina el diámetro del lentículo (-1 el más grande, +3 el más pequeño), y para
+// un mismo anillo el flap es mayor en córneas curvas y menor en planas: +0.3mm por cada unidad
+// de K, confirmado en la tabla (p.ej. ring0/stop8: K41→9.5, K42→9.8 — mismo anillo y tope, solo
+// cambia K). El TOPE determina el tamaño de BISAGRA para un mismo anillo y córnea (es la
+// distancia desde el lado temporal hasta donde se detiene el corte): tope menor → bisagra menor.
+const FLAP_K_SLOPE = 0.3;               // mm de flap por unidad de K, a igual anillo
+const HINGE_STOP_OFFSET = {9.0:0.2, 8.5:0.1, 8.0:0.0, 7.5:-0.2}; // mm de bisagra respecto a tope=8.0
+
+// Busca en toda la tabla (39-49) las filas que usan un anillo dado, para poder extrapolar
+// el flap/bisagra de ese anillo a una K donde el nomograma real no lo ofrece.
+function findRingReferences(ring){
+  const out = [];
+  for (let k = K_MIN; k <= K_MAX; k++){
+    const rows = NOMO[k];
+    if (!rows) continue;
+    const r = rows.find(rr => rr.ring === ring);
+    if (r) out.push({k, stop: r.stop, flap: r.flap, hinge: r.hinge, stroma: r.stroma});
+  }
+  return out;
+}
+
+// Devuelve {flap, hinge, exact} para una combinación (kRow, ring, stop) cualquiera.
+// Si la combinación existe tal cual en el nomograma de esa fila, usa el dato real (exact=true).
+// Si no (p.ej. el cirujano explora un anillo o tope fuera del nomograma de esa K en los
+// desplegables), infiere: el flap a partir de la K más cercana que sí use ese anillo (ajustado
+// por FLAP_K_SLOPE), y la bisagra a partir de ese mismo anillo de referencia, ajustada por la
+// diferencia de tope (HINGE_STOP_OFFSET) — nunca mezclando el efecto de anillo y de tope.
+function inferFlapHinge(kRow, ring, stop){
+  const rows = NOMO[clamp(kRow, K_MIN, K_MAX)];
+  const exactRow = rows ? rows.find(r => r.ring === ring && Math.abs(r.stop - stop) < 0.01) : null;
+  if (exactRow) return {flap: exactRow.flap, hinge: exactRow.hinge, stroma: exactRow.stroma, exact: true, refStop: exactRow.stop, refHinge: exactRow.hinge};
+
+  const hOff = (s) => (HINGE_STOP_OFFSET[s] !== undefined ? HINGE_STOP_OFFSET[s] : (s-8.0)*0.3);
+  const refs = findRingReferences(ring);
+  if (!refs.length){
+    // Fallback improbable (todos los anillos -1..3 existen en algún K de la tabla)
+    if (!rows) return {flap: null, hinge: null, stroma: null, exact: false, refStop: stop, refHinge: null};
+    const ref = rows[0];
+    return {flap: ref.flap, hinge: ref.hinge, stroma: ref.stroma, exact: false, refStop: ref.stop, refHinge: ref.hinge};
+  }
+  refs.sort((a,b) => Math.abs(a.k-kRow) - Math.abs(b.k-kRow));
+  const ref = refs[0];
+  const flap  = ref.flap + FLAP_K_SLOPE * (kRow - ref.k);
+  const hinge = ref.hinge + hOff(stop) - hOff(ref.stop);
+  const stroma = (ref.stroma !== undefined && ref.stroma !== null)
+    ? ref.stroma + FLAP_K_SLOPE*(kRow - ref.k) + (stop - ref.stop)
+    : null;
+  return {flap: Math.round(flap*10)/10, hinge: Math.round(hinge*10)/10, stroma: stroma!==null?Math.round(stroma*10)/10:null, exact: false, refStop: ref.stop, refHinge: ref.hinge};
+}
 // Escala dinámica basada en el máximo real (n≥500) + margen
 const _lcVals = Object.values(RISK).filter(d=>d&&d.n>=500).map(d=>d.lc);
 const _baVals = Object.values(RISK).filter(d=>d&&d.ba!=null&&d.n>=500).map(d=>d.ba);
 const SCALE_LC = Math.max(..._lcVals) * 1.25;
 const SCALE_BA = Math.max(..._baVals) * 1.25;
 
-function renderRiskPanel(panelId, ring, stop, score, bb){
+function renderRiskPanel(panelId, ring, stop, score, bb, sph, cyl, kRow){
   const panel = $(panelId);
   if(!panel) return;
   const d = RISK[riskKey(ring, stop)];
@@ -808,7 +854,11 @@ function renderRiskPanel(panelId, ring, stop, score, bb){
   }
   let html = bar(d.lc, 0.5, 1.5, 'Completo', false) +
              bar(d.ba, 0.3, 0.8, 'B.ancha', d.ba === null);
-  if(score !== undefined && score !== null) html += buildJustificationIndex(ring, stop, score, bb);
+  const margin     = bedMarginMm(kRow, ring, stop, sph, cyl);
+  const marginBest = bestBedMarginMm(kRow, ring, sph, cyl);
+  const topeIdx = (score !== undefined && score !== null) ? buildJustificationIndex(ring, stop, score, bb, margin) : null;
+  const diamIdx = buildDiameterIndex(ring, sph, cyl, bb, margin, marginBest);
+  html += renderCombinedIndex(topeIdx, diamIdx);
   panel.innerHTML = html;
 }
 
@@ -820,9 +870,45 @@ const DEMAND_SCALE_JFI = 3.2;
 const SAFE_LC = 0.5;
 const I_SCALE = 6.0;
 
-function buildJustificationIndex(ring, stop, score, bb){
+// Diámetro (mm) que ocupa la ablación según el tipo de tratamiento: esfera miópica ≈8mm,
+// hipermetropía o cilindro ≈9mm; el cilindro alto alarga algo más el eje plano.
+function ablationDiameterMm(sph, cyl){
+  if (sph === undefined || sph === null || cyl === undefined || cyl === null) return null;
+  const t = classifyTreatment(sph, cyl);
+  const astig = Math.abs(cyl);
+  let base = (t === 'myopic') ? 8.0 : 9.0;
+  if (t === 'myopic' && astig >= 1.0) base = 8.0 + Math.min(1.0, (astig-1.0)*0.25);
+  return base;
+}
+
+// Margen (mm) entre el estroma disponible del lentículo y el diámetro que exige la ablación.
+// Negativo o muy justo ⇒ el lentículo es demasiado similar/menor que la ablación.
+function bedMarginMm(kRow, ring, stop, sph, cyl){
+  const need = ablationDiameterMm(sph, cyl);
+  if (need === null || kRow === undefined || kRow === null) return null;
+  const info = inferFlapHinge(kRow, ring, stop);
+  if (!info || info.stroma === null || info.stroma === undefined) return null;
+  return info.stroma - need;
+}
+
+// Mejor margen alcanzable SIN cambiar de anillo, es decir, subiendo el tope al máximo
+// disponible. Sirve para distinguir el origen del problema: si con un tope mayor el lecho
+// ya basta, el anillo es correcto y solo sobra decir que el tope se queda corto; el aviso
+// de diámetro insuficiente se reserva para cuando ni el tope máximo lo resuelve.
+function bestBedMarginMm(kRow, ring, sph, cyl){
+  const rows = NOMO[clamp(kRow, K_MIN, K_MAX)];
+  const stops = rows && rows.some(r => r.stop === 9.0) ? [9.0, 8.5, 8.0, 7.5] : [8.5, 8.0, 7.5];
+  let best = null;
+  stops.forEach(st => {
+    const m = bedMarginMm(kRow, ring, st, sph, cyl);
+    if (m !== null && (best === null || m > best)) best = m;
+  });
+  return best;
+}
+
+function buildJustificationIndex(ring, stop, score, bb, margin){
   const d = RISK[riskKey(ring, stop)];
-  if(!d) return '';
+  if(!d) return null;
 
   const dem      = Math.min(1, score / DEMAND_SCALE_JFI);
   const excessLC = Math.max(0, d.lc - SAFE_LC);
@@ -832,33 +918,98 @@ function buildJustificationIndex(ring, stop, score, bb){
 
   // Stop 7.5 deja poco estroma — demasiado conservador salvo ojo muy pequeño (BB<11)
   const smallBB       = (bb !== undefined && bb !== null && bb < 11);
-  const tooConservative = (stop <= 7.5 && !smallBB) || idx < -0.4;
-  const tooAggressive   = idx > 0.5;
+  // Si el lecho estromal del lentículo es igual o menor que la ablación, el tope se queda corto
+  const bedTight = (margin !== null && margin !== undefined && margin < 0.5);
+  const bedFail  = (margin !== null && margin !== undefined && margin < 0);
+  const tooConservative = (stop <= 7.5 && !smallBB) || idx < -0.4 || bedTight;
 
   // 5-level gradient: demasiado conservador ← algo conservador ← adecuado → algo agresivo → demasiado agresivo
   let cls, icon, phrase;
   if(idx > 10 || (tooConservative && idx > 0)){
-    // completo muy alto sin justificación, o agresivo en zona conservadora
     cls='jfi-bad'; icon='✕';
-    phrase='Tope demasiado agresivo para la ablación configurada';
+    phrase='tope demasiado alto';
   } else if(idx > 1.2){
     cls='jfi-warn'; icon='⚠';
-    phrase='Tope algo agresivo para la ablación configurada';
+    phrase='tope algo alto';
   } else if(tooConservative){
     cls = idx < -0.8 ? 'jfi-bad' : 'jfi-warn';
     icon = idx < -0.8 ? '✕' : '⚠';
-    phrase = idx < -0.8
-      ? 'Tope demasiado conservador para la ablación configurada'
-      : 'Tope algo conservador para la ablación configurada';
+    phrase = (idx < -0.8 || bedFail) ? 'tope demasiado bajo' : 'tope algo bajo';
+    if (bedFail){ cls='jfi-bad'; icon='✕'; }
   } else if(idx < -0.8){
     cls='jfi-bad'; icon='✕';
-    phrase='Tope demasiado conservador para la ablación configurada';
+    phrase='tope demasiado bajo';
   } else if(idx < -0.2){
     cls='jfi-warn'; icon='⚠';
-    phrase='Tope algo conservador para la ablación configurada';
+    phrase='tope algo bajo';
   } else {
     cls='jfi-ok'; icon='✓';
-    phrase='Tope adecuado a la ablación configurada';
+    phrase='tope adecuado';
+  }
+  return {cls, icon, phrase};
+}
+
+// ── Índice de idoneidad del DIÁMETRO (anillo) ──
+// Análogo al de tope, pero para el anillo elegido: valora si el diámetro del lentículo es
+// adecuado, o si es demasiado pequeño (hipermetropía/astigmatismo con BB que permitiría un
+// anillo mayor, pero se eligió uno pequeño) o demasiado grande (BB escaso que no lo admite
+// bien, o esfera miópica aislada/casi aislada sin astigmatismo que no justifica tanto diámetro).
+function buildDiameterIndex(ring, sph, cyl, bb, margin, marginBest){
+  if (sph === undefined || sph === null || cyl === undefined || cyl === null) return null;
+  const se = sph + cyl/2;
+  const astig = Math.abs(cyl);
+  const hyperopic = Math.max(0, se);
+  const demand = clamp(astig*0.5 + hyperopic*0.5, 0, 1);
+  const isIsolatedMyope = astig < 0.5 && se <= 0;
+  const bbGenerous = bb !== undefined && bb !== null && bb >= 12.0;
+  const bbTight    = bb !== undefined && bb !== null && bb < 11.6;
+
+  let cls, icon, phrase;
+  if (bbTight && ring <= 0){
+    cls = (bb < 11 && ring === -1) ? 'jfi-bad' : 'jfi-warn';
+    icon = cls === 'jfi-bad' ? '✕' : '⚠';
+    phrase = cls === 'jfi-bad' ? 'diámetro demasiado grande para el BB' : 'diámetro algo grande para el BB';
+  } else if (isIsolatedMyope && ring <= 0){
+    cls = ring === -1 ? 'jfi-bad' : 'jfi-warn';
+    icon = cls === 'jfi-bad' ? '✕' : '⚠';
+    phrase = cls === 'jfi-bad' ? 'diámetro demasiado grande para una esfera aislada' : 'diámetro algo grande para una esfera aislada';
+  } else if (marginBest !== null && marginBest !== undefined && marginBest < 0.5 && ring >= 0){
+    // Ni con el tope máximo el lecho llega a cubrir la ablación ⇒ el problema es el ANILLO.
+    // (Si con un tope mayor sí cabría, no se avisa aquí: lo indica el índice de tope.)
+    cls = marginBest < 0 ? 'jfi-bad' : 'jfi-warn';
+    icon = cls === 'jfi-bad' ? '✕' : '⚠';
+    phrase = marginBest < 0
+      ? 'diámetro insuficiente: hace falta un anillo mayor'
+      : 'diámetro escaso: el lentículo apenas supera la ablación';
+  } else if (demand >= 0.5 && bbGenerous && ring >= 2){
+    cls = ring === 3 ? 'jfi-bad' : 'jfi-warn';
+    icon = cls === 'jfi-bad' ? '✕' : '⚠';
+    phrase = cls === 'jfi-bad' ? 'diámetro demasiado pequeño para la necesidad' : 'diámetro algo pequeño para la necesidad';
+  } else {
+    cls='jfi-ok'; icon='✓';
+    phrase='diámetro adecuado';
+  }
+  return {cls, icon, phrase};
+}
+
+// Combina los dos índices (tope y diámetro) en una sola frase/línea.
+const SEVERITY = {'jfi-ok':0, 'jfi-warn':1, 'jfi-bad':2};
+function renderCombinedIndex(topeIdx, diamIdx){
+  if (!topeIdx && !diamIdx) return '';
+  const bothOk = (!topeIdx || topeIdx.cls==='jfi-ok') && (!diamIdx || diamIdx.cls==='jfi-ok');
+
+  let cls, icon, phrase;
+  if (bothOk){
+    cls='jfi-ok'; icon='✓'; phrase='Tope y diámetro adecuados';
+  } else {
+    // Muestra la(s) parte(s) que se desvían; si ambas se desvían, las une con " · "
+    const parts = [];
+    if (topeIdx && topeIdx.cls !== 'jfi-ok') parts.push(topeIdx.phrase);
+    if (diamIdx && diamIdx.cls !== 'jfi-ok') parts.push(diamIdx.phrase);
+    phrase = parts.length ? parts.join(' · ') : 'Tope y diámetro adecuados';
+    phrase = phrase.charAt(0).toUpperCase() + phrase.slice(1);
+    const worst = [topeIdx, diamIdx].filter(Boolean).reduce((a,b) => SEVERITY[b.cls] > SEVERITY[a.cls] ? b : a);
+    cls = worst.cls; icon = worst.icon;
   }
 
   return `<div class="jfi ${cls}" style="display:flex;align-items:center;gap:6px;padding:5px 8px;">
@@ -907,8 +1058,28 @@ function triggerRisk(selRingId, selStopId){
                  : selRingId === 'selRingOD' ? 'scoreOD' : 'scoreOI';
   const bbKey    = selRingId === 'selRing'   ? 'bb'
                  : selRingId === 'selRingOD' ? 'bbOD' : 'bbOI';
-  renderRiskPanel(panelId, ring, stop, REC[scoreKey], REC[bbKey]);
+  const sphKey   = selRingId === 'selRing'   ? 'sph'
+                 : selRingId === 'selRingOD' ? 'sphOD' : 'sphOI';
+  const cylKey   = selRingId === 'selRing'   ? 'cyl'
+                 : selRingId === 'selRingOD' ? 'cylOD' : 'cylOI';
+  const kRowKey = selRingId === 'selRing' ? 'kRow' : (selRingId === 'selRingOD' ? 'kRowOD' : 'kRowOI');
+  renderRiskPanel(panelId, ring, stop, REC[scoreKey], REC[bbKey], REC[sphKey], REC[cylKey], REC[kRowKey]);
   if(selRingId === 'selRing') highlightNomoRow(ring, stop);
+
+  // Redibuja la ablación + lentículo con la combinación EXACTA elegida a mano (no la
+  // recomendada por el algoritmo), infiriendo flap/bisagra si esa combinación no es una
+  // opción real del nomograma para esta K.
+  if (selRingId === 'selRing'){
+    const {flap, hinge, refStop, refHinge} = inferFlapHinge(REC.kRow, ring, stop);
+    drawAblationShape('ablationSvg', REC.sph, REC.cyl, REC.rax, 0, REC.bb, flap,
+      singleEyeSide === 'OD' ? 'right' : 'left', hinge, stop, refStop, refHinge);
+  } else if (selRingId === 'selRingOD'){
+    const {flap, hinge, refStop, refHinge} = inferFlapHinge(REC.kRowOD, ring, stop);
+    drawAblationShape('ablationSvgOD', REC.sphOD, REC.cylOD, REC.raxOD, 0, REC.bbOD, flap, 'right', hinge, stop, refStop, refHinge);
+  } else {
+    const {flap, hinge, refStop, refHinge} = inferFlapHinge(REC.kRowOI, ring, stop);
+    drawAblationShape('ablationSvgOI', REC.sphOI, REC.cylOI, REC.raxOI, 0, REC.bbOI, flap, 'left', hinge, stop, refStop, refHinge);
+  }
 }
 
 function highlightNomoRow(ring, stop){
@@ -1243,7 +1414,8 @@ function render(){
   const stopStr = chosen.stop.toFixed(1).replace('.0','').replace('.',',');
   buildSelects('selRing','selStop', rows, chosen.ring, chosen.stop);
   REC['score'] = score; REC['bb'] = bb;
-  renderRiskPanel('riskPanel', chosen.ring, chosen.stop, score, bb);
+  REC['sph'] = sph; REC['cyl'] = cyl; REC['rax'] = rax; REC['kRow'] = khorizRounded;
+  renderRiskPanel('riskPanel', chosen.ring, chosen.stop, score, bb, sph, cyl, khorizRounded);
   $('recoWhy').innerHTML = why;
   $('recoWhyShort').textContent = whyShort;
 
@@ -1267,7 +1439,7 @@ function render(){
   });
 
   drawDial(rax, horizComp);
-  drawAblationShape('ablationSvg', sph, cyl, rax, hyperopicComp);
+  drawAblationShape('ablationSvg', sph, cyl, rax, hyperopicComp, bb, chosen.flap, singleEyeSide === 'OD' ? 'right' : 'left', chosen.hinge, chosen.stop, chosen.stop, chosen.hinge);
 
   // ---- Ambos ojos (OD/OI) ----
   if (eyeMode === 'both'){
@@ -1316,39 +1488,234 @@ function render(){
     buildSelects('selRingOD','selStopOD', odRows, odFinal.chosen.ring, odFinal.chosen.stop);
     buildSelects('selRingOI','selStopOI', oiRows, oiFinal.chosen.ring, oiFinal.chosen.stop);
     REC['scoreOD'] = od.score; REC['bbOD'] = od.bb;
+    REC['sphOD'] = od.sph; REC['cylOD'] = od.cyl; REC['raxOD'] = od.rax; REC['kRowOD'] = odFinal.kRow;
     REC['scoreOI'] = oi.score; REC['bbOI'] = oi.bb;
-    renderRiskPanel('riskOD', odOwnPick.chosen.ring, odOwnPick.chosen.stop, od.score, od.bb);
-    renderRiskPanel('riskOI', oiOwnPick.chosen.ring, oiOwnPick.chosen.stop, oi.score, oi.bb);
-    drawAblationShape('ablationSvgOD', od.sph, od.cyl, od.rax, od.hyperopicComp);
-    drawAblationShape('ablationSvgOI', oi.sph, oi.cyl, oi.rax, oi.hyperopicComp);
+    REC['sphOI'] = oi.sph; REC['cylOI'] = oi.cyl; REC['raxOI'] = oi.rax; REC['kRowOI'] = oiFinal.kRow;
+    renderRiskPanel('riskOD', odOwnPick.chosen.ring, odOwnPick.chosen.stop, od.score, od.bb, od.sph, od.cyl, odOwnPick.kRow);
+    renderRiskPanel('riskOI', oiOwnPick.chosen.ring, oiOwnPick.chosen.stop, oi.score, oi.bb, oi.sph, oi.cyl, oiOwnPick.kRow);
+    drawAblationShape('ablationSvgOD', od.sph, od.cyl, od.rax, od.hyperopicComp, od.bb, odFinal.chosen.flap, 'right', odFinal.chosen.hinge, odFinal.chosen.stop, odFinal.chosen.stop, odFinal.chosen.hinge);
+    drawAblationShape('ablationSvgOI', oi.sph, oi.cyl, oi.rax, oi.hyperopicComp, oi.bb, oiFinal.chosen.flap, 'left', oiFinal.chosen.hinge, oiFinal.chosen.stop, oiFinal.chosen.stop, oiFinal.chosen.hinge);
     $('aoAdvisory').style.display = advisory ? 'block' : 'none';
     $('aoAdvisory').textContent = advisory;
   }
 }
 
-// Forma orientativa de la ablación: elipse alargada en el eje plano (axis), con halo si hay
-// componente hiperópico (necesita espacio en todos los ejes, no solo el horizontal).
-function drawAblationShape(svgId, sph, cyl, axis, hyperComp){
+// Clasifica el tipo de tratamiento según las potencias en los dos meridianos principales.
+// P_flat = potencia en el eje plano (=sph); P_steep = potencia en el eje curvo (=sph+cyl, cyl≤0).
+// Como cyl≤0, P_steep ≤ P_flat siempre.
+function classifyTreatment(sph, cyl){
+  const pFlat = sph, pSteep = sph + cyl;
+  if (pFlat <= 0.05) return 'myopic';      // ambos meridianos miópicos (o piano)
+  if (pSteep >= -0.05) return 'hyperopic'; // ambos meridianos hipermetrópicos (o piano)
+  return 'mixed';                          // un meridiano miope, el otro hipermétrope
+}
+
+// Transpone la refracción a notación de cilindro POSITIVO. Con cilindro positivo, la esfera
+// queda anclada al meridiano curvo (antes eje+90) y el cilindro añade progresivamente potencia
+// hacia el meridiano plano — así se piensa igual que el propio tratamiento del excimer: un
+// componente miope "semilla" en el eje curvo, más un componente hipermétrope que crece hacia
+// el eje plano. Esto simplifica mucho pensar la forma de la ablación en astigmatismos mixtos.
+function transposeToPlusCyl(sph, cyl, axis){
+  return {
+    sphP: sph + cyl,           // potencia en el eje curvo (semilla miope/hipermétrope)
+    cylP: -cyl,                // siempre ≥0: cuánto más hipermétrope se vuelve hacia el eje plano
+    axisP: (axis + 90) % 180   // eje de referencia de sphP = el eje curvo
+  };
+}
+
+// Dibuja la forma de ablación real según el tipo de tratamiento (pensada en cilindro positivo):
+// - Miopía: disco central sólido (zona óptica pequeña), elongado en el eje plano si hay astigmatismo.
+// - Hipermetropía: anillo periférico (zona respetada en el centro), zona óptica mayor, más grueso en el eje plano.
+// - Mixto: esfera miope central (círculo, sin elongar) + dos ablaciones periféricas en forma
+//   de riñón sobre el eje plano (concavidad hacia el centro) — la semilla miope esférica más
+//   el cilindro hipermétrope aplicado como dos zonas curvas en el meridiano que hay que curvar.
+function drawAblationShape(svgId, sph, cyl, axis, hyperComp, bb, flapMm, hingeSide, hingeMm, stopVal, refStop, refHinge){
   const svg = $(svgId);
   if (!svg) return;
   const vb = svg.viewBox.baseVal;
   const cx = vb.width/2, cy = vb.height/2;
-  const R0 = vb.width * 0.24;
-  const amp = clamp(Math.abs(cyl) * (vb.width*0.028), 0, R0*0.55);
-  const a = R0 + amp, b = R0 - amp;
-  const se = sph + cyl/2;
-  const isHyper = se > 0.05;
-  const isMyope = se < -0.05;
-  const fill = isHyper ? 'rgba(212,131,10,0.18)' : isMyope ? 'rgba(61,90,128,0.18)' : 'rgba(122,154,176,0.18)';
-  const stroke = isHyper ? '#d4830a' : '#3d5a80';
+  // Escala mm→px común a toda la figura (córnea + ablación). Se sube un ~16% el conjunto
+  // para que la córnea se vea con más detalle, y se aplica un factor 0.9 solo a los radios
+  // de ablación para que queden un 10% más pequeños dentro de ese lienzo mayor.
+  const MM_TO_PX = vb.width * 0.058;
+  const PUPIL_NASAL_OFFSET_MM = 0.25; // desplazamiento nasal medio del centro pupilar (~1,8°)
+  const PUPIL_DIAM_MM = 3.0;          // pupila fotópica de referencia
+  const ABLATION_FACTOR = 0.9;
+  const R_MYOPE = MM_TO_PX * 4   * ABLATION_FACTOR; // esfera negativa ≈8mm Ø (4mm radio)
+  const R_HYPER = MM_TO_PX * 4.5 * ABLATION_FACTOR; // cilindro/esfera positiva ≈9mm Ø (4.5mm radio)
+
+  const type = classifyTreatment(sph, cyl);
+  const { sphP, cylP, axisP } = transposeToPlusCyl(sph, cyl, axis);
+  const DEPTH_SCALE = 8; // D a partir de la cual se considera "ablación alta" (color más cálido)
+
+  const gM = `${svgId}_gM`, gH = `${svgId}_gH`;
   let html = '';
-  html += `<line x1="${cx-R0-vb.width*0.12}" y1="${cy}" x2="${cx+R0+vb.width*0.12}" y2="${cy}" stroke="#c2d0e0" stroke-width="1" stroke-dasharray="2,2"/>`;
-  if (hyperComp > 0.05){
-    const haloR = R0 + vb.width*0.07 + Math.min(hyperComp,6)*(vb.width*0.02);
-    html += `<circle cx="${cx}" cy="${cy}" r="${haloR}" fill="none" stroke="${stroke}" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.55"/>`;
+
+  // Círculo de la córnea a escala (diámetro = BB), centrado en el centro geométrico corneal.
+  if (bb !== undefined && bb !== null && !isNaN(bb)){
+    const rCornea = (bb/2) * MM_TO_PX;
+    html += `<circle cx="${cx}" cy="${cy}" r="${rCornea}" fill="none" stroke="#5a7a94" stroke-width="2.2"/>`;
   }
-  html += `<ellipse cx="${cx}" cy="${cy}" rx="${a}" ry="${b}" fill="${fill}" stroke="${stroke}" stroke-width="2" transform="rotate(${axis} ${cx} ${cy})"/>`;
+
+  // ── Descentramiento pupilar nasal ──
+  // El centro pupilar no coincide con el centro geométrico de la córnea: está desplazado
+  // NASALMENTE ~0,2-0,25 mm de media (equivale a ~1,5-2° con la regla clínica de 7°/mm).
+  // La ablación y el lentículo se centran en la PUPILA, no en el centro corneal.
+  const nasalSign = (hingeSide === 'right') ? 1 : -1;   // OD: nasal a la derecha; OI: a la izquierda
+  const pcx = cx + nasalSign * PUPIL_NASAL_OFFSET_MM * MM_TO_PX;
+  const pcy = cy;
+
+  // Pupila (fotópica ~3 mm Ø) en su posición real, desplazada a nasal
+  html += `<circle cx="${pcx.toFixed(2)}" cy="${pcy}" r="${(PUPIL_DIAM_MM/2*MM_TO_PX).toFixed(2)}" fill="rgba(30,40,55,0.14)" stroke="#2b3a4a" stroke-width="1" stroke-opacity="0.5"/>`;
+  html += `<circle cx="${cx}" cy="${cy}" r="1.3" fill="#5a7a94" opacity="0.55"/>`;
+
+  if (type === 'myopic'){
+    // Disco central, diámetro ~fijo (8mm-equivalente); solo se elonga levemente en el eje
+    // plano si hay cilindro (geometría real del toric, acotada, no crece sin límite).
+    const depth = Math.min(Math.abs(sphP), DEPTH_SCALE) / DEPTH_SCALE;
+    const color = '#3d5a80';
+    const eAst = clamp(cylP * 0.05, 0, 0.30);
+    const rx = R_MYOPE*(1+eAst), ry = R_MYOPE*(1-eAst*0.5);
+    const opMax = 0.14 + depth*0.58, opMin = 0.03 + depth*0.10;
+    html += `<defs><radialGradient id="${gM}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${color}" stop-opacity="${opMax.toFixed(2)}"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="${opMin.toFixed(2)}"/>
+    </radialGradient></defs>`;
+    html += `<line x1="${pcx-R_MYOPE*1.7}" y1="${pcy}" x2="${pcx+R_MYOPE*1.7}" y2="${pcy}" stroke="#c2d0e0" stroke-width="1" stroke-dasharray="2,2" transform="rotate(${axis} ${pcx} ${pcy})"/>`;
+    html += `<ellipse cx="${pcx}" cy="${pcy}" rx="${rx}" ry="${ry}" fill="url(#${gM})" stroke="${color}" stroke-width="0.6" stroke-opacity="0.35" transform="rotate(${axis} ${pcx} ${pcy})"/>`;
+
+  } else if (type === 'hyperopic'){
+    // Anillo periférico, diámetro exterior ~fijo (9mm-equivalente). El grosor del anillo depende
+    // de la PROPORCIÓN esfera/cilindro (si es más esfera, anillo uniforme y cerrado; si es más
+    // cilindro, se abre hacia dos riñones en el eje plano) — no de la magnitud absoluta.
+    const totalP = sphP + cylP;
+    const propSph = totalP > 0.01 ? sphP / totalP : 0;
+    const depth = Math.min(totalP, DEPTH_SCALE) / DEPTH_SCALE;
+    const color = '#d4830a';
+    const eAst = clamp(cylP * 0.05, 0, 0.30);
+    const ryOut = R_HYPER, rxOut = R_HYPER*(1+eAst);
+    const thicknessBase = R_HYPER * 0.40;
+    const thickSteep = thicknessBase * propSph;
+    const thickFlat  = thicknessBase;
+    const ryIn = Math.max(0.01, ryOut - thickSteep);
+    const rxIn = Math.max(0.01, rxOut - thickFlat);
+    const opMax = 0.08 + depth*0.55, opMid = 0.05 + depth*0.28, opMin = 0.02 + depth*0.06;
+    html += `<defs><radialGradient id="${gH}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${color}" stop-opacity="${opMin.toFixed(2)}"/>
+      <stop offset="55%" stop-color="${color}" stop-opacity="${opMid.toFixed(2)}"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="${opMax.toFixed(2)}"/>
+    </radialGradient></defs>`;
+    html += `<line x1="${pcx-R_HYPER*1.7}" y1="${pcy}" x2="${pcx+R_HYPER*1.7}" y2="${pcy}" stroke="#c2d0e0" stroke-width="1" stroke-dasharray="2,2" transform="rotate(${axis} ${pcx} ${pcy})"/>`;
+    const pOut = ellipsePathD(pcx,pcy,rxOut,ryOut);
+    const pIn  = ellipsePathD(pcx,pcy,rxIn,ryIn);
+    html += `<path d="${pOut} ${pIn}" fill-rule="evenodd" fill="url(#${gH})" stroke="${color}" stroke-width="0.6" stroke-opacity="0.35" transform="rotate(${axis} ${pcx} ${pcy})"/>`;
+
+  } else {
+    // Mixto: círculo miope central con diámetro FIJO (8mm-equivalente) + la parte que sobresale
+    // en el eje plano (hasta el 9mm-equivalente + una elongación acotada por cilindro) en color
+    // hipermétrope. Cada componente lleva su propio color según su propia profundidad.
+    const depthM = Math.min(Math.abs(sphP), DEPTH_SCALE) / DEPTH_SCALE;
+    const depthH = Math.min(cylP, DEPTH_SCALE) / DEPTH_SCALE;
+    const colorM = '#3d5a80', colorH = '#d4830a';
+    const Rs = R_MYOPE;
+    const extraFlat = (R_HYPER - R_MYOPE) + R_MYOPE * clamp(0.06*cylP, 0, 0.35);
+    const rxOuter = Rs + extraFlat, ryOuter = Rs;
+    const opMaxM = 0.14 + depthM*0.58, opMinM = 0.03 + depthM*0.10;
+    const opMaxH = 0.08 + depthH*0.55, opMinH = 0.02 + depthH*0.06;
+    html += `<defs>
+      <radialGradient id="${gM}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${colorM}" stop-opacity="${opMaxM.toFixed(2)}"/>
+        <stop offset="100%" stop-color="${colorM}" stop-opacity="${opMinM.toFixed(2)}"/>
+      </radialGradient>
+      <radialGradient id="${gH}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${colorH}" stop-opacity="${opMinH.toFixed(2)}"/>
+        <stop offset="100%" stop-color="${colorH}" stop-opacity="${opMaxH.toFixed(2)}"/>
+      </radialGradient>
+    </defs>`;
+    html += `<line x1="${pcx-rxOuter*1.4}" y1="${pcy}" x2="${pcx+rxOuter*1.4}" y2="${pcy}" stroke="#c2d0e0" stroke-width="1" stroke-dasharray="2,2" transform="rotate(${axis} ${pcx} ${pcy})"/>`;
+    html += `<ellipse cx="${pcx}" cy="${pcy}" rx="${rxOuter}" ry="${ryOuter}" fill="url(#${gH})" stroke="${colorH}" stroke-width="0.6" stroke-opacity="0.35" transform="rotate(${axis} ${pcx} ${pcy})"/>`;
+    html += `<circle cx="${pcx}" cy="${pcy}" r="${Rs}" fill="url(#${gM})" stroke="${colorM}" stroke-width="0.6" stroke-opacity="0.35"/>`;
+  }
+
+  // Lentículo previsto (flap) según el nomograma: ARCO (no círculo completo, diámetro = flap)
+  // + bisagra dibujada como una LÍNEA RECTA vertical. La bisagra es donde el corte se detiene,
+  // así que el pequeño segmento del círculo más allá de esa cuerda (hacia nasal) NO se dibuja
+  // como corte: esa porción de tejido no llega a seccionarse, queda unida al resto de la córnea.
+  // Su LONGITUD es el valor de bisagra del nomograma (medida vertical real). Su POSICIÓN se
+  // ancla en el punto de cuerda GEOMÉTRICO real (Pitágoras: d = √(R² − (L/2)²)) para el caso de
+  // referencia de la tabla — y desde ahí se desplaza linealmente 1mm por cada 1D de diferencia
+  // de tope (0,5mm por cada 0,5D) hacia nasal (tope mayor) o temporal (tope menor).
+  // Convención: OD → bisagra hacia la derecha (180°); OI → hacia la izquierda (0°), ambas
+  // mirando hacia la línea media (nasal), usando polar() donde 0°=izquierda, 180°=derecha.
+  const FLAP_COLOR = '#8a6fa8';   // violeta distintivo, distinto de córnea y ablación
+  const HINGE_COLOR = '#5c4877';  // tono más oscuro del mismo violeta, para la bisagra
+
+  if (flapMm !== undefined && flapMm !== null && !isNaN(flapMm) && hingeSide){
+    const rFlap = (flapMm/2) * MM_TO_PX;
+
+    if (hingeMm !== undefined && hingeMm !== null && !isNaN(hingeMm) && stopVal !== undefined && stopVal !== null){
+      const hingeCenterDeg = hingeSide === 'left' ? 0 : 180;
+      const rFlapMm = flapMm/2;
+      const anchorHinge = (refHinge !== undefined && refHinge !== null) ? refHinge : hingeMm;
+      const anchorStop  = (refStop  !== undefined && refStop  !== null) ? refStop  : stopVal;
+      const dRefMm = Math.sqrt(Math.max(0, rFlapMm*rFlapMm - (anchorHinge/2)*(anchorHinge/2)));
+      const dTargetMm = Math.min(rFlapMm, dRefMm + (stopVal - anchorStop) * 1.0);
+      // La cuerda SIEMPRE debe ajustarse a la geometría real del círculo en su posición actual
+      // (una cuerda más alejada del centro es necesariamente más corta) — se recalcula aquí,
+      // no se usa directamente el valor de bisagra de la tabla como longitud fija.
+      const halfChordMm = Math.sqrt(Math.max(0, rFlapMm*rFlapMm - dTargetMm*dTargetMm));
+      const halfChord = halfChordMm * MM_TO_PX;
+
+      // ── Recentrado del lentículo sobre la pupila ──
+      // Al cortar la bisagra, el tejido del flap deja de ser un círculo completo: falta el
+      // casquete nasal más allá de la cuerda, así que el CENTROIDE real del lentículo queda
+      // desplazado temporalmente. Se compensa desplazando levemente el círculo hacia nasal,
+      // de forma que el tejido efectivo quede centrado en la pupila. Cuanto más bajo el tope
+      // (bisagra más central, casquete mayor), mayor la corrección.
+      const thetaRad = Math.acos(clamp(dTargetMm/rFlapMm, -1, 1)) || 0;
+      const sinT = Math.sin(thetaRad), cosT = Math.cos(thetaRad);
+      const segArea = rFlapMm*rFlapMm*(thetaRad - sinT*cosT);
+      const circArea = Math.PI*rFlapMm*rFlapMm;
+      let recenterMm = 0;
+      if (segArea > 1e-6 && circArea - segArea > 1e-6){
+        const segCentroid = (2*rFlapMm*Math.pow(sinT,3)) / (3*(thetaRad - sinT*cosT));
+        recenterMm = (segArea*segCentroid) / (circArea - segArea); // desplazamiento nasal a aplicar
+      }
+      const fcx = pcx + nasalSign * recenterMm * MM_TO_PX;  // centro del lentículo recentrado
+      const fcy = pcy;
+
+      const dCentro = dTargetMm * MM_TO_PX;
+      const hc = polar(fcx, fcy, dCentro, hingeCenterDeg);
+
+      // Ángulo subtendido por la bisagra desde el centro: el arco de la córnea entre esos dos
+      // puntos (el segmento pequeño, hacia el lado de la bisagra) no se dibuja como corte.
+      const thetaDeg = thetaRad * 180/Math.PI;
+      const startDeg = hingeCenterDeg + thetaDeg;
+      const spanDeg = 360 - 2*thetaDeg;
+      const nSteps = Math.max(2, Math.round(spanDeg/4));
+      let dPath = '';
+      for (let i=0; i<=nSteps; i++){
+        const deg = startDeg + (spanDeg*i/nSteps);
+        const p = polar(fcx, fcy, rFlap, deg);
+        dPath += (i===0 ? 'M ' : 'L ') + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ' ';
+      }
+      html += `<path d="${dPath}" fill="none" stroke="${FLAP_COLOR}" stroke-width="1.1" stroke-dasharray="3,2" opacity="0.75"/>`;
+
+      // La cuerda es perpendicular al radio en ese punto (0°/180° son horizontales, por lo
+      // que la perpendicular es vertical).
+      html += `<line x1="${hc.x.toFixed(2)}" y1="${(hc.y-halfChord).toFixed(2)}" x2="${hc.x.toFixed(2)}" y2="${(hc.y+halfChord).toFixed(2)}" stroke="${HINGE_COLOR}" stroke-width="1.8" stroke-linecap="round"/>`;
+    } else {
+      // Sin datos de bisagra: círculo completo como referencia
+      html += `<circle cx="${pcx}" cy="${pcy}" r="${rFlap}" fill="none" stroke="${FLAP_COLOR}" stroke-width="1.1" stroke-dasharray="3,2" opacity="0.7"/>`;
+    }
+  }
+
   svg.innerHTML = html;
+}
+
+// Genera el "d" de una elipse como subpath cerrado (para combinar con evenodd en anillos).
+function ellipsePathD(cx, cy, rx, ry){
+  return `M ${cx-rx},${cy} A ${rx},${ry} 0 1,0 ${cx+rx},${cy} A ${rx},${ry} 0 1,0 ${cx-rx},${cy} Z`;
 }
 
 function drawDial(axis, horizComp){
@@ -1392,6 +1759,20 @@ function polar(cx,cy,r,angDeg){
   return { x: cx - r*Math.cos(a), y: cy - r*Math.sin(a) };
 }
 
+// Los ejes son cíclicos en 0-180°: cualquier valor fuera de rango se envuelve (módulo 180),
+// no se recorta — así 190° se convierte en 10° y -10° en 170°, que es lo correcto físicamente.
+const AXIS_FIELD_IDS = ['ax1','kax','rax','kax_od','kax_oi','ax1_od','ax1_oi','rax_od','rax_oi'];
+AXIS_FIELD_IDS.forEach(id => {
+  const el = $(id);
+  if (!el) return;
+  el.addEventListener('change', () => {
+    let v = parseFloat(el.value);
+    if (isNaN(v)) return;
+    v = ((v % 180) + 180) % 180;
+    el.value = v;
+  });
+});
+
 document.querySelectorAll('input').forEach(el => el.addEventListener('input', render));
 $('modeK12').addEventListener('click', ()=> setMode('k12'));
 $('modeAvg').addEventListener('click', ()=> setMode('avg'));
@@ -1418,6 +1799,16 @@ $('paramsToggle').addEventListener('click', ()=>{
 });
 $('eyeModeSingle').addEventListener('click', ()=> setEyeMode('one'));
 $('eyeModeBoth').addEventListener('click',   ()=> setEyeMode('both'));
+$('sideOD').addEventListener('click', ()=>{
+  singleEyeSide = 'OD';
+  $('sideOD').classList.add('active'); $('sideOI').classList.remove('active');
+  render();
+});
+$('sideOI').addEventListener('click', ()=>{
+  singleEyeSide = 'OI';
+  $('sideOI').classList.add('active'); $('sideOD').classList.remove('active');
+  render();
+});
 
 render();
 </script>
