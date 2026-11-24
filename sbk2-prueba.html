@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moria SBK · Anillo y Tope · PRUEBA SBK 2.0</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#f0f6fc; --surface:#ffffff; --surface2:#f4f8fc;
+  --border:#c2d0e0; --border2:#b0c2d8;
+  --primary:#3d5a80; --primary-dark:#2c4260; --primary-light:#e8f0f8;
+  --accent:#1e8a8a; --accent-light:#e0f4f4;
+  --text:#1a2b3c; --text2:#4a6070; --text3:#7a9ab0;
+  --danger:#c0392b; --danger-bg:#fdecea;
+  --shadow:0 2px 8px rgba(40,70,100,.10),0 1px 3px rgba(40,70,100,.07);
+  --radius:10px; --radius-sm:7px;
+  --mono:"IBM Plex Mono","SF Mono",Menlo,monospace;
+  --sans:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+body:not(.simple) .short-footer{display:none;}
+.why-short{font-size:.8rem;color:var(--text);font-weight:600;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:18px 16px 48px;}
+header{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:12px 16px;
+  margin-bottom:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+header .h-left{display:flex;align-items:center;gap:10px;}
+.logo-mark{
+  width:36px;height:36px;border-radius:50%;border:2px solid var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:var(--primary);flex-shrink:0;
+  font-family:var(--mono);
+}
+header h1{
+  font-size:.92rem;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin:0;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.25;
+}
+header .sub{color:var(--text3);font-size:.74rem;margin-top:2px;}
+.hdr-toggle{
+  font-size:.66rem;
+  font-family:var(--mono);
+  color:var(--text2);
+  background:var(--surface2);
+  border:1px solid var(--border);
+  padding:5px 10px;
+  border-radius:6px;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+.hdr-toggle.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.pill-toggle .hdr-toggle{border:none;border-right:1px solid var(--border);border-radius:0;}
+.grid{display:grid;grid-template-columns:1.05fr 1fr;gap:14px;}
+@media (max-width:760px){.grid{grid-template-columns:1fr;}}
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:13px 15px 14px;
+}
+.card h2{
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--text2);
+  margin:0 0 10px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.card h2::before{
+  content:"";
+  width:6px;height:6px;border-radius:50%;
+  background:var(--primary);
+  display:inline-block;
+  flex-shrink:0;
+}
+.card.brass h2::before{background:var(--accent);}
+.field-row{display:flex;gap:8px;margin-bottom:8px;}
+.field{flex:1;min-width:0;}
+.field label{
+  display:block;
+  font-size:.65rem;
+  color:var(--text3);
+  margin-bottom:3px;
+  letter-spacing:.02em;
+}
+.field input, .field select{
+  width:100%;
+  background:var(--surface2);
+  border:1.5px solid var(--border);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:.88rem;
+  font-weight:600;
+  padding:7px 8px;
+  border-radius:var(--radius-sm);
+  outline:none;
+  transition:border-color .15s;
+}
+.field input:focus, .field select:focus{border-color:var(--primary);}
+.field input.invalid{border-color:var(--danger);background:var(--danger-bg);}
+.field input:disabled{opacity:.5;cursor:not-allowed;}
+.hint{font-size:.64rem;color:var(--text3);margin-top:2px;line-height:1.4;}
+.pill-toggle{
+  display:flex;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:10px;
+}
+.pill-toggle button{
+  flex:1;background:var(--surface2);border:none;color:var(--text2);
+  font-family:var(--mono);font-size:.7rem;font-weight:600;padding:7px 0;cursor:pointer;
+  border-right:1px solid var(--border);transition:all .15s;
+}
+.pill-toggle button:last-child{border-right:none;}
+.pill-toggle button.active{background:var(--primary);color:#fff;}
+
+/* dial */
+.dial-wrap{display:flex;justify-content:center;margin:4px 0 2px;}
+.ablation-wrap{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:6px;flex-wrap:wrap;}
+.ablation-svg{width:120px;height:120px;display:block;}
+.ablation-svg-sm{width:60px;height:60px;display:block;margin:0 auto 6px;}
+.ablation-legend{font-size:.62rem;color:var(--text3);line-height:1.5;max-width:160px;}
+svg.dial{width:100%;max-width:300px;height:auto;}
+.dial-label{font-family:var(--mono);font-size:.6rem;fill:var(--text3);}
+
+/* results */
+.result-top{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.stat{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:8px 11px;
+  min-width:96px;
+  flex:1;
+}
+.stat .v{font-family:var(--mono);font-size:1.1rem;color:var(--primary);font-weight:700;}
+.stat .l{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
+
+.reco{
+  background:linear-gradient(135deg, var(--accent-light), var(--surface));
+  border:1.5px solid var(--accent);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px 16px;
+  margin-bottom:14px;
+  text-align:center;
+}
+.reco-main{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:4px;}
+.reco-main .combo{font-family:var(--mono);font-size:2.6rem;font-weight:800;color:var(--primary-dark);letter-spacing:-.01em;line-height:1;}
+.reco-main .combo-label{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;align-self:flex-end;margin-bottom:8px;}
+.reco .why-short{text-align:center;}
+.reco .why{font-size:.74rem;color:var(--text2);line-height:1.5;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;text-align:left;}
+.reco .why b{color:var(--text);}
+
+table.nomo{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.74rem;}
+table.nomo th{
+  text-align:left;color:var(--text3);font-weight:600;
+  font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;
+  padding:5px 7px;border-bottom:1.5px solid var(--border);
+}
+table.nomo td{padding:6px 7px;border-bottom:1px solid var(--border);color:var(--text);}
+table.nomo tr.selected td{background:var(--accent-light);font-weight:700;}
+table.nomo tr.selected td:first-child{border-left:3px solid var(--accent);}
+
+.flag{
+  margin-top:8px;
+  font-size:.66rem;
+  color:#9a5a1a;
+  border-left:2px solid #d4830a;
+  padding:5px 9px;
+  background:#fef3e2;
+  border-radius:0 4px 4px 0;
+}
+
+.footer-note{
+  margin-top:18px;
+  font-size:.64rem;
+  color:var(--text3);
+  line-height:1.55;
+  border-top:1px solid var(--border);
+  padding-top:10px;
+}
+
+.params-toggle{
+  font-size:.68rem;color:var(--primary);cursor:pointer;display:inline-block;margin-top:2px;
+  user-select:none;font-weight:600;
+}
+.params-body{display:none;margin-top:10px;}
+.params-body.open{display:block;}
+.slider-row{margin-bottom:11px;}
+.slider-row label{display:flex;justify-content:space-between;font-size:.66rem;color:var(--text2);margin-bottom:4px;}
+.slider-row label span{font-family:var(--mono);color:var(--primary);font-weight:700;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+.eye-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.eye-block{border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 9px;background:var(--surface2);}
+.eye-block h3{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin:0 0 6px;font-weight:700;}
+.eye-grid .eye-block:last-child h3{text-align:right;}
+.field-inline{display:flex;align-items:center;gap:6px;}
+.field-inline label{margin-bottom:0;white-space:nowrap;flex-shrink:0;}
+.field-inline input{flex:1;min-width:0;}
+.ao-reco-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;}
+.ao-reco-grid > .reco{min-width:0;}
+.ao-reco-grid .reco{margin-bottom:0;padding:10px 12px;}
+.ao-reco-grid .reco-main .combo{font-size:1.7rem;}
+
+/* ── Selector combo ── */
+.sel-combo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+.sel-combo.ao-sel{margin-bottom:4px;}
+.sel-group{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.sel-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);}
+.combo-sel{
+  font-family:var(--mono);font-size:1.5rem;font-weight:800;
+  color:var(--primary-dark);
+  background:var(--surface);border:2px solid var(--accent);
+  border-radius:8px;padding:4px 8px;
+  text-align:center;cursor:pointer;outline:none;
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
+  min-width:68px;
+}
+.combo-sel:focus{border-color:var(--primary);}
+.combo-sel.sm{font-size:1.05rem;min-width:54px;padding:3px 6px;border-radius:6px;}
+.sel-sep{font-family:var(--mono);font-size:1.8rem;font-weight:300;color:var(--text3);line-height:1;}
+.reset-btn{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text3);border-radius:6px;padding:4px 7px;
+  cursor:pointer;font-size:.9rem;line-height:1;
+  transition:all .15s;align-self:flex-end;margin-bottom:2px;
+}
+.reset-btn:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary);}
+.reset-btn.sm{font-size:.78rem;padding:3px 6px;border-radius:5px;}
+
+/* ── Risk panel ── */
+.risk-panel{display:flex;flex-direction:column;gap:4px;margin-bottom:6px;}
+.risk-panel.sm{gap:3px;margin-bottom:4px;}
+.risk-row{display:flex;align-items:center;gap:5px;}
+.risk-row .risk-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);width:58px;flex-shrink:0;}
+.risk-row .risk-bar-wrap{flex:1;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.risk-row .risk-bar{height:100%;border-radius:3px;transition:width .3s;}
+.risk-row .risk-val{font-family:var(--mono);font-size:.68rem;font-weight:700;width:34px;flex-shrink:0;text-align:right;}
+.risk-row .risk-n{font-size:.58rem;color:var(--text3);flex-shrink:0;}
+.risk-row .risk-warn{font-size:.58rem;color:var(--warn-color,#c97b5a);font-style:italic;}
+.risk-low   .risk-bar{background:#6fae8a;} .risk-low   .risk-val{color:#3a7a5a;}
+.risk-mid   .risk-bar{background:#c9a03a;} .risk-mid   .risk-val{color:#8a6a10;}
+.risk-high  .risk-bar{background:#c97b5a;} .risk-high  .risk-val{color:#a04030;}
+.risk-panel.sm .risk-row .risk-lbl{font-size:.55rem;width:52px;}
+.risk-panel.sm .risk-row .risk-val{font-size:.62rem;width:28px;}
+.risk-panel.sm .risk-row .risk-n{font-size:.52rem;}
+/* ── Justification index ── */
+.jfi{margin-top:5px;border-radius:6px;padding:6px 8px;font-size:.72rem;}
+.jfi-neutral{background:var(--surface2);color:var(--text3);}
+.reco.ojo-off{opacity:.45;}
+.bis-nota{margin-top:5px;padding:0 8px;font-size:.7rem;color:var(--text3);display:flex;align-items:center;gap:6px;}
+.bis-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#b9c6d3;}
+.bis-1{color:var(--text2);} .bis-1 .bis-dot{background:#c9a03a;}
+.bis-2{color:var(--text2);font-weight:600;} .bis-2 .bis-dot{background:#c97b5a;}
+.jfi-ok  {background:#e8f6ee;border-left:3px solid #3a7a5a;}
+.jfi-warn{background:#fef8e7;border-left:3px solid #c9a03a;}
+.jfi-bad {background:#fdecea;border-left:3px solid var(--warn,#c97b5a);}
+.jfi-head{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.jfi-icon{font-size:.8rem;font-weight:700;width:14px;text-align:center;}
+.jfi-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);font-weight:700;}
+.jfi-text{font-size:.7rem;color:var(--text2);}
+.jfi-bars{display:flex;flex-direction:column;gap:3px;margin-bottom:4px;}
+.jfi-bar-row{display:flex;align-items:center;gap:5px;font-size:.65rem;}
+.jfi-bl{width:46px;flex-shrink:0;color:var(--text3);}
+.jfi-bar-track{flex:1;height:5px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+.jfi-bar-d{height:100%;background:#1e8a8a;border-radius:3px;}
+.jfi-bar-r{height:100%;background:#c97b5a;border-radius:3px;}
+.jfi-bv{width:28px;text-align:right;color:var(--text3);flex-shrink:0;}
+.jfi-msg{font-size:.68rem;color:var(--text2);line-height:1.4;}
+/* ── Vista unificada AO: ambos ojos + nariz ── */
+.ao-face{
+  position:relative;
+  display:flex; align-items:center; justify-content:center; gap:2px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px 12px 22px;
+  margin-bottom:10px;
+}
+.ao-face .ablation-svg-eye{ width:100%; max-width:170px; height:auto; display:block; }
+.ao-face .ao-nose{ width:56px; height:150px; flex:0 0 auto; align-self:center; color:var(--text); opacity:0.55; transform:translateY(14px); }
+.ao-corner-tag{
+  position:absolute; top:7px;
+  font-size:.7rem; font-weight:700; letter-spacing:.09em;
+  color:var(--primary); text-transform:uppercase;
+}
+.ao-corner-tag.left{ left:12px; }
+.ao-corner-tag.right{ right:12px; }
+@media (max-width:520px){
+  .ao-face{ gap:0; padding:12px 6px 8px; }
+  .ao-face .ao-nose{ width:38px; height:108px; transform:translateY(10px); }
+}
+.ao-eye-tag{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);font-weight:700;margin-bottom:2px;}
+.ao-advisory{
+  margin-top:10px;font-size:.72rem;color:#9a5a1a;border-left:2px solid #d4830a;
+  padding:7px 10px;background:#fef3e2;border-radius:0 4px 4px 0;line-height:1.5;
+  white-space:pre-line;
+}
+/* ── Datos incompletos: se oculta cualquier recomendación ── */
+.field input.missing{border-color:var(--danger);background:var(--danger-bg);}
+.input-error{
+  margin-bottom:14px;font-size:.78rem;font-weight:600;color:var(--danger);
+  border:1.5px solid var(--danger);background:var(--danger-bg);
+  border-radius:var(--radius);padding:10px 12px;line-height:1.5;
+}
+body.inputs-missing #aoResult{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="h-left">
+      <div class="logo-mark">M</div>
+      <div>
+        <h1>Anillo &amp; Tope · SBK One Use-Plus</h1>
+        
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- LEFT: INPUTS -->
+    <div>
+      <div id="bothEyesInputs">
+        <div class="card" style="margin-bottom:18px;">
+          <h2>Medidas — OD / OI</h2>
+          <div class="pill-toggle" style="margin-bottom:10px;">
+            <button id="modeK12AO">K1 / K2</button>
+            <button id="modeAvgAO" class="active">K media + Cil + eje</button>
+          </div>
+
+          <div id="groupAvgAO">
+            <div class="eye-grid">
+              <div class="eye-block">
+                <h3>OD</h3>
+                <div class="field-row">
+                  <div class="field"><label>K media (D)</label><input type="number" step="0.1" id="kavg_od" value="43.0"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>Cil. K (D)</label><input type="number" step="0.1" id="kcyl_od" value="-1.0" max="0"></div>
+                  <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="kax_od" value="180"></div>
+                </div>
+              </div>
+              <div class="eye-block">
+                <h3>OI</h3>
+                <div class="field-row">
+                  <div class="field"><label>K media (D)</label><input type="number" step="0.1" id="kavg_oi" value="43.0"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>Cil. K (D)</label><input type="number" step="0.1" id="kcyl_oi" value="-1.0" max="0"></div>
+                  <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="kax_oi" value="180"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="groupK12AO" style="display:none;">
+            <div class="eye-grid">
+              <div class="eye-block">
+                <h3>OD</h3>
+                <div class="field-row">
+                  <div class="field"><label>K1 plana (D)</label><input type="number" step="0.1" id="k1_od" value="42.5"></div>
+                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" min="0" max="180" id="ax1_od" value="180"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>K2 curva (D)</label><input type="number" step="0.1" id="k2_od" value="43.5"></div>
+                  <div class="field"><label>Eje K2 (°)</label><input type="number" id="ax2_od" value="90" disabled style="opacity:.55;cursor:not-allowed;"></div>
+                </div>
+                <div class="flag" id="k12WarningOD" style="display:none;">K1 &gt; K2 — revisa los campos.</div>
+              </div>
+              <div class="eye-block">
+                <h3>OI</h3>
+                <div class="field-row">
+                  <div class="field"><label>K1 plana (D)</label><input type="number" step="0.1" id="k1_oi" value="42.5"></div>
+                  <div class="field"><label>Eje K1 (°)</label><input type="number" step="1" min="0" max="180" id="ax1_oi" value="180"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label>K2 curva (D)</label><input type="number" step="0.1" id="k2_oi" value="43.5"></div>
+                  <div class="field"><label>Eje K2 (°)</label><input type="number" id="ax2_oi" value="90" disabled style="opacity:.55;cursor:not-allowed;"></div>
+                </div>
+                <div class="flag" id="k12WarningOI" style="display:none;">K1 &gt; K2 — revisa los campos.</div>
+              </div>
+            </div>
+          </div>
+          <div class="eye-grid" style="margin-top:8px;">
+            <div class="eye-block">
+              <div class="field field-inline"><label>BB OD (mm)</label><input type="number" step="0.1" id="bb_od" value="11.6"></div>
+            </div>
+            <div class="eye-block">
+              <div class="field field-inline"><label>BB OI (mm)</label><input type="number" step="0.1" id="bb_oi" value="11.6"></div>
+            </div>
+          </div>
+          <div class="flag" id="kCylNoteAO" style="display:none;"></div>
+          <div class="hint">Cilindro K siempre negativo (eje = meridiano plano). K horizontal calculada sobre Kmedia en ambos modos.</div>
+        </div>
+
+        <div class="card" style="margin-bottom:18px;">
+          <h2>Refracción manifiesta — OD / OI</h2>
+          <div class="eye-grid">
+            <div class="eye-block">
+              <h3>OD</h3>
+              <div class="field-row">
+                <div class="field field-inline"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_od" value="-2.00"></div>
+              </div>
+              <div class="field-row">
+                <div class="field"><label>Cil. (D)</label><input type="number" step="0.25" id="cyl_od" value="-2.00" max="0"></div>
+                <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="rax_od" value="180"></div>
+              </div>
+            </div>
+            <div class="eye-block">
+              <h3>OI</h3>
+              <div class="field-row">
+                <div class="field field-inline"><label>Esfera (D)</label><input type="number" step="0.25" id="sph_oi" value="-2.00"></div>
+              </div>
+              <div class="field-row">
+                <div class="field"><label>Cil. (D)</label><input type="number" step="0.25" id="cyl_oi" value="-2.00" max="0"></div>
+                <div class="field"><label>Eje (°)</label><input type="number" step="1" min="0" max="180" id="rax_oi" value="180"></div>
+              </div>
+            </div>
+          </div>
+          <div class="hint" id="cylConvertNoteAO" style="display:none;"></div>
+          <div class="hint">Para calcular un solo ojo, deja en blanco la esfera y el cilindro del otro.</div>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top:18px;display:none;">
+        <div class="params-toggle" id="paramsToggle">⚙ Ajustar pesos del modelo de exigencia horizontal</div>
+        <div class="params-body" id="paramsBody">
+          <div class="slider-row">
+            <label>Peso del cilindro horizontal <span id="wCylVal">0.46</span></label>
+            <input type="range" id="wCyl" min="0" max="3" step="0.01" value="0.46">
+          </div>
+          <div class="slider-row">
+            <label>Exponente del cilindro (no lineal) <span id="cylExpVal">1.5</span></label>
+            <input type="range" id="cylExp" min="1" max="4" step="0.1" value="1.5">
+          </div>
+          <div class="slider-row">
+            <label>Peso hipermetropía → subir tope <span id="wHypStopVal">0.0</span></label>
+            <input type="range" id="wHypStop" min="0" max="3" step="0.02" value="0">
+          </div>
+          <div class="slider-row">
+            <label>Peso hipermetropía → redondear a la baja <span id="wHypRoundVal">3.0</span></label>
+            <input type="range" id="wHypRound" min="0" max="5" step="0.1" value="3.0">
+          </div>
+          <div class="slider-row">
+            <label>BB mínimo para poder subir de tope <span id="bbFloorVal">11.6</span> mm</label>
+            <input type="range" id="bbFloor" min="11.0" max="12.0" step="0.1" value="11.6">
+          </div>
+          <div class="slider-row">
+            <label>Multiplicador de umbral en ese BB mínimo <span id="bbMultVal">2.8</span>×</label>
+            <input type="range" id="bbMult" min="1" max="8" step="0.1" value="2.8">
+          </div>
+          <div class="slider-row">
+            <label>Umbral de subida de tope en BB≥12 <span id="thHighVal">3.2</span></label>
+            <input type="range" id="thHigh" min="0.5" max="8" step="0.1" value="3.2">
+          </div>
+          <div class="slider-row">
+            <label>Multiplicador extra para combinación −1/8.5 <span id="thRing1Val">2.6</span>×</label>
+            <input type="range" id="thRing1" min="1.0" max="5.0" step="0.1" value="2.6">
+          </div>
+          <div class="slider-row">
+            <label>Sesgo conservador de redondeo de Khoriz (exigencia 0) <span id="roundBiasVal">0.42</span></label>
+            <input type="range" id="roundBias" min="0" max="0.49" step="0.01" value="0.42">
+          </div>
+          <div class="slider-row">
+            <label>Sensibilidad del redondeo a la exigencia <span id="roundSensVal">0.06</span></label>
+            <input type="range" id="roundSens" min="0" max="0.5" step="0.01" value="0.06">
+          </div>
+          <div class="hint">Componente cilíndrico = peso_cil × |Cyl|^exponente × cos²(eje) (el exponente controla cómo escala: con 2, un cilindro pequeño apenas influye y uno grande mucho más, sin corte brusco). <b>Subir tope</b> usa ese componente + un peso pequeño de la hipermetropía. <b>Redondear K horizontal</b> usa ese mismo componente cilíndrico (empuja al alza, más espacio horizontal) MENOS la hipermetropía con su propio peso, más alto (empuja a la baja → anillo físicamente más grande, espacio en todos los ejes, no solo el horizontal) — son sesgos opuestos. La subida de tope solo es posible con BB por encima del mínimo configurado: justo ahí se exige un score muy alto (umbral × multiplicador), bajando progresivamente hasta el umbral normal en BB=12mm. Ajusta estos valores con tu casuística; se recalcula al vuelo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div>
+      <div class="input-error" id="inputError" style="display:none;"></div>
+      <div id="aoResult">
+        <div class="ao-face">
+          <span class="ao-corner-tag left">OD</span>
+          <span class="ao-corner-tag right">OI</span>
+          <svg class="ablation-svg-eye" viewBox="0 0 100 100" id="ablationSvgOD"></svg>
+          <svg class="ao-nose" viewBox="0 0 590 700" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round">
+            <path d="M215 45 C212 200 190 320 120 420 C60 500 50 560 75 610 C95 645 130 655 160 650"/>
+            <path d="M375 45 C378 200 400 320 470 420 C530 500 540 560 515 610 C495 645 460 655 430 650"/>
+            <path d="M160 596 C200 585 232 598 262 618 C284 633 306 633 328 618 C358 598 390 585 430 596"/>
+            <ellipse cx="168" cy="596" rx="30" ry="15" fill="currentColor" stroke="none"/>
+            <ellipse cx="422" cy="596" rx="30" ry="15" fill="currentColor" stroke="none"/>
+          </svg>
+          <svg class="ablation-svg-eye" viewBox="0 0 100 100" id="ablationSvgOI"></svg>
+        </div>
+        <div class="ao-reco-grid">
+          <div class="reco">
+            <div class="sel-combo ao-sel">
+              <select id="selRingOD" class="combo-sel sm"></select>
+              <span class="sel-sep">/</span>
+              <select id="selStopOD" class="combo-sel sm"></select>
+              <button class="reset-btn sm" data-reset="OD" title="Volver a la recomendada">↺</button>
+            </div>
+            <div id="riskOD" class="risk-panel sm"></div>
+          </div>
+          <div class="reco">
+            <div class="sel-combo ao-sel">
+              <select id="selRingOI" class="combo-sel sm"></select>
+              <span class="sel-sep">/</span>
+              <select id="selStopOI" class="combo-sel sm"></select>
+              <button class="reset-btn sm" data-reset="OI" title="Volver a la recomendada">↺</button>
+            </div>
+            <div id="riskOI" class="risk-panel sm"></div>
+          </div>
+        </div>
+        <div class="ablation-legend adv-hide" style="text-align:center;max-width:none;margin-top:8px;">Ablación y lentículo centrados en la PUPILA (desplazada ~0,25mm a nasal respecto al centro corneal). Tamaño según el tipo, común a todos los láseres: miopía 8,0 mm (8,5 en el eje si hay cilindro), hipermetropía 9,0 mm, mixto 9,0 × 8,0 mm. Se alarga en el eje del cilindro negativo. En azul, la parte miope (máxima en el centro); en naranja, la hipermétrope (en anillo, o en dos lóbulos sobre el eje si hay cilindro). La opacidad indica la profundidad.</div>
+        <div class="ao-advisory" id="aoAdvisory" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span class="short-footer">Nomograma Moria #65067EN_D, no contractual — guía general, valida siempre tu propio criterio.</span>
+    <span class="adv-hide">
+    K horizontal calculada siempre sobre K media + cilindro K + eje (negativo, eje = meridiano plano). Redondeo adaptativo a la fila del nomograma: con baja exigencia horizontal sesga a la baja (conservador, evita free-flap); con alta exigencia sesga al alza — nunca más de un entero.
+    Regla de selección: punto de partida = combinación mediana de la fila. Para BB&lt;11mm se fuerza la última opción de la fila (regla de fabricante). En las filas 39, 43, 45 y 46 se tiene en cuenta el tratamiento: en miopía sin cilindro horizontal, 0/7,5 (fila 39) y +2/7,5 (fila 46) si el lecho cubre la ablación; con cilindro horizontal ≥ 1 D y BB ≥ 11,6 mm, 0/8 (fila 43) y +1/8 (fila 45). En el astigmatismo mixto con el eje horizontal, si la combinación no cubre la ablación, se elige la que la cubre con menos riesgo de lentículo completo (hasta 1,5 puntos más).
+    La fila K=45 (opción central) usa tope 7,5 en lugar de 8 — es una excepción real del documento del fabricante, no un error de transcripción, y se mantiene tal cual.
+    </span>
+  </div>
+
+</div>
+
+<script>
+// ---------- NOMOGRAM TABLE (Moria #65067EN_D, SBK One Use-Plus, metal ring) ----------
+// row45 ring2: stop 7.5 is an official manufacturer exception (not an OCR error) — kept as-is, flagged for visibility
+const NOMO = {
+  39: [
+    {ring:-1, stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+    {ring:0,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  40: [
+    {ring:-1, stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:0,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  41: [
+    {ring:-1, stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:0,  stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+    {ring:1,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  42: [
+    {ring:-1, stop:8.5, flap:10.3, stroma:9.4, hinge:5.7},
+    {ring:0,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:1,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  43: [
+    {ring:0,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:1,  stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+    {ring:2,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  44: [
+    {ring:0,  stop:8.5, flap:10.3, stroma:9.4, hinge:5.7},
+    {ring:1,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:2,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  45: [
+    {ring:1,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:2,  stop:7.5, flap:9.5,  stroma:8.5, hinge:5.8, flagged:true},
+    {ring:3,  stop:7.5, flap:9.0,  stroma:8.3, hinge:5.0},
+  ],
+  46: [
+    {ring:2,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+    {ring:3,  stop:7.5, flap:9.3,  stroma:8.4, hinge:5.4},
+  ],
+  47: [
+    {ring:2,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+    {ring:3,  stop:8,   flap:9.5,  stroma:8.8, hinge:5.1},
+  ],
+  48: [
+    {ring:2,  stop:8.5, flap:10.3, stroma:9.4, hinge:5.7},
+    {ring:3,  stop:8,   flap:9.8,  stroma:8.9, hinge:5.6},
+  ],
+  49: [
+    {ring:2,  stop:9,   flap:10.5, stroma:9.8, hinge:5.4},
+    {ring:3,  stop:8.5, flap:10.0, stroma:9.3, hinge:5.3},
+  ],
+};
+const K_MIN = 39, K_MAX = 49;
+
+// Redondeo adaptativo: solo entre floor(x) y ceil(x). El umbral de paso (normalmente 0,5) se
+// desplaza según el score de exigencia horizontal: a más score, menos frac hace falta para
+// redondear al alza; a menos score, hace falta un frac más alto (más cerca del entero superior).
+function adaptiveRound(x, score, baseBias, sens){
+  const lower = Math.floor(x);
+  const frac = x - lower;
+  if (frac === 0) return lower;
+  let t = 0.5 + baseBias - sens*score;
+  t = clamp(t, 0, 1);
+  return frac >= t ? lower+1 : lower;
+}
+function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
+function deg2rad(d){ return d * Math.PI / 180; }
+
+function $(id){ return document.getElementById(id); }
+
+function computeKhorizFromAvg(kmedia, kcyl, eje){
+  // K_horiz = K media + (Cil K / 2) * cos(2*eje) — siempre sobre la K media, nunca sobre K1 ni K2 directamente.
+  return kmedia + (kcyl/2) * Math.cos(2*deg2rad(eje));
+}
+
+function normalizeCylNegative(sph, cyl, ax){
+  if (cyl > 0){
+    const newSph = sph + cyl;
+    const newCyl = -cyl;
+    let newAx = ax + 90;
+    newAx = ((newAx % 180) + 180) % 180;
+    return {sph:newSph, cyl:newCyl, ax:newAx, converted:true};
+  }
+  return {sph, cyl, ax, converted:false};
+}
+
+let kModeAO = 'avg'; // 'avg' | 'k12'
+
+function setModeAO(mode){
+  kModeAO = mode;
+  $('modeK12AO').classList.toggle('active', mode==='k12');
+  $('modeAvgAO').classList.toggle('active', mode==='avg');
+  $('groupAvgAO').style.display = mode==='avg' ? '' : 'none';
+  $('groupK12AO').style.display = mode==='k12' ? '' : 'none';
+  render();
+}
+
+// ── RISK DATA: Clínica Baviera España (168.966 casos) + Care Vision Alemania (94.610) ──
+// LC: lentículo completo (free flap). BA: bisagra ancha, de 15 clínicas de España + Berlín
+// (31.434 ojos, ene-2025 a jun-2026). No hay datos de Italia: allí no se usa SBK.
+// key: "ring_stop.decimal"
+const RISK = {
+  '-1_8.5': {n: 9423, lc:4.754, ba:0.09},  // ⚠ riesgo alto confirmado
+  '-1_8.0': {n:21142, lc:1.112, ba:0.26},
+  '-1_7.5': {n: 1106, lc:0.633, ba:null},   // BA: sin datos suficientes
+  '0_8.5':  {n:16663, lc:1.518, ba:0.05},
+  '0_8.0':  {n:60287, lc:0.411, ba:0.15},
+  '0_7.5':  {n: 3020, lc:0.232, ba:0.98},
+  '1_8.5':  {n: 3425, lc:0.672, ba:0.00},
+  '1_8.0':  {n:100146, lc:0.175, ba:0.18},
+  '1_7.5':  {n: 3638, lc:0.110, ba:1.62},
+  '2_8.5':  {n:  361, lc:11.357, ba:0.00}, // n bajo, IC amplio — K curva muy alto
+  '2_8.0':  {n:14682, lc:1.764, ba:0.38},
+  '2_7.5':  {n:27506, lc:0.196, ba:0.75},
+  '3_8.5':  null,
+  '3_8.0':  {n:  261, lc:0.383, ba:null},   // n bajo
+  '3_7.5':  {n: 1916, lc:0.052, ba:null},
+  '2_9.0':  null,
+};
+// ── Escala dinámica de barras: basada en el máximo real del dataset (n≥500) + margen
+// Guarda la combinación recomendada por el algoritmo para cada selector
+const REC = { selRing:null, selStop:null, selRingOD:null, selStopOD:null, selRingOI:null, selStopOI:null };
+
+function riskKey(ring, stop){ return `${ring}_${stop.toFixed(1)}`; }
+
+// ── Geometría del lentículo ──
+// La tabla del fabricante sigue exactamente este modelo (error ≤0,05 mm en sus 27 filas, que es
+// su propio redondeo), así que sirve para estimar cualquier combinación que no esté en la tabla:
+//   flap    = 9,5 + 0,25·(K − 41) − 0,5·anillo     el ANILLO y la K fijan el diámetro
+//   d       = 4,0 + 0,5·(tope − 8)                  el TOPE fija dónde se para el corte: distancia
+//                                                   del centro del lentículo a la cuerda de bisagra
+//   bisagra = 2·√(R² − d²)                          cuerda del círculo a esa distancia (R = flap/2)
+//   estroma = R + d                                 lecho desde el borde temporal hasta la bisagra
+// Tope menor ⇒ corte más corto ⇒ bisagra más central: más larga y con menos lecho.
+function hingeDistMm(stop){ return 4.0 + 0.5*(stop - 8); }
+function lenticuloModelo(k, ring, stop){
+  const flap = 9.5 + 0.25*(k - 41) - 0.5*ring;
+  const R = flap/2, d = Math.min(R, hingeDistMm(stop));
+  return {flap, hinge: 2*Math.sqrt(Math.max(0, R*R - d*d)), stroma: R + d};
+}
+
+// Devuelve {flap, hinge, stroma, exact} para una combinación (kRow, ring, stop) cualquiera:
+// el dato real si la combinación está en la fila del nomograma (exact=true), si no el modelo.
+// refStop/refHinge = la propia combinación: el dibujo usa esa cuerda tal cual, sin desplazarla.
+function inferFlapHinge(kRow, ring, stop){
+  const k = clamp(kRow, K_MIN, K_MAX);
+  const exactRow = (NOMO[k] || []).find(r => r.ring === ring && Math.abs(r.stop - stop) < 0.01);
+  const g = exactRow || lenticuloModelo(k, ring, stop);
+  const r1 = x => Math.round(x*10)/10;
+  return {flap: r1(g.flap), hinge: r1(g.hinge), stroma: r1(g.stroma), exact: !!exactRow, refStop: stop, refHinge: r1(g.hinge)};
+}
+
+// Escala dinámica basada en el máximo real (n≥500) + margen
+const _lcVals = Object.values(RISK).filter(d=>d&&d.n>=500).map(d=>d.lc);
+const _baVals = Object.values(RISK).filter(d=>d&&d.ba!=null&&d.n>=500).map(d=>d.ba);
+const SCALE_LC = Math.max(..._lcVals) * 1.25;
+const SCALE_BA = Math.max(..._baVals) * 1.25;
+
+// Intervalo de confianza del 95 % (Wilson) de una tasa en %, para n casos.
+function wilson(pct, n){
+  const p = pct/100, z = 1.96, z2 = z*z;
+  const c = (p + z2/(2*n)) / (1 + z2/n);
+  const h = z*Math.sqrt(p*(1-p)/n + z2/(4*n*n)) / (1 + z2/n);
+  return [Math.max(0, (c-h)*100), (c+h)*100];
+}
+const pctFmt = v => v.toFixed(2).replace('.', ',') + ' %';
+const mmFmt  = v => v.toFixed(1).replace('.', ',') + ' mm';
+const comboFmt = (ring, stop) => `${ring>0?'+':''}${ring}/${stopFmt(stop)}`;
+
+// ── Control de seguridad de la recomendación ──
+// El algoritmo nunca sube por sí solo a una combinación cuyo riesgo de lentículo completo sea
+// ≥5 % con confianza (límite inferior del IC95). Hoy solo afecta a +2/8,5 (11,4 %, IC 8,5–15 %);
+// −1/8,5 (4,75 %) sigue gobernada por su umbral extra thRing1.
+const LC_BLOQUEO_PCT = 5;
+function bloqueoPorRiesgo(opt){
+  const d = RISK[riskKey(opt.ring, opt.stop)];
+  if (!d) return null;
+  const [lo, hi] = wilson(d.lc, d.n);
+  if (lo < LC_BLOQUEO_PCT) return null;
+  return `No se sube a ${comboFmt(opt.ring, opt.stop)} por riesgo de lentículo completo: ${pctFmt(d.lc)} (IC95 ${lo.toFixed(1).replace('.',',')}–${hi.toFixed(1).replace('.',',')} %)`;
+}
+
+// Huella de la ablación, COMÚN a todos los láseres (decisión del usuario, 24/11/2026: medidas
+// genéricas en pasos de 0,5 mm y sin selector de láser; la décima de milímetro aporta poco).
+// Sale de 23 informes de Teneo y 2 mapas de Allegretto. Es un óvalo que se alarga SIEMPRE en
+// el eje del cilindro negativo: `eje` es el lado largo (mm) y `perp` el perpendicular.
+const ABL_COMUN = {
+  myopic:    {eje: 8.0, perp: 8.0},  // miopía con cilindro < ABL_CIL_MIN: redonda
+  myopicCyl: {eje: 8.5, perp: 8.0},  // miopía con cilindro: se alarga en el eje
+  hyperopic: {eje: 9.0, perp: 9.0},  // hipermetropía, con o sin cilindro: redonda
+  mixed:     {eje: 9.0, perp: 8.0}   // mixto: la más alargada. Teneo declara 9,3–9,8, pero en el
+                                     // mapa lo que pasa de ~9,0 es un halo de menos de 5 µm (v40)
+};
+const ABL_CIL_MIN = 1.0;
+
+// Devuelve la huella y lo que ocupa en horizontal (`anchoH`) y en vertical (`altoV`) al girarla
+// según el eje: a 180° manda el lado largo, a 90° el corto. La bisagra es nasal, así que el
+// lecho tiene que cubrir `anchoH`. Sin eje válido se toma 0° (el caso más exigente).
+function ablacionComun(sph, cyl, axis){
+  if (sph === undefined || sph === null || isNaN(sph) || cyl === undefined || cyl === null || isNaN(cyl)) return null;
+  const n = normalizeCylNegative(sph, cyl, isFinite(axis) ? axis : 0);
+  const t = classifyTreatment(n.sph, n.cyl);
+  const m = (t === 'myopic' && Math.abs(n.cyl) >= ABL_CIL_MIN) ? ABL_COMUN.myopicCyl : ABL_COMUN[t];
+  const co = Math.cos(deg2rad(n.ax)), si = Math.sin(deg2rad(n.ax));
+  return {
+    tipo: t, eje: m.eje, perp: m.perp, axis: n.ax,
+    anchoH: Math.sqrt(m.eje*m.eje*co*co + m.perp*m.perp*si*si),
+    altoV:  Math.sqrt(m.eje*m.eje*si*si + m.perp*m.perp*co*co)
+  };
+}
+
+// Al cortar la bisagra, al lentículo le falta el casquete nasal y su centroide queda desplazado
+// a temporal. Devuelve cuánto hay que mover el círculo hacia nasal para que el tejido efectivo
+// quede centrado en la pupila. R = radio del flap, d = distancia del centro a la cuerda (mm).
+// Lo usan el dibujo y el indicador de bisagra, para que nunca digan cosas distintas.
+function recentradoLenticulo(R, d){
+  const thetaRad = Math.acos(clamp(d/R, -1, 1)) || 0;
+  const sinT = Math.sin(thetaRad), cosT = Math.cos(thetaRad);
+  const segArea = R*R*(thetaRad - sinT*cosT);
+  const circArea = Math.PI*R*R;
+  let recenterMm = 0;
+  if (segArea > 1e-6 && circArea - segArea > 1e-6){
+    const segCentroid = (2*R*Math.pow(sinT,3)) / (3*(thetaRad - sinT*cosT));
+    recenterMm = (segArea*segCentroid) / (circArea - segArea);
+  }
+  return {thetaRad, recenterMm};
+}
+
+// ── Ablación sobre la bisagra (v41; modelo por puntos desde la v44) ──
+// Estima cuánta ablación cae en la LÍNEA de bisagra. Sale de los mapas de ablación de Allegretto
+// y Teneo (24/11/2026), que coinciden en el patrón:
+//  · Esfera miópica: máxima en el centro; se acaba prácticamente en el borde de la zona óptica.
+//  · Cilindro miópico: una BANDA a lo largo del eje. En esa dirección no se acaba en la zona
+//    óptica: en su borde queda un 43 % y a 4 mm del centro, un 15 %.
+//  · Hipermetropía: anillo con el máximo a ~3,4 mm del centro, que cae a cero hacia 4,5 mm.
+//    Con cilindro se reparte según la potencia positiva de cada meridiano (dos lóbulos en el eje).
+// Es informativo: no cambia la recomendación ni el semáforo. Supone el lentículo centrado como
+// en el dibujo; cada 0,25 mm de descentramiento hacia nasal o temporal pesa como medio tope.
+const BISAGRA = {
+  hiperUmPorD: 20,   // µm de máximo por dioptría positiva (Allegretto ~17, Teneo ~23)
+  miopeUmPorD: 16,   // µm en el centro por dioptría negativa, con zona óptica 6,5
+  rZO: 3.25,         // radio de la zona óptica
+  faldaEsfera: 0.06, // lo que queda de la esfera miópica justo fuera de la zona óptica…
+  rFalda: 3.9,       // …y hasta dónde llega (mm desde el centro)
+  // Anillo hipermétrope: fracción del máximo según la distancia al centro (mm).
+  anillo:   [[0,0],[0.4,0],[2,0.30],[3,0.70],[3.3,1],[3.5,1],[4,0.5],[4.5,0]],
+  // Cilindro miópico: fracción de su profundidad central que queda a lo largo del eje (mm).
+  // Leído en dos mapas de Allegretto, con −1,75 y −2,50 D de cilindro.
+  bandaEje: [[0,1],[2,0.85],[3,0.53],[3.25,0.43],[3.5,0.27],[4,0.15],[4.25,0.09],[4.45,0]],
+  umMedia: 7,        // desde aquí «media» (decisión del usuario, 24/11/2026; antes 10)
+  umAlta: 25         // desde aquí «alta»
+};
+
+// Interpolación lineal en una tabla [[x, y], …] ordenada por x.
+function interp(pts, x){
+  if (x <= pts[0][0]) return pts[0][1];
+  for (let i = 1; i < pts.length; i++){
+    if (x <= pts[i][0]){
+      const [x0, y0] = pts[i-1], [x1, y1] = pts[i];
+      return y0 + (y1 - y0)*(x - x0)/(x1 - x0);
+    }
+  }
+  return pts[pts.length-1][1];
+}
+
+// Profundidad estimada (µm) en el punto (x, y), en mm desde el centro de la ablación, con x en
+// horizontal. n = refracción en cilindro negativo ({sph, cyl, ax}). Suma las tres partes.
+function profundidadAblacion(n, x, y){
+  const B = BISAGRA, t = deg2rad(n.ax);
+  const a = x*Math.cos(t) + y*Math.sin(t);    // a lo largo del eje del cilindro
+  const p = -x*Math.sin(t) + y*Math.cos(t);   // perpendicular al eje
+  const r = Math.hypot(x, y);
+  const enZO = v => Math.max(0, 1 - Math.pow(v/B.rZO, 2));
+  let um = 0;
+  if (n.sph < 0){
+    const f = r < B.rZO ? Math.max(enZO(r), B.faldaEsfera)
+                        : B.faldaEsfera * clamp((B.rFalda - r)/(B.rFalda - B.rZO), 0, 1);
+    um += B.miopeUmPorD * (-n.sph) * f;
+  }
+  // Cilindro miópico: óvalo que llega hasta el final de `bandaEje` a lo largo del eje y hasta
+  // el borde de la zona óptica en perpendicular, con el mismo perfil en las dos direcciones
+  // (en los mapas, el perfil a lo largo del eje y la parábola transversal casi coinciden).
+  // En un mixto solo cuenta la parte que queda negativa.
+  const cilMiope = Math.min(-n.cyl, Math.max(0, -(n.sph + n.cyl)));
+  if (cilMiope > 0){
+    const aMax = B.bandaEje[B.bandaEje.length-1][0];
+    um += B.miopeUmPorD * cilMiope * interp(B.bandaEje, Math.hypot(a/aMax, p/B.rZO) * aMax);
+  }
+  if (n.sph > 0 && r > 0){
+    const pos = n.sph + n.cyl*(p*p)/(r*r);    // potencia del meridiano que pasa por el punto
+    if (pos > 0) um += B.hiperUmPorD * pos * interp(B.anillo, r);
+  }
+  return um;
+}
+
+// Recorre la cuerda de la bisagra y se queda con el punto que más ablación recibe.
+function ablacionEnBisagra(sph, cyl, axis, flapMm, hingeMm){
+  if (sph === undefined || sph === null || isNaN(sph) || cyl === undefined || cyl === null || isNaN(cyl)) return null;
+  if (!(flapMm > 0) || !(hingeMm >= 0)) return null;
+  const B = BISAGRA;
+  const n = normalizeCylNegative(sph, cyl, isFinite(axis) ? axis : 0);
+  const R = flapMm/2;
+  const d = Math.sqrt(Math.max(0, R*R - (hingeMm/2)*(hingeMm/2)));
+  const dist = d + recentradoLenticulo(R, d).recenterMm;   // del centro de la ablación a la bisagra
+  let um = 0;
+  for (let y = -hingeMm/2; y <= hingeMm/2 + 1e-9; y += 0.1) um = Math.max(um, profundidadAblacion(n, dist, y));
+  const maxUm = Math.max(B.hiperUmPorD * Math.max(0, n.sph), B.miopeUmPorD * Math.max(0, -(n.sph + n.cyl)));
+  return {
+    um, dist, maxUm,
+    pct: maxUm > 0 ? Math.min(100, 100*um/maxUm) : 0,
+    nivel: um >= B.umAlta ? 2 : um >= B.umMedia ? 1 : 0
+  };
+}
+
+function renderBisagra(b){
+  if (!b) return '';
+  const nombre = ['baja', 'media', 'alta'][b.nivel];
+  const detalle = b.um < 3
+    ? 'apenas recibe ablación'
+    : `ablación ${nombre}: ≈ ${Math.round(b.um)} µm (${Math.round(b.pct)} % del máximo)`;
+  return `<div class="bis-nota bis-${b.nivel}" title="Estimación con el lentículo centrado como en el dibujo; bisagra a ${b.dist.toFixed(1).replace('.', ',')} mm del centro de la ablación"><span class="bis-dot"></span>Bisagra: ${detalle}</div>`;
+}
+
+function renderRiskPanel(panelId, ring, stop, ctx){
+  const panel = $(panelId);
+  if(!panel) return;
+  const d = RISK[riskKey(ring, stop)];
+  let html;
+  if(!d){
+    html = `<div class="risk-row"><span class="risk-warn">Sin datos de riesgo para esta combinación</span></div>`;
+  } else {
+    const lowN = d.n < 500;
+    const bar = (val, thLow, thHigh, id) => {
+      if (val === null) return `<div class="risk-row"><span class="risk-lbl">${id}</span><span class="risk-warn">Sin datos suficientes</span></div>`;
+      const cls = val < thLow ? 'risk-low' : val < thHigh ? 'risk-mid' : 'risk-high';
+      const scale = id==='Completo' ? SCALE_LC : SCALE_BA;
+      const barW = Math.min(100, (val/scale)*100);
+      // Con pocos casos se muestra el intervalo real en lugar de una etiqueta genérica.
+      const [lo, hi] = wilson(val, d.n);
+      const nNote = lowN
+        ? `<span class="risk-warn">&nbsp;n=${d.n} · IC95 ${lo.toFixed(1)}–${hi.toFixed(1)}%</span>`
+        : `<span class="risk-n">&nbsp;n=${d.n.toLocaleString()}</span>`;
+      return `<div class="risk-row ${cls}">
+        <span class="risk-lbl">${id}</span>
+        <div class="risk-bar-wrap"><div class="risk-bar" style="width:${barW}%"></div></div>
+        <span class="risk-val">${val.toFixed(2)}%</span>
+        ${nNote}
+      </div>`;
+    };
+    html = bar(d.lc, 0.5, 1.5, 'Completo') + bar(d.ba, 0.3, 0.8, 'B.ancha');
+  }
+  html += renderEvaluation(evaluarCombinacion(ring, stop, ctx), ctx.recRing === ring && Math.abs(ctx.recStop - stop) < 0.01);
+  const gB = inferFlapHinge(ctx.kRow, ring, stop);
+  html += renderBisagra(ablacionEnBisagra(ctx.sph, ctx.cyl, ctx.rax, gB.flap, gB.hinge));
+  panel.innerHTML = html;
+}
+
+// ── Semáforo: evaluación de la combinación elegida ──
+// Un solo criterio: la RECOMENDACIÓN del algoritmo es la referencia.
+//  · Si se muestra la recomendada, el semáforo solo añade avisos del caso (⚠), nunca ✕: no tiene
+//    sentido que la calculadora recomiende algo y a la vez lo marque como incorrecto.
+//  · Si el cirujano elige otra, se compara con la recomendada: qué empeora y cuánto.
+// Umbrales = los mismos colores que las barras (LC alto ≥1,5 %, BA alta ≥0,8 %).
+// El diámetro se juzga por el flap real en mm (no por el número de anillo, que cambia de
+// diámetro con la K). Umbrales = los criterios originales por anillo traducidos a mm en la K
+// de referencia 43–44: anillo ≤0 ≈ flap ≥9,9 · anillo −1 ≈ ≥10,4 · anillo ≥2 ≈ ≤9,4 · anillo 3 ≈ ≤8,9.
+function evaluarCombinacion(ring, stop, c){
+  const f = [];
+  const esRec = c.recRing === ring && Math.abs(c.recStop - stop) < 0.01;
+  const d  = RISK[riskKey(ring, stop)];
+  const dr = RISK[riskKey(c.recRing, c.recStop)];
+  const geo  = inferFlapHinge(c.kRow, ring, stop);
+  const geoR = inferFlapHinge(c.kRow, c.recRing, c.recStop);
+  const abl = ablacionComun(c.sph, c.cyl, c.rax);
+  const need = abl ? abl.anchoH : null;   // lo que la ablación ocupa en horizontal
+
+  // 1. Desviación respecto a la recomendada (riesgos de la base de datos)
+  if (!esRec){
+    const quien = stop > c.recStop + 0.01 ? 'tope más alto que el recomendado'
+                : stop < c.recStop - 0.01 ? 'tope más bajo que el recomendado'
+                : 'anillo distinto del recomendado';
+    if (!d){
+      f.push({sev:1, txt:`${quien}, sin datos de riesgo`});
+    } else if (dr){
+      if (d.lc > dr.lc + 0.2)
+        f.push({sev: (d.lc >= 1.5 && d.lc >= 2*dr.lc) ? 2 : 1, txt:`${quien}: lentículo completo ${pctFmt(d.lc)} frente a ${pctFmt(dr.lc)}`});
+      if (d.ba !== null && dr.ba !== null && d.ba > dr.ba + 0.2)
+        f.push({sev: (d.ba >= 0.8 && d.ba >= 2*dr.ba) ? 2 : 1, txt:`${quien}: bisagra ancha ${pctFmt(d.ba)} frente a ${pctFmt(dr.ba)}`});
+    }
+  }
+
+  // 2. Lecho frente a ablación. Se toleran hasta LECHO_TOLERANCIA_MM de déficit (decisión del
+  // usuario): diferencias tan pequeñas no justifican aviso. Se redondea a centésimas para que
+  // 8,8 − 9,0 cuente como −0,20 exacto y no como −0,2000001.
+  const cubre = g => need === null || Math.round((g.stroma - need)*100)/100 >= -LECHO_TOLERANCIA_MM;
+  if (!cubre(geo)){
+    const peor = !esRec && cubre(geoR);
+    f.push(peor
+      ? {sev:2, txt:`el lecho (${mmFmt(geo.stroma)}) no cubre la ablación en horizontal (${mmFmt(need)}); con la recomendada sí`}
+      : {sev:1, txt:`lecho estimado ${mmFmt(geo.stroma)}, menor que la ablación en horizontal (${mmFmt(need)}): puede alcanzar la bisagra`});
+  }
+
+  // 3. Diámetro del flap
+  const se = c.sph + c.cyl/2, astig = Math.abs(c.cyl);
+  const demand = clamp(astig*0.5 + Math.max(0, se)*0.5, 0, 1);
+  const isolatedMyope = astig < 0.5 && se <= 0;
+  if (c.bb < 11.6 && geo.flap >= 9.9){
+    const bad = c.bb < 11 && geo.flap >= 10.4;
+    f.push({sev: bad?2:1, txt:`diámetro ${bad?'demasiado':'algo'} grande para el BB (flap ${mmFmt(geo.flap)})`});
+  } else if (isolatedMyope && geo.flap >= 9.9){
+    const bad = geo.flap >= 10.4;
+    f.push({sev: bad?2:1, txt:`diámetro ${bad?'demasiado':'algo'} grande para una esfera aislada (flap ${mmFmt(geo.flap)})`});
+  } else if (demand >= 0.5 && c.bb >= 12 && geo.flap <= 9.4){
+    const bad = geo.flap <= 8.9;
+    f.push({sev: bad?2:1, txt:`diámetro ${bad?'demasiado':'algo'} pequeño para la necesidad (flap ${mmFmt(geo.flap)})`});
+  }
+
+  // 4. Subida de tope bloqueada por riesgo (solo tiene sentido sobre la recomendada)
+  if (esRec && c.bloqueo) f.push({sev:1, txt:c.bloqueo});
+
+  // 5. Combinación cambiada por la regla del tratamiento (v50) o del mixto con eje horizontal:
+  //    se explica, no es un aviso.
+  if (esRec && c.reglaTrat) f.push({sev:0, txt:c.reglaTrat});
+  if (esRec && c.subidaMixto) f.push({sev:0, txt:c.subidaMixto});
+
+  if (esRec) f.forEach(x => { x.sev = Math.min(x.sev, 1); });
+  return f;
+}
+
+const LECHO_TOLERANCIA_MM = 0.2;
+const SEV_CLS  = ['jfi-ok', 'jfi-warn', 'jfi-bad'];
+const SEV_ICON = ['✓', '⚠', '✕'];
+function renderEvaluation(findings, esRec){
+  const sev = findings.reduce((m, x) => Math.max(m, x.sev), 0);
+  let phrase = findings.length
+    ? findings.map(x => x.txt).join(' · ')
+    : (esRec ? 'Tope y diámetro adecuados' : 'Alternativa sin más riesgo que la recomendada');
+  phrase = phrase.charAt(0).toUpperCase() + phrase.slice(1);
+  return `<div class="jfi ${SEV_CLS[sev]}" style="display:flex;align-items:center;gap:6px;padding:5px 8px;">
+    <span class="jfi-icon">${SEV_ICON[sev]}</span>
+    <span style="font-size:.76rem;">${phrase}</span>
+  </div>`;
+}
+
+function buildSelects(selRingId, selStopId, rows, chosenRing, chosenStop){
+  const selR = $(selRingId); const selS = $(selStopId);
+  if(!selR || !selS) return;
+
+  // Guardar la combinación recomendada por el algoritmo
+  REC[selRingId] = chosenRing;
+  REC[selStopId] = chosenStop;
+
+  // Todos los anillos y topes presentes en los datos de riesgo
+  const ALL_RINGS = [-1, 0, 1, 2, 3];
+  const ALL_STOPS = [8.5, 8.0, 7.5];  // 9.0 solo K=49, se añade si aplica
+  const stops = rows.some(r => r.stop === 9.0)
+    ? [9.0, 8.5, 8.0, 7.5]
+    : ALL_STOPS;
+
+  selR.innerHTML = ALL_RINGS.map(ring => {
+    const rTxt = (ring>0?'+':'')+ring;
+    const sel  = ring===chosenRing ? ' selected' : '';
+    return `<option value="${ring}"${sel}>${rTxt}</option>`;
+  }).join('');
+
+  selS.innerHTML = stops.map(stop => {
+    const sTxt = stop.toFixed(1).replace('.',',');
+    const sel  = Math.abs(stop-chosenStop)<0.01 ? ' selected' : '';
+    return `<option value="${stop}"${sel}>${sTxt}</option>`;
+  }).join('');
+
+  selR.onchange = () => triggerRisk(selRingId, selStopId);
+  selS.onchange = () => triggerRisk(selRingId, selStopId);
+}
+
+function triggerRisk(selRingId, selStopId){
+  const ring = parseInt($(selRingId).value);
+  const stop = parseFloat($(selStopId).value);
+  if (isNaN(ring) || isNaN(stop)) return;   // ojo no incluido: sus desplegables están vacíos
+  const eye = selRingId.replace('selRing', '');  // 'OD' | 'OI'
+  renderRiskPanel('risk' + eye, ring, stop, {
+    bb: REC['bb'+eye], sph: REC['sph'+eye], cyl: REC['cyl'+eye], rax: REC['rax'+eye], kRow: REC['kRow'+eye],
+    recRing: REC[selRingId], recStop: REC[selStopId], bloqueo: REC['bloqueo'+eye], subidaMixto: REC['subidaMixto'+eye], reglaTrat: REC['reglaTrat'+eye]
+  });
+
+  // Redibuja la ablación + lentículo con la combinación EXACTA elegida a mano (no la
+  // recomendada por el algoritmo), infiriendo flap/bisagra si esa combinación no es una
+  // opción real del nomograma para esta K.
+  if (selRingId === 'selRingOD'){
+    const {flap, hinge, refStop, refHinge} = inferFlapHinge(REC.kRowOD, ring, stop);
+    drawAblationShape('ablationSvgOD', REC.sphOD, REC.cylOD, REC.raxOD, 0, REC.bbOD, flap, 'right', hinge, stop, refStop, refHinge);
+  } else {
+    const {flap, hinge, refStop, refHinge} = inferFlapHinge(REC.kRowOI, ring, stop);
+    drawAblationShape('ablationSvgOI', REC.sphOI, REC.cylOI, REC.raxOI, 0, REC.bbOI, flap, 'left', hinge, stop, refStop, refHinge);
+  }
+}
+
+function stopFmt(stop){
+  return stop.toFixed(1).replace('.0','').replace('.',',');
+}
+
+// Calcula khoriz/score/roundDrive/fila propia para un ojo dado, leyendo campos con sufijo ('_od'/'_oi').
+// P = pesos y umbrales compartidos (ya leídos una vez en render()).
+function computeEyeAO(sfx, P){
+  let kavg, kcyl, kax, notaK = '';
+  if (kModeAO === 'k12'){
+    let k1 = parseFloat($('k1'+sfx).value);
+    let ax1 = parseFloat($('ax1'+sfx).value);
+    let k2 = parseFloat($('k2'+sfx).value);
+    const bad = k1 > k2;
+    $('k1'+sfx).classList.toggle('invalid', bad);
+    $('k2'+sfx).classList.toggle('invalid', bad);
+    $('k12Warning'+sfx.replace('_','').toUpperCase()).style.display = bad ? 'block' : 'none';
+    $('ax2'+sfx).value = (((ax1+90)%180)+180)%180;
+    kavg = (k1+k2)/2;
+    kcyl = k1-k2; // negativo si K1 es la plana
+    kax = ax1;
+  } else {
+    kavg = parseFloat($('kavg'+sfx).value);
+    kcyl = parseFloat($('kcyl'+sfx).value);
+    kax = parseFloat($('kax'+sfx).value);
+    // Cilindro K positivo: se convierte solo para el cálculo, sin reescribir los campos
+    // (reescribirlos mientras se teclea corrompe lo que el usuario escribe a continuación).
+    if (kcyl > 0){
+      kcyl = -kcyl;
+      kax = ((kax + 90) % 180 + 180) % 180;
+      notaK = `K media ${kavg.toFixed(2)}  ${kcyl.toFixed(2)} x ${Math.round(kax)}°`;
+    }
+  }
+  const khoriz = computeKhorizFromAvg(kavg, kcyl, kax);
+
+  // Igual con la refracción: se transpone internamente, los campos quedan como se teclearon.
+  const norm = normalizeCylNegative(parseFloat($('sph'+sfx).value), parseFloat($('cyl'+sfx).value), parseFloat($('rax'+sfx).value));
+  const sph = norm.sph, cyl = norm.cyl, rax = norm.ax;
+  const notaRefr = norm.converted ? `${sph.toFixed(2)} ${cyl.toFixed(2)} x ${Math.round(rax)}°` : '';
+
+  const bb = parseFloat($('bb'+sfx).value);
+
+  const horizComp = Math.pow(Math.cos(deg2rad(rax)), 2);
+  const cylWeighted = Math.pow(Math.abs(cyl), P.cylExp);
+  const se = sph + cyl/2;
+  const hyperopicComp = Math.max(0, se);
+  const cylDrive = P.wCyl * cylWeighted * horizComp;
+  // La hipermetropía ya no suma para subir el tope: el peso wHypStop vale 0 desde la v47
+  // (decisión del usuario, 24/11/2026: en la cohorte de SBK 2.0 subir el tope en hipermetropía
+  // no mejora el resultado y aumenta el lentículo completo). Era 0,58.
+  const score = cylDrive + P.wHypStop * hyperopicComp;
+  const roundDrive = cylDrive - P.wHypRound * hyperopicComp;
+  const rawRow = adaptiveRound(khoriz, roundDrive, P.roundBias, P.roundSens);
+  const ownRow = clamp(rawRow, K_MIN, K_MAX);
+  const outOfTable = rawRow < K_MIN || rawRow > K_MAX;
+
+  return {khoriz, bb, score, roundDrive, ownRow, outOfTable, sph, cyl, rax, hyperopicComp, notaK, notaRefr};
+}
+
+// ── Mixto con eje horizontal: se cambia la combinación para cubrir la ablación (v46, v48) ──
+// Decisión clínica del usuario (24/11/2026), con la cohorte de SBK 2.0 (análisis A008): en el
+// astigmatismo mixto con el eje horizontal, cubrir la ablación baja el cilindro residual
+// ≥ 0,75 D del 27 % al 21 %, a cambio de 1–2 lentículos completos más por cada 100 ojos. Se
+// acepta hasta MIXTO_H_LC_EXTRA puntos más de riesgo de LC. En hipermetropía y miopía NO se sube
+// por cobertura: no hay beneficio y el LC sube.
+// v48 (24/11/2026, sincronización con SBK 2.0): en vez de subir siempre a la primera opción de la
+// fila, se elige, entre las combinaciones del nomograma de la fila y de las dos contiguas, la que
+// cubre con MENOS riesgo de LC (tabla RISK), con holgura BB − flap ≥ 1,5 mm. En K 43 suele ser
+// 0/8 (flap mayor, mismo tope) en lugar de 0/8,5. En la cohorte de 2026 (521 mixtos horizontales con
+// recomendación distinta), LC estimado 1,25 % frente a 2,3 % y cobertura del 46 % al 100 %.
+// Mismo criterio que el análisis: eje a ±45° de la horizontal; «cubre» = estroma del modelo
+// R + d SIN redondear ≥ anchura horizontal − 0,2 mm. Por eso 8,75 mm (que la tabla enseña como
+// 8,8) no cubre los 9,0 de un mixto a 180°.
+const MIXTO_H_LC_EXTRA = 1.5;
+const HOLGURA_LIMBO_MM = 1.5;
+function subidaPorMixtoHorizontal(kRow, act, bb, P, eye){
+  if (!eye || !(bb >= P.bbFloor)) return null;               // con BB bajo no se cambia nunca
+  const abl = ablacionComun(eye.sph, eye.cyl, eye.rax);
+  if (!abl || abl.tipo !== 'mixed') return null;
+  const co = Math.cos(deg2rad(abl.axis));
+  if (co*co < 0.5) return null;                               // eje más vertical que horizontal
+  const real = o => lenticuloModelo(kRow, o.ring, o.stop).stroma;
+  const cubre = o => real(o) >= abl.anchoH - LECHO_TOLERANCIA_MM - 1e-9;
+  if (cubre(act)) return null;
+  const dA = RISK[riskKey(act.ring, act.stop)];
+  if (!dA) return null;
+  const vistos = new Set();
+  let mejor = null;
+  for (let k = kRow - 1; k <= kRow + 1; k++){
+    for (const o of (NOMO[k] || [])){
+      const key = riskKey(o.ring, o.stop);
+      if (vistos.has(key)) continue;
+      vistos.add(key);
+      const d = RISK[key];
+      if (!d || !cubre(o) || bloqueoPorRiesgo(o) || d.lc - dA.lc > MIXTO_H_LC_EXTRA) continue;
+      if (bb - inferFlapHinge(kRow, o.ring, o.stop).flap < HOLGURA_LIMBO_MM) continue;
+      if (!mejor || d.lc < mejor.d.lc) mejor = {o, d};
+    }
+  }
+  if (!mejor) return null;
+  const g = inferFlapHinge(kRow, mejor.o.ring, mejor.o.stop);
+  return {
+    chosen: {ring: mejor.o.ring, stop: mejor.o.stop, flap: g.flap, stroma: g.stroma, hinge: g.hinge},
+    txt: `combinación cambiada para cubrir la ablación (mixto con eje horizontal): ${comboFmt(mejor.o.ring, mejor.o.stop)}, lentículo completo ${pctFmt(mejor.d.lc)} frente a ${pctFmt(dA.lc)} con ${comboFmt(act.ring, act.stop)}`
+  };
+}
+
+// ── Reglas por tipo de tratamiento en las filas 39, 43, 45 y 46 (v50) ──
+// Decisión clínica del usuario (24/11/2026), revisando casos reales con la cohorte de SBK 2.0:
+// «con esferas miópicas arriesgamos bisagra ancha, con cilindros horizontales arriesgamos completo».
+//  · Miopía sin cilindro horizontal: tope más bajo (menos lentículo completo, algo más de bisagra
+//    ancha), solo si el lecho sigue cubriendo la ablación.
+//  · Cilindro horizontal (|cil| · cos²(eje) ≥ 1 D, cualquier tipo de tratamiento): flap mayor o tope
+//    más alto (menos bisagra ancha, algo más de lentículo completo).
+// En el resto de filas y tratamientos, la de partida sigue siendo la del fabricante. Fila 39 con
+// cilindro horizontal y fila 45 en miopía: se quedan en la del fabricante (−1/8 y +2/7,5); por debajo
+// de 39,5 se aplica el mismo criterio. Con BB < 11 manda la regla del fabricante; con cilindro
+// horizontal hace falta BB ≥ bbFloor (no se agranda nada con BB bajo) y, siempre, holgura BB − flap
+// ≥ 1,5 mm. Estimación en España 2026 (SBK 2.0): lentículo completo 0,53 % → 0,49 %, bisagra ancha
+// 2,70 % → 2,72 %; cambia la combinación en ~1 de cada 10 ojos.
+const CIL_H_MIN = 1.0;
+const REGLAS_TRATAMIENTO = {
+  39: {miopia: {ring: 0, stop: 7.5}},
+  43: {cilH:   {ring: 0, stop: 8}},
+  45: {cilH:   {ring: 1, stop: 8}},
+  46: {miopia: {ring: 2, stop: 7.5}},
+};
+function grupoTratamiento(eye){
+  const abl = eye && ablacionComun(eye.sph, eye.cyl, eye.rax);
+  if (!abl) return null;
+  const n = normalizeCylNegative(eye.sph, eye.cyl, isFinite(eye.rax) ? eye.rax : 0);
+  const co = Math.cos(deg2rad(n.ax));
+  if (Math.abs(n.cyl) * co * co >= CIL_H_MIN - 1e-9) return {g: 'cilH', abl};
+  return {g: abl.tipo === 'myopic' ? 'miopia' : 'otro', abl};
+}
+function reglaPorTratamiento(kRow, act, bb, P, eye){
+  if (!(bb >= 11)) return null;                                // BB < 11: regla del fabricante
+  const gt = grupoTratamiento(eye);
+  const o = gt && (REGLAS_TRATAMIENTO[kRow] || {})[gt.g];
+  if (!o || (o.ring === act.ring && o.stop === act.stop)) return null;
+  if (gt.g === 'cilH' && !(bb >= P.bbFloor)) return null;
+  if (bloqueoPorRiesgo(o)) return null;
+  const g = inferFlapHinge(kRow, o.ring, o.stop);
+  if (bb - g.flap < HOLGURA_LIMBO_MM) return null;
+  if (gt.g === 'miopia' && !(lenticuloModelo(kRow, o.ring, o.stop).stroma >= gt.abl.anchoH - LECHO_TOLERANCIA_MM - 1e-9)) return null;
+  const txt = gt.g === 'miopia'
+    ? `fila ${kRow} en miopía sin cilindro horizontal: ${comboFmt(o.ring, o.stop)} en lugar de ${comboFmt(act.ring, act.stop)} (se acepta algo más de riesgo de bisagra ancha para bajar el de lentículo completo; decisión clínica)`
+    : `fila ${kRow} con cilindro horizontal ≥ 1 D: ${comboFmt(o.ring, o.stop)} en lugar de ${comboFmt(act.ring, act.stop)} (se acepta algo más de riesgo de lentículo completo para no ensanchar la bisagra; decisión clínica)`;
+  return {chosen: {ring: o.ring, stop: o.stop, flap: g.flap, stroma: g.stroma, hinge: g.hinge}, txt};
+}
+
+// Dada una fila ya decidida (posiblemente unificada entre ojos) y el BB/score propios del ojo,
+// elige la combinación (idx) dentro de esa fila. `eye` = refracción del ojo ({sph, cyl, rax}).
+function pickIdxAndLookup(row, bb, score, P, eye){
+  const {k: kRow, rows} = findRowOption(row);
+  const n = rows.length;
+  let idx = defaultMidIndex(rows);
+  const bloqueo = null;
+  if (bb < 11) idx = n - 1;   // regla del fabricante: última opción de la fila
+  // v49 (24/11/2026, decisión del usuario con la cohorte de SBK 2.0): ya no se sube el tope por la
+  // puntuación de cilindro horizontal en ningún tipo de tratamiento. En la v48 se había quitado en
+  // miopía y en el mixto; ahora tampoco en hipermetropía (subir no mejora el resultado y el LC se
+  // multiplica: unos 5 ojos al año, LC estimado 4,6 % frente a 1,3 %). Por puntuación ya no cambia
+  // nada; el tope cambia solo por la regla del tratamiento (v50) y la del mixto horizontal.
+  // La puntuación (score) sigue calculándose y el cilindro sigue entrando en el redondeo de la fila.
+  // v50: regla por tipo de tratamiento en las filas 39, 43, 45 y 46; después, el mixto horizontal.
+  const regla = reglaPorTratamiento(kRow, rows[idx], bb, P, eye);
+  const act = regla ? regla.chosen : rows[idx];
+  const reglaTrat = regla ? regla.txt : null;
+  const sub = subidaPorMixtoHorizontal(kRow, act, bb, P, eye);
+  if (sub) return { kRow, chosen: sub.chosen, bloqueo: null, subidaMixto: sub.txt, reglaTrat };
+  return { kRow, chosen: act, bloqueo, subidaMixto: null, reglaTrat };
+}
+
+function findRowOption(k_int){
+  const kc = clamp(k_int, K_MIN, K_MAX);
+
+  return {k: kc, rows: NOMO[kc]};
+}
+
+function defaultMidIndex(rows){
+  // For 3-option rows, the manufacturer's own middle row IS the median —
+  // use its position, not its stop value, so table exceptions (e.g. K=45) don't break the logic.
+  if (rows.length === 3) return 1;
+  // For 2-option rows there's no literal middle: pick whichever option has stop closest to 8.
+  let bestIdx = 0, bestDist = Infinity;
+  rows.forEach((r,i)=>{
+    const d = Math.abs(r.stop - 8);
+    if (d < bestDist){ bestDist = d; bestIdx = i; }
+  });
+  return bestIdx;
+}
+
+// ── Validación de entradas ──
+// Si falta un dato o está fuera de un rango plausible no se muestra ninguna recomendación: es
+// preferible un aviso claro a dejar en pantalla un resultado calculado con otros datos.
+const RANGOS = {
+  k:    {min:35,  max:55,  txt:'35–55 D'},
+  kcyl: {min:-10, max:10,  txt:'±10 D'},
+  eje:  {min:0,   max:180, txt:'0–180°'},
+  bb:   {min:9,   max:14,  txt:'9–14 mm'},
+  sph:  {min:-20, max:12,  txt:'−20 a +12 D'},
+  cyl:  {min:-10, max:10,  txt:'±10 D'},
+};
+
+// Un ojo se da por no incluido si su esfera y su cilindro están en blanco: así se calcula un
+// solo ojo sin cambiar de modo (el modo «Un ojo» se retiró en la v43).
+function ojoVacio(sfx){ return $('sph'+sfx).value.trim() === '' && $('cyl'+sfx).value.trim() === ''; }
+
+// Campos que intervienen en el cálculo: los de cada ojo incluido, según K1-K2 o K media.
+function camposActivos(){
+  const campos = [];
+  const add = (id, tipo, nombre) => campos.push({id, tipo, nombre});
+  const addOjo = (s, ojo) => {
+    const o = ' ' + ojo;
+    if (kModeAO === 'k12'){ add('k1'+s, 'k', 'K1'+o); add('ax1'+s, 'eje', 'eje K1'+o); add('k2'+s, 'k', 'K2'+o); }
+    else { add('kavg'+s, 'k', 'K media'+o); add('kcyl'+s, 'kcyl', 'cil. K'+o); add('kax'+s, 'eje', 'eje K'+o); }
+    add('bb'+s, 'bb', 'BB'+o); add('sph'+s, 'sph', 'esfera'+o); add('cyl'+s, 'cyl', 'cilindro'+o); add('rax'+s, 'eje', 'eje refr.'+o);
+  };
+  if (!ojoVacio('_od')) addOjo('_od', 'OD');
+  if (!ojoVacio('_oi')) addOjo('_oi', 'OI');
+  return campos;
+}
+
+function validarEntradas(){
+  document.querySelectorAll('input.missing').forEach(el => el.classList.remove('missing'));
+  const problemas = [];
+  camposActivos().forEach(c => {
+    const el = $(c.id);
+    const v = parseFloat(el.value);
+    const r = RANGOS[c.tipo];
+    let msg = null;
+    if (el.value.trim() === '' || isNaN(v)) msg = `falta ${c.nombre}`;
+    else if (v < r.min || v > r.max) msg = `${c.nombre} fuera de rango (${r.txt})`;
+    if (msg){ problemas.push(msg); el.classList.add('missing'); }
+  });
+  if (ojoVacio('_od') && ojoVacio('_oi')) problemas.push('hay que rellenar al menos un ojo');
+  return problemas;
+}
+
+function mostrarErrorEntradas(problemas){
+  const hay = problemas.length > 0;
+  document.body.classList.toggle('inputs-missing', hay);
+  $('inputError').style.display = hay ? 'block' : 'none';
+  $('inputError').textContent = hay ? `Sin recomendación hasta completar los datos: ${problemas.join(' · ')}.` : '';
+}
+
+function render(){
+  const wCyl = parseFloat($('wCyl').value);
+  const cylExp = parseFloat($('cylExp').value);
+  const wHypStop = parseFloat($('wHypStop').value);
+  const wHypRound = parseFloat($('wHypRound').value);
+  const bbFloor = parseFloat($('bbFloor').value);
+  const bbMult = parseFloat($('bbMult').value);
+  const thHigh = parseFloat($('thHigh').value);
+  const thRing1 = parseFloat($('thRing1').value);
+  $('wCylVal').textContent = wCyl.toFixed(2);
+  $('cylExpVal').textContent = cylExp.toFixed(1);
+  $('wHypStopVal').textContent = wHypStop.toFixed(1);
+  $('wHypRoundVal').textContent = wHypRound.toFixed(1);
+  $('bbFloorVal').textContent = bbFloor.toFixed(1);
+  $('bbMultVal').textContent = bbMult.toFixed(1);
+  $('thHighVal').textContent = thHigh.toFixed(1);
+  $('thRing1Val').textContent = thRing1.toFixed(1);
+  const roundBias = parseFloat($('roundBias').value);
+  const roundSens = parseFloat($('roundSens').value);
+  $('roundBiasVal').textContent = roundBias.toFixed(2);
+  $('roundSensVal').textContent = roundSens.toFixed(2);
+
+  // Con datos incompletos o implausibles no se muestra ninguna recomendación.
+  const problemas = validarEntradas();
+  mostrarErrorEntradas(problemas);
+  if (problemas.length) return;
+
+  renderAO({wCyl, cylExp, wHypStop, wHypRound, roundBias, roundSens, bbFloor, bbMult, thHigh, thRing1});
+}
+
+// ---- Ambos ojos (OD/OI) ----
+// P = pesos y umbrales compartidos, leídos una vez en render().
+function renderAO(P){
+  // Cada ojo se calcula solo si está incluido (ver ojoVacio).
+  const OJOS = [{tag: 'OD', sfx: '_od', lado: 'right'}, {tag: 'OI', sfx: '_oi', lado: 'left'}];
+  OJOS.forEach(o => {
+    o.on  = !ojoVacio(o.sfx);
+    o.e   = o.on ? computeEyeAO(o.sfx, P) : null;
+    // Combo de cada ojo con su propia K (sin forzar ninguna unificación)
+    o.fin = o.on ? pickIdxAndLookup(o.e.ownRow, o.e.bb, o.e.score, P, o.e) : null;
+  });
+  const [OD, OI] = OJOS;
+  const sameCombo = (a, b) => a.ring === b.ring && a.stop === b.stop;
+  let advisory = '';
+
+  // Solo tiene sentido plantear la unificación de filas si hay dos ojos, caen en filas CONTIGUAS
+  // (a más distancia, cada ojo va con su propia fila) y solo tiene sentido el aviso de
+  // descentramiento si el resultado unificado es la MISMA combo.
+  if (OD.on && OI.on && Math.abs(OD.e.ownRow - OI.e.ownRow) === 1 && !sameCombo(OD.fin.chosen, OI.fin.chosen)){
+    const od = OD.e, oi = OI.e;
+    const lowRow  = Math.min(od.ownRow, oi.ownRow);
+    const highRow = Math.max(od.ownRow, oi.ownRow);
+    const combinedDrive = (od.roundDrive + oi.roundDrive) / 2;
+    const unified = combinedDrive >= 0 ? highRow : lowRow;
+    const odUnifiedPick = pickIdxAndLookup(unified, od.bb, od.score, P, od);
+    const oiUnifiedPick = pickIdxAndLookup(unified, oi.bb, oi.score, P, oi);
+
+    if (sameCombo(odUnifiedPick.chosen, oiUnifiedPick.chosen)){
+      // La unificación da la misma combo para ambos → tiene sentido aplicarla y avisar
+      OD.fin = odUnifiedPick;
+      OI.fin = oiUnifiedPick;
+      const highEye = od.ownRow > oi.ownRow ? 'OD' : 'OI';
+      const lowEye  = od.ownRow < oi.ownRow ? 'OD' : 'OI';
+      if (unified === lowRow){
+        advisory = `K horizontal distinta entre ojos (OD fila ${od.ownRow} · OI fila ${oi.ownRow}): se unifica a la fila ${lowRow} (más conservadora) para que ambos usen la misma combinación. Se recomienda un ligero descentramiento del anillo en ${highEye} (K más alta).`;
+      } else {
+        advisory = `K horizontal distinta entre ojos (OD fila ${od.ownRow} · OI fila ${oi.ownRow}): se unifica a la fila ${highRow} para que ambos usen la misma combinación. Se recomienda no descentrar demasiado el anillo en ${lowEye} (K más baja).`;
+      }
+    }
+    // Si la unificación daría combos distintas de todos modos, cada ojo va con su propia K —
+    // no hay unificación ni aviso: el tratamiento ya es diferente por otros motivos (BB, score…)
+  }
+
+  OJOS.forEach(o => {
+    const T = o.tag, selR = $('selRing'+T), selS = $('selStop'+T);
+    selR.closest('.reco').classList.toggle('ojo-off', !o.on);
+    selR.disabled = selS.disabled = !o.on;
+    if (!o.on){
+      // Ojo no incluido: sin combinación, sin panel y sin dibujo.
+      selR.innerHTML = ''; selS.innerHTML = '';
+      REC['selRing'+T] = null; REC['selStop'+T] = null;
+      $('risk'+T).innerHTML = `<div class="risk-row"><span class="risk-n">${T} sin datos: no se calcula</span></div>`;
+      $('ablationSvg'+T).innerHTML = '';
+      return;
+    }
+    const e = o.e, f = o.fin;
+    buildSelects('selRing'+T, 'selStop'+T, findRowOption(f.kRow || e.ownRow).rows, f.chosen.ring, f.chosen.stop);
+    REC['score'+T] = e.score; REC['bb'+T] = e.bb;
+    REC['sph'+T] = e.sph; REC['cyl'+T] = e.cyl; REC['rax'+T] = e.rax; REC['kRow'+T] = f.kRow;
+    REC['bloqueo'+T] = f.bloqueo; REC['subidaMixto'+T] = f.subidaMixto; REC['reglaTrat'+T] = f.reglaTrat;
+    // El panel de riesgo describe la combinación FINAL (la de los desplegables), también cuando se unifica la fila.
+    renderRiskPanel('risk'+T, f.chosen.ring, f.chosen.stop, {bb: e.bb, sph: e.sph, cyl: e.cyl, rax: e.rax, kRow: f.kRow, recRing: f.chosen.ring, recStop: f.chosen.stop, bloqueo: f.bloqueo, subidaMixto: f.subidaMixto, reglaTrat: f.reglaTrat});
+    drawAblationShape('ablationSvg'+T, e.sph, e.cyl, e.rax, e.hyperopicComp, e.bb, f.chosen.flap, o.lado, f.chosen.hinge, f.chosen.stop, f.chosen.stop, f.chosen.hinge);
+  });
+
+  const activos = OJOS.filter(o => o.on);
+  const avisos = [];
+  activos.forEach(o => {
+    if (o.e.outOfTable) avisos.push(`${o.tag}: K horizontal calculada (${o.e.khoriz.toFixed(2)} D) fuera del rango de la tabla (${K_MIN}–${K_MAX} D). Se ha usado la fila límite — revisa el caso manualmente.`);
+  });
+  if (advisory) avisos.push(advisory);
+  $('aoAdvisory').style.display = avisos.length ? 'block' : 'none';
+  $('aoAdvisory').textContent = avisos.join('\n');
+
+  const notaConv = (campo) => activos.filter(o => o.e[campo]).map(o => `${o.tag}: ${o.e[campo]}`);
+  const nK = notaConv('notaK'), nR = notaConv('notaRefr');
+  $('kCylNoteAO').style.display = nK.length ? 'block' : 'none';
+  $('kCylNoteAO').textContent = nK.length ? `Convertido automáticamente a cilindro negativo — ${nK.join(' · ')}` : '';
+  $('cylConvertNoteAO').style.display = nR.length ? 'block' : 'none';
+  $('cylConvertNoteAO').textContent = nR.length ? `Convertido automáticamente a cilindro negativo — ${nR.join(' · ')}` : '';
+}
+
+// Clasifica el tipo de tratamiento según las potencias en los dos meridianos principales.
+// P_flat = potencia en el eje plano (=sph); P_steep = potencia en el eje curvo (=sph+cyl, cyl≤0).
+// Como cyl≤0, P_steep ≤ P_flat siempre.
+function classifyTreatment(sph, cyl){
+  const pFlat = sph, pSteep = sph + cyl;
+  if (pFlat <= 0.05) return 'myopic';      // ambos meridianos miópicos (o piano)
+  if (pSteep >= -0.05) return 'hyperopic'; // ambos meridianos hipermetrópicos (o piano)
+  return 'mixed';                          // un meridiano miope, el otro hipermétrope
+}
+
+// Dibuja la córnea, la pupila, el esquema de la ablación y el lentículo con su bisagra.
+// Recibe la refracción ya en cilindro negativo. Los esquemas de ablación (v42) están descritos
+// dentro, en el bloque «Esquemas de ablación».
+function drawAblationShape(svgId, sph, cyl, axis, hyperComp, bb, flapMm, hingeSide, hingeMm, stopVal, refStop, refHinge){
+  const svg = $(svgId);
+  if (!svg) return;
+  const vb = svg.viewBox.baseVal;
+  const cx = vb.width/2, cy = vb.height/2;
+  // Escala mm→px común a toda la figura: córnea, lentículo y ablación van a la MISMA escala,
+  // para que se vea de verdad si la ablación cabe en el lecho. (Hasta la v38 la ablación se
+  // dibujaba un 10 % más pequeña.)
+  const MM_TO_PX = vb.width * 0.058;
+  const PUPIL_NASAL_OFFSET_MM = 0.25; // desplazamiento nasal medio del centro pupilar (~1,8°)
+  const PUPIL_DIAM_MM = 3.0;          // pupila fotópica de referencia
+  // Huella común a todos los láseres (ablacionComun): semiejes en px.
+  const abl = ablacionComun(sph, cyl, axis) || {eje: 8.0, perp: 8.0};
+  const RX = MM_TO_PX * abl.eje / 2;   // semieje en el eje del cilindro negativo
+  const RY = MM_TO_PX * abl.perp / 2;  // semieje perpendicular
+  // El eje oftálmico crece en sentido antihorario visto de frente y `rotate` de SVG gira en
+  // horario: hay que girar −eje. (Hasta la v38 se giraba +eje y los ejes oblicuos salían en espejo.)
+  const rot = -(isFinite(axis) ? axis : 0);
+
+  const type = classifyTreatment(sph, cyl);
+  const DEPTH_SCALE = 8; // D a partir de la cual se considera "ablación alta" (color más cálido)
+
+  const gM = `${svgId}_gM`, gH = `${svgId}_gH`;
+  let html = '';
+
+  // Círculo de la córnea a escala (diámetro = BB), centrado en el centro geométrico corneal.
+  if (bb !== undefined && bb !== null && !isNaN(bb)){
+    const rCornea = (bb/2) * MM_TO_PX;
+    html += `<circle cx="${cx}" cy="${cy}" r="${rCornea}" fill="none" stroke="#5a7a94" stroke-width="2.2"/>`;
+  }
+
+  // ── Descentramiento pupilar nasal ──
+  // El centro pupilar no coincide con el centro geométrico de la córnea: está desplazado
+  // NASALMENTE ~0,2-0,25 mm de media (equivale a ~1,5-2° con la regla clínica de 7°/mm).
+  // La ablación y el lentículo se centran en la PUPILA, no en el centro corneal.
+  const nasalSign = (hingeSide === 'right') ? 1 : -1;   // OD: nasal a la derecha; OI: a la izquierda
+  const pcx = cx + nasalSign * PUPIL_NASAL_OFFSET_MM * MM_TO_PX;
+  const pcy = cy;
+
+  // Pupila (fotópica ~3 mm Ø) en su posición real, desplazada a nasal
+  html += `<circle cx="${pcx.toFixed(2)}" cy="${pcy}" r="${(PUPIL_DIAM_MM/2*MM_TO_PX).toFixed(2)}" fill="none" stroke="#b8c6d4" stroke-width="0.8" stroke-opacity="0.35" stroke-dasharray="1.5,2"/>`;
+
+  // ── Esquemas de ablación (v42) ──
+  // Rehechos con los mapas reales de Allegretto y Teneo (24/11/2026), que coinciden:
+  //  · Parte MIOPE (azul): máxima en el centro; fuera de la zona óptica queda menos del 15 %.
+  //  · Parte HIPERMÉTROPE (naranja): nula en el centro, máxima a ~3,4 mm y nula en el borde.
+  //    Con cilindro se reparte según la potencia positiva de cada meridiano: máxima en los
+  //    extremos del eje (dos lóbulos) y menor, o nula, en perpendicular.
+  // La opacidad indica la profundidad. El contorno fino es la huella de `ablacionComun`.
+  // Todo va dentro de un grupo girado −eje: dentro de él, el eje del cilindro es la horizontal.
+  const colorM = '#3d5a80', colorH = '#d4830a';
+  const pAxis = sph;         // potencia en el eje del cilindro negativo (la más hipermétrope)
+  const pPerp = sph + cyl;   // potencia en perpendicular (la más miope)
+  const gK = `${svgId}_gK`, mk = `${svgId}_mk`;
+  const stop = (off, color, op) => `<stop offset="${(off*100).toFixed(1)}%" stop-color="${color}" stop-opacity="${Math.max(0, op).toFixed(3)}"/>`;
+  let defs = '';
+  let capa = `<line x1="${pcx-RX*1.5}" y1="${pcy}" x2="${pcx+RX*1.5}" y2="${pcy}" stroke="#c2d0e0" stroke-width="1" stroke-dasharray="2,2"/>`;
+
+  // Parte miope. En miopía ocupa toda la huella; en mixto es solo el núcleo central, dentro de
+  // la zona óptica (6,5 mm en el eje, ~5,4 mm en perpendicular, como en los mapas).
+  if (pPerp < -0.05){
+    const depth = Math.min(Math.abs(pPerp), DEPTH_SCALE) / DEPTH_SCALE;
+    const op = 0.10 + depth*0.66;
+    const esMiope = type === 'myopic';
+    const mrx = esMiope ? RX : MM_TO_PX*3.25;
+    const mry = esMiope ? RY : MM_TO_PX*2.7;
+    const zo = esMiope ? 3.25/(abl.perp/2) : 1;   // dónde acaba la zona óptica dentro del disco
+    defs += `<radialGradient id="${gM}" cx="50%" cy="50%" r="50%">`
+      + stop(0, colorM, op) + stop(zo*0.55, colorM, op*0.62)
+      + (esMiope ? stop(zo, colorM, op*0.15) + stop(1, colorM, op*0.03) : stop(1, colorM, 0))
+      + `</radialGradient>`;
+    capa += `<ellipse cx="${pcx}" cy="${pcy}" rx="${mrx}" ry="${mry}" fill="url(#${gM})"/>`;
+  }
+
+  // Parte hipermétrope: anillo con su perfil radial y, si hay cilindro, reparto por meridianos.
+  if (pAxis > 0.05){
+    const depthH = Math.min(pAxis, 6) / 6;
+    const op = 0.10 + depthH*0.66;
+    const Rh = RX;   // radio exterior (4,5 mm)
+    // Perfil radial leído en los mapas, como fracción del máximo según r / radio exterior.
+    const perfil = [[0,0],[0.09,0],[0.44,0.30],[0.67,0.70],[0.73,1],[0.78,1],[0.89,0.5],[1,0]];
+    defs += `<radialGradient id="${gH}" cx="50%" cy="50%" r="50%">` + perfil.map(([o, f]) => stop(o, colorH, op*f)).join('') + `</radialGradient>`;
+    let mascara = '';
+    if (pPerp < pAxis*0.97){
+      // Fracción de potencia positiva del meridiano que pasa por cada punto del anillo.
+      // u = coseno del ángulo con el eje, medido a la altura del máximo del anillo (0,76·Rh).
+      const frac = u => clamp((pPerp + (pAxis - pPerp)*u*u) / pAxis, 0, 1);
+      const N = 24;
+      let stops = '';
+      for (let i = 0; i <= N; i++){
+        const x = -1 + 2*i/N;                 // posición a lo largo del eje, en radios exteriores
+        stops += stop(i/N, '#ffffff', frac(clamp(x/0.76, -1, 1)));
+      }
+      defs += `<linearGradient id="${gK}" x1="0" y1="0" x2="1" y2="0">${stops}</linearGradient>`
+        + `<mask id="${mk}" maskUnits="userSpaceOnUse" x="${pcx-Rh}" y="${pcy-Rh}" width="${2*Rh}" height="${2*Rh}"><rect x="${pcx-Rh}" y="${pcy-Rh}" width="${2*Rh}" height="${2*Rh}" fill="url(#${gK})"/></mask>`;
+      mascara = ` mask="url(#${mk})"`;
+    }
+    capa += `<circle cx="${pcx}" cy="${pcy}" r="${Rh}" fill="url(#${gH})"${mascara}/>`;
+  }
+
+  // Contorno de la huella que se compara con el lecho
+  capa += `<ellipse cx="${pcx}" cy="${pcy}" rx="${RX}" ry="${RY}" fill="none" stroke="${type === 'myopic' ? colorM : colorH}" stroke-width="0.6" stroke-opacity="0.35"/>`;
+  html += `<defs>${defs}</defs><g transform="rotate(${rot} ${pcx} ${pcy})">${capa}</g>`;
+
+  // Lentículo previsto (flap) según el nomograma: ARCO (no círculo completo, diámetro = flap)
+  // + bisagra dibujada como una LÍNEA RECTA vertical. La bisagra es donde el corte se detiene,
+  // así que el pequeño segmento del círculo más allá de esa cuerda (hacia nasal) NO se dibuja
+  // como corte: esa porción de tejido no llega a seccionarse, queda unida al resto de la córnea.
+  // Su LONGITUD es el valor de bisagra del nomograma (medida vertical real). Su POSICIÓN se
+  // ancla en el punto de cuerda GEOMÉTRICO real (Pitágoras: d = √(R² − (L/2)²)) para el caso de
+  // referencia de la tabla — y desde ahí se desplaza linealmente 1mm por cada 1D de diferencia
+  // de tope (0,5mm por cada 0,5D) hacia nasal (tope mayor) o temporal (tope menor).
+  // Convención: OD → bisagra hacia la derecha (180°); OI → hacia la izquierda (0°), ambas
+  // mirando hacia la línea media (nasal), usando polar() donde 0°=izquierda, 180°=derecha.
+  const FLAP_COLOR = '#8a6fa8';   // violeta distintivo, distinto de córnea y ablación
+  const HINGE_COLOR = '#5c4877';  // tono más oscuro del mismo violeta, para la bisagra
+
+  if (flapMm !== undefined && flapMm !== null && !isNaN(flapMm) && hingeSide){
+    const rFlap = (flapMm/2) * MM_TO_PX;
+
+    if (hingeMm !== undefined && hingeMm !== null && !isNaN(hingeMm) && stopVal !== undefined && stopVal !== null){
+      const hingeCenterDeg = hingeSide === 'left' ? 0 : 180;
+      const rFlapMm = flapMm/2;
+      const anchorHinge = (refHinge !== undefined && refHinge !== null) ? refHinge : hingeMm;
+      const anchorStop  = (refStop  !== undefined && refStop  !== null) ? refStop  : stopVal;
+      const dRefMm = Math.sqrt(Math.max(0, rFlapMm*rFlapMm - (anchorHinge/2)*(anchorHinge/2)));
+      const dTargetMm = Math.min(rFlapMm, dRefMm + (stopVal - anchorStop) * 0.5);
+      // La cuerda SIEMPRE debe ajustarse a la geometría real del círculo en su posición actual
+      // (una cuerda más alejada del centro es necesariamente más corta) — se recalcula aquí,
+      // no se usa directamente el valor de bisagra de la tabla como longitud fija.
+      const halfChordMm = Math.sqrt(Math.max(0, rFlapMm*rFlapMm - dTargetMm*dTargetMm));
+      const halfChord = halfChordMm * MM_TO_PX;
+
+      // ── Recentrado del lentículo sobre la pupila ──
+      // Al cortar la bisagra, el tejido del flap deja de ser un círculo completo: falta el
+      // casquete nasal más allá de la cuerda, así que el CENTROIDE real del lentículo queda
+      // desplazado temporalmente. Se compensa desplazando levemente el círculo hacia nasal,
+      // de forma que el tejido efectivo quede centrado en la pupila. Cuanto más bajo el tope
+      // (bisagra más central, casquete mayor), mayor la corrección.
+      const {thetaRad, recenterMm} = recentradoLenticulo(rFlapMm, dTargetMm); // desplazamiento nasal a aplicar
+      const fcx = pcx + nasalSign * recenterMm * MM_TO_PX;  // centro del lentículo recentrado
+      const fcy = pcy;
+
+      const dCentro = dTargetMm * MM_TO_PX;
+      const hc = polar(fcx, fcy, dCentro, hingeCenterDeg);
+
+      // Ángulo subtendido por la bisagra desde el centro: el arco de la córnea entre esos dos
+      // puntos (el segmento pequeño, hacia el lado de la bisagra) no se dibuja como corte.
+      const thetaDeg = thetaRad * 180/Math.PI;
+      const startDeg = hingeCenterDeg + thetaDeg;
+      const spanDeg = 360 - 2*thetaDeg;
+      const nSteps = Math.max(2, Math.round(spanDeg/4));
+      let dPath = '';
+      for (let i=0; i<=nSteps; i++){
+        const deg = startDeg + (spanDeg*i/nSteps);
+        const p = polar(fcx, fcy, rFlap, deg);
+        dPath += (i===0 ? 'M ' : 'L ') + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ' ';
+      }
+      html += `<path d="${dPath}" fill="none" stroke="${FLAP_COLOR}" stroke-width="1.1" stroke-dasharray="3,2" opacity="0.75"/>`;
+
+      // La cuerda es perpendicular al radio en ese punto (0°/180° son horizontales, por lo
+      // que la perpendicular es vertical).
+      html += `<line x1="${hc.x.toFixed(2)}" y1="${(hc.y-halfChord).toFixed(2)}" x2="${hc.x.toFixed(2)}" y2="${(hc.y+halfChord).toFixed(2)}" stroke="${HINGE_COLOR}" stroke-width="1.8" stroke-linecap="round"/>`;
+    } else {
+      // Sin datos de bisagra: círculo completo como referencia
+      html += `<circle cx="${pcx}" cy="${pcy}" r="${rFlap}" fill="none" stroke="${FLAP_COLOR}" stroke-width="1.1" stroke-dasharray="3,2" opacity="0.7"/>`;
+    }
+  }
+
+  svg.innerHTML = html;
+}
+
+function polar(cx,cy,r,angDeg){
+  const a = deg2rad(angDeg);
+  return { x: cx - r*Math.cos(a), y: cy - r*Math.sin(a) };
+}
+
+// Los ejes son cíclicos en 0-180°: cualquier valor fuera de rango se envuelve (módulo 180),
+// no se recorta — así 190° se convierte en 10° y -10° en 170°, que es lo correcto físicamente.
+const AXIS_FIELD_IDS = ['kax_od','kax_oi','ax1_od','ax1_oi','rax_od','rax_oi'];
+AXIS_FIELD_IDS.forEach(id => {
+  const el = $(id);
+  if (!el) return;
+  el.addEventListener('change', () => {
+    let v = parseFloat(el.value);
+    if (isNaN(v)) return;
+    const typed = v;
+    v = ((v % 180) + 180) % 180;
+    if (v === 0 && typed !== 0) v = 180; // el meridiano horizontal se escribe 180 en clínica, se respeta
+    el.value = v;
+    render();
+  });
+});
+
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', render));
+$('modeK12AO').addEventListener('click', ()=> setModeAO('k12'));
+$('modeAvgAO').addEventListener('click', ()=> setModeAO('avg'));
+
+// Reset: restaura la combinación recomendada por el algoritmo
+document.querySelectorAll('.reset-btn[data-reset]').forEach(btn => {
+  btn.addEventListener('click', ()=>{
+    const eye = btn.dataset.reset;  // 'OD' | 'OI'
+    const rId = `selRing${eye}`, sId = `selStop${eye}`;
+    if(REC[rId]!=null){ $(rId).value = REC[rId]; }
+    if(REC[sId]!=null){ $(sId).value = REC[sId]; }
+    triggerRisk(rId, sId);
+  });
+});
+$('paramsToggle').addEventListener('click', ()=>{
+  $('paramsBody').classList.toggle('open');
+});
+render();
+</script>
+<script>/* parametros.js */
+window.PARAMETROS = {"version": "SBK 2.0 · motor v0.7", "generado": "2026-11-24", "cohorte": {"sha256_12": "b65cf49385ee", "ojos": 129644, "lc": 1136, "ba": 869, "periodo": "2024-10-02 → 2026-11-23", "pais": "España", "notificadores": {"n": 129644, "n_noti": 41088, "cir_noti": 34}, "recalibracion": "intercepto de LC ajustado a 2026"}, "config": {"lam": 0.25, "inercia": 0.002, "holgura": 1.5, "lc_max": 0.05, "beneficio_mixto_h": 0.015, "soporte_min": 100, "cubrir_al_bajar_filas": [46], "bb_defecto": 11.9, "tope_max_sin_necesidad": 8.0, "opciones_fila": {"46": ["+2/8", "+2/7.5"]}, "lam_miopia_sin_cil_h": 0.05, "lam_cil_h": 1.0, "umbral_cil_h": 1.0, "regla_fila": {"39": {"miopia": "+0/7.5", "cil_h": "-1/8"}}}, "combos": ["+0/7.5", "+0/8", "+0/8.5", "+1/7.5", "+1/8", "+1/8.5", "+2/7.5", "+2/8", "+2/8.5", "+3/7.5", "+3/8", "-1/7.5", "-1/8", "-1/8.5"], "lc": {"columnas": ["Intercept", "C(combo)[T.+0/8]", "C(combo)[T.+0/8.5]", "C(combo)[T.+1/7.5]", "C(combo)[T.+1/8]", "C(combo)[T.+1/8.5]", "C(combo)[T.+2/7.5]", "C(combo)[T.+2/8]", "C(combo)[T.+2/8.5]", "C(combo)[T.+3/7.5]", "C(combo)[T.+3/8]", "C(combo)[T.-1/7.5]", "C(combo)[T.-1/8]", "C(combo)[T.-1/8.5]", "cr(Kh, df=4, constraints=\"center\")[0]", "cr(Kh, df=4, constraints=\"center\")[1]", "cr(Kh, df=4, constraints=\"center\")[2]", "cr(Kh, df=4, constraints=\"center\")[3]", "cr(BBi, df=3, constraints=\"center\")[0]", "cr(BBi, df=3, constraints=\"center\")[1]", "cr(BBi, df=3, constraints=\"center\")[2]", "BBfalta", "EE", "cilh"], "coef": [-7.6151522957, 1.634851877, 3.38594527, 1.0551983733, 1.9888061034, 3.2745163753, 2.2347868529, 4.7304432237, 7.3459568685, 3.1408571104, 5.3032207077, -0.5215759748, 1.5400553399, 3.118413989, -1.3145412817, -2.4490326214, -2.7170215207, -6.1227070714, 2.0888422039, 2.3479305401, -0.2001473985, 0.2548570371, 0.1180282793, 0.3522471454], "cov": [[0.265026624856, -0.256706743478, -0.262830397657, -0.258478442613, -0.263626317928, -0.266275253752, -0.267052850646, -0.2678631631, -0.268953218298, -0.266971648368, -0.268135060695, -0.251612275537, -0.253088947242, -0.255458028466, 0.000767419295, 0.007876510867, 0.01106127802, 0.003670649983, -0.002770589046, -0.002793058037, -0.003156874046, -0.00171182811, 0.000305953159, -0.000768142124], [-0.256706743478, 0.260825316476, 0.257466422097, 0.256010437785, 0.257374313326, 0.256740286032, 0.256677677743, 0.256573020465, 0.256798274976, 0.256168471639, 0.256647151103, 0.252578192085, 0.253483424419, 0.25524760772, -0.007788818902, -0.009285647774, -0.007336038548, -0.006436299326, 0.000833529911, 0.000575318359, -0.000130398848, -0.000246284563, 3.4783967e-05, 2.2048091e-05], [-0.262830397657, 0.257466422097, 0.274411972418, 0.259134411305, 0.264555422265, 0.264594366852, 0.264546511014, 0.264544913489, 0.264714022724, 0.263441439985, 0.264451197853, 0.252334407414, 0.253590857294, 0.256327047106, 0.000251100579, -0.008356129263, -0.006868343651, -0.012252558084, 0.001126852663, -0.000605622287, -0.000305232199, -0.000143337519, -1.467061e-06, -0.000108684365], [-0.258478442613, 0.256010437785, 0.259134411305, 0.59527885836, 0.259960224755, 0.260269247213, 0.261595295817, 0.261343996557, 0.261377874161, 0.261968178305, 0.262301786466, 0.252189828218, 0.252997364527, 0.254986349126, -0.005930201374, -0.009610408699, -0.009497545227, -0.001306901475, -0.006315877749, -0.006471806796, -0.003577112629, -0.000896063967, 5.6328269e-05, -8.6675724e-05], [-0.263626317928, 0.257374313326, 0.264555422265, 0.259960224755, 0.272905663873, 0.266621684529, 0.267489124372, 0.267643647358, 0.26751603615, 0.266842171152, 0.267576925197, 0.25191761621, 0.252997714976, 0.255609877083, 0.001873418279, -0.007501880486, -0.007952403346, -0.005490343816, 0.000225516064, 0.00098083076, -0.001739141724, -0.00037039936, 6.3616266e-05, 1.207573e-06], [-0.266275253752, 0.256740286032, 0.264594366852, 0.260269247213, 0.266621684529, 0.360947883731, 0.276281559657, 0.278650366759, 0.278152987949, 0.27757758423, 0.278142711938, 0.251990939629, 0.252967389439, 0.255207970189, 0.001247090634, -0.008308748407, -0.020261991434, 0.024287243557, -0.000289512893, -0.00066872998, -0.000150727814, -0.0001280482, 6.5740689e-05, -6.635822e-05], [-0.267052850646, 0.256677677743, 0.264546511014, 0.261595295817, 0.267489124372, 0.276281559657, 0.318703304431, 0.282484297935, 0.283313532279, 0.282890634005, 0.284268324699, 0.251603052792, 0.252456742875, 0.254700812264, 0.000941821907, -0.008836280043, -0.02315099466, 0.022811829184, -0.009084742191, -0.009587471409, -0.003050929025, -0.000771403838, 8.1374686e-05, 7.4958217e-05], [-0.2678631631, 0.256573020465, 0.264544913489, 0.261343996557, 0.267643647358, 0.278650366759, 0.282484297935, 0.292013138672, 0.290345434795, 0.286078140813, 0.289986634088, 0.251771234465, 0.252597556698, 0.254756172943, 0.000410488723, -0.00919732038, -0.027159928348, 0.009800290013, -0.003882673111, -0.003398971813, -0.003280678959, -0.000931825721, 9.7842003e-05, 2.0191866e-05], [-0.268953218298, 0.256798274976, 0.264714022724, 0.261377874161, 0.26751603615, 0.278152987949, 0.283313532279, 0.290345434795, 0.355448246248, 0.2906893409, 0.311861487678, 0.251779441827, 0.252661249311, 0.254948498871, 0.002184893693, -0.007472083986, -0.024017342423, -0.14690327368, -0.002987282411, -0.002446172304, -0.002584415427, -0.000717217191, 5.9701624e-05, -1.0318832e-05], [-0.266971648368, 0.256168471639, 0.263441439985, 0.261968178305, 0.266842171152, 0.27757758423, 0.282890634005, 0.286078140813, 0.2906893409, 0.491161392797, 0.292104063443, 0.251607429201, 0.252291521126, 0.25427045503, 1.6139401e-05, -0.008832441219, -0.026692323323, 0.007806074025, -0.01881845537, -0.021800215766, -0.00273309847, -0.00127000173, 9.4673303e-05, 0.000101460729], [-0.268135060695, 0.256647151103, 0.264451197853, 0.262301786466, 0.267576925197, 0.278142711938, 0.284268324699, 0.289986634088, 0.311861487678, 0.292104063443, 0.48436888168, 0.251749704007, 0.252479665516, 0.25470286155, 0.001880647959, -0.007756177493, -0.024596497389, -0.114067006131, -0.016609745174, -0.019596013894, -0.002536547203, -0.001455527833, 0.000136474867, -6.6863234e-05], [-0.251612275537, 0.252578192085, 0.252334407414, 0.252189828218, 0.25191761621, 0.251990939629, 0.251603052792, 0.251771234465, 0.251779441827, 0.251607429201, 0.251749704007, 0.590031571187, 0.253470629595, 0.25308684204, 0.0019615597, 0.002234133165, 0.002024504621, -0.000759374679, -0.000226211317, -0.001862859306, -0.002582661442, -0.000813963909, 3.760033e-05, -0.000178076505], [-0.253088947242, 0.253483424419, 0.253590857294, 0.252997364527, 0.252997714976, 0.252967389439, 0.252456742875, 0.252597556698, 0.252661249311, 0.252291521126, 0.252479665516, 0.253470629595, 0.258440314997, 0.253974894964, -0.002472420309, -0.002068898319, -0.001695790298, -0.001573451233, 0.000391362133, -0.001674002747, -0.001037228845, -0.000372714402, -1.4451471e-05, -6.0596634e-05], [-0.255458028466, 0.25524760772, 0.256327047106, 0.254986349126, 0.255609877083, 0.255207970189, 0.254700812264, 0.254756172943, 0.254948498871, 0.25427045503, 0.25470286155, 0.25308684204, 0.253974894964, 0.261153305532, -0.00971613769, -0.009819703685, -0.008181153858, -0.004784130687, 0.000789453091, -0.001409667096, -0.003102678217, -0.000443099278, -3.3524929e-05, -8.3273916e-05], [0.000767419295, -0.007788818902, 0.000251100579, -0.005930201374, 0.001873418279, 0.001247090634, 0.000941821907, 0.000410488723, 0.002184893693, 1.6139401e-05, 0.001880647959, 0.0019615597, -0.002472420309, -0.00971613769, 0.087403017278, 0.068566402067, 0.06666623283, -0.035855293582, -0.000702003249, -0.001016671806, 0.010489823578, 0.000542451833, 0.000163797883, 0.000509519929], [0.007876510867, -0.009285647774, -0.008356129263, -0.009610408699, -0.007501880486, -0.008308748407, -0.008836280043, -0.00919732038, -0.007472083986, -0.008832441219, -0.007756177493, 0.002234133165, -0.002068898319, -0.009819703685, 0.068566402067, 0.060898229842, 0.058902731072, -0.023135056382, -0.001013493067, -0.001211478473, 0.011927858689, 0.000656062005, 0.000222299724, 0.000905641549], [0.01106127802, -0.007336038548, -0.006868343651, -0.009497545227, -0.007952403346, -0.020261991434, -0.02315099466, -0.027159928348, -0.024017342423, -0.026692323323, -0.024596497389, 0.002024504621, -0.001695790298, -0.008181153858, 0.06666623283, 0.058902731072, 0.077277015578, -0.081403684336, 0.001439774161, 0.002257946081, 0.010801744657, 0.000755786282, 0.000211232249, 0.000938771115], [0.003670649983, -0.006436299326, -0.012252558084, -0.001306901475, -0.005490343816, 0.024287243557, 0.022811829184, 0.009800290013, -0.14690327368, 0.007806074025, -0.114067006131, -0.000759374679, -0.001573451233, -0.004784130687, -0.035855293582, -0.023135056382, -0.081403684336, 1.229267161219, -0.025549261363, -0.028712044205, -0.002370693451, -0.000304458396, 0.000157422887, 0.001248663594], [-0.002770589046, 0.000833529911, 0.001126852663, -0.006315877749, 0.000225516064, -0.000289512893, -0.009084742191, -0.003882673111, -0.002987282411, -0.01881845537, -0.016609745174, -0.000226211317, 0.000391362133, 0.000789453091, -0.000702003249, -0.001013493067, 0.001439774161, -0.025549261363, 0.111345593077, 0.147867473806, -0.024517346271, 0.005301677177, -8.5149194e-05, -3.4790799e-05], [-0.002793058037, 0.000575318359, -0.000605622287, -0.006471806796, 0.00098083076, -0.00066872998, -0.009587471409, -0.003398971813, -0.002446172304, -0.021800215766, -0.019596013894, -0.001862859306, -0.001674002747, -0.001409667096, -0.001016671806, -0.001211478473, 0.002257946081, -0.028712044205, 0.147867473806, 0.209134627394, -0.051175070653, 0.006136263312, -1.8257979e-05, 0.000164866077], [-0.003156874046, -0.000130398848, -0.000305232199, -0.003577112629, -0.001739141724, -0.000150727814, -0.003050929025, -0.003280678959, -0.002584415427, -0.00273309847, -0.002536547203, -0.002582661442, -0.001037228845, -0.003102678217, 0.010489823578, 0.011927858689, 0.010801744657, -0.002370693451, -0.024517346271, -0.051175070653, 0.21425330099, 0.010748595042, 0.000100562871, 0.000657562624], [-0.00171182811, -0.000246284563, -0.000143337519, -0.000896063967, -0.00037039936, -0.0001280482, -0.000771403838, -0.000931825721, -0.000717217191, -0.00127000173, -0.001455527833, -0.000813963909, -0.000372714402, -0.000443099278, 0.000542451833, 0.000656062005, 0.000755786282, -0.000304458396, 0.005301677177, 0.006136263312, 0.010748595042, 0.004752798394, -2.142497e-05, 9.080705e-05], [0.000305953159, 3.4783967e-05, -1.467061e-06, 5.6328269e-05, 6.3616266e-05, 6.5740689e-05, 8.1374686e-05, 9.7842003e-05, 5.9701624e-05, 9.4673303e-05, 0.000136474867, 3.760033e-05, -1.4451471e-05, -3.3524929e-05, 0.000163797883, 0.000222299724, 0.000211232249, 0.000157422887, -8.5149194e-05, -1.8257979e-05, 0.000100562871, -2.142497e-05, 0.000138077209, -3.5072938e-05], [-0.000768142124, 2.2048091e-05, -0.000108684365, -8.6675724e-05, 1.207573e-06, -6.635822e-05, 7.4958217e-05, 2.0191866e-05, -1.0318832e-05, 0.000101460729, -6.6863234e-05, -0.000178076505, -6.0596634e-05, -8.3273916e-05, 0.000509519929, 0.000905641549, 0.000938771115, 0.001248663594, -3.4790799e-05, 0.000164866077, 0.000657562624, 9.080705e-05, -3.5072938e-05, 0.000645155133]], "offset": -0.13732165184549455, "spline_k": {"columnas": ["cr(Kh, df=4, constraints=\"center\")[0]", "cr(Kh, df=4, constraints=\"center\")[1]", "cr(Kh, df=4, constraints=\"center\")[2]", "cr(Kh, df=4, constraints=\"center\")[3]"], "rejilla": [36.0, 36.05, 36.1, 36.15, 36.2, 36.25, 36.3, 36.35, 36.4, 36.45, 36.5, 36.55, 36.6, 36.65, 36.7, 36.75, 36.8, 36.85, 36.9, 36.95, 37.0, 37.05, 37.1, 37.15, 37.2, 37.25, 37.3, 37.35, 37.4, 37.45, 37.5, 37.55, 37.6, 37.65, 37.7, 37.75, 37.8, 37.85, 37.9, 37.95, 38.0, 38.05, 38.1, 38.15, 38.2, 38.25, 38.3, 38.35, 38.4, 38.45, 38.5, 38.55, 38.6, 38.65, 38.7, 38.75, 38.8, 38.85, 38.9, 38.95, 39.0, 39.05, 39.1, 39.15, 39.2, 39.25, 39.3, 39.35, 39.4, 39.45, 39.5, 39.55, 39.6, 39.65, 39.7, 39.75, 39.8, 39.85, 39.9, 39.95, 40.0, 40.05, 40.1, 40.15, 40.2, 40.25, 40.3, 40.35, 40.4, 40.45, 40.5, 40.55, 40.6, 40.65, 40.7, 40.75, 40.8, 40.85, 40.9, 40.95, 41.0, 41.05, 41.1, 41.15, 41.2, 41.25, 41.3, 41.35, 41.4, 41.45, 41.5, 41.55, 41.6, 41.65, 41.7, 41.75, 41.8, 41.85, 41.9, 41.95, 42.0, 42.05, 42.1, 42.15, 42.2, 42.25, 42.3, 42.35, 42.4, 42.45, 42.5, 42.55, 42.6, 42.65, 42.7, 42.75, 42.8, 42.85, 42.9, 42.95, 43.0, 43.05, 43.1, 43.15, 43.2, 43.25, 43.3, 43.35, 43.4, 43.45, 43.5, 43.55, 43.6, 43.65, 43.7, 43.75, 43.8, 43.85, 43.9, 43.95, 44.0, 44.05, 44.1, 44.15, 44.2, 44.25, 44.3, 44.35, 44.4, 44.45, 44.5, 44.55, 44.6, 44.65, 44.7, 44.75, 44.8, 44.85, 44.9, 44.95, 45.0, 45.05, 45.1, 45.15, 45.2, 45.25, 45.3, 45.35, 45.4, 45.45, 45.5, 45.55, 45.6, 45.65, 45.7, 45.75, 45.8, 45.85, 45.9, 45.95, 46.0, 46.05, 46.1, 46.15, 46.2, 46.25, 46.3, 46.35, 46.4, 46.45, 46.5, 46.55, 46.6, 46.65, 46.7, 46.75, 46.8, 46.85, 46.9, 46.95, 47.0, 47.05, 47.1, 47.15, 47.2, 47.25, 47.3, 47.35, 47.4, 47.45, 47.5, 47.55, 47.6, 47.65, 47.7, 47.75, 47.8, 47.85, 47.9, 47.95, 48.0, 48.05, 48.1, 48.15, 48.2, 48.25, 48.3, 48.35, 48.4, 48.45, 48.5, 48.55, 48.6, 48.65, 48.7, 48.75, 48.8, 48.85, 48.9, 48.95, 49.0, 49.05, 49.1, 49.15, 49.2, 49.25, 49.3, 49.35, 49.4, 49.45, 49.5, 49.55, 49.6, 49.65, 49.7, 49.75, 49.8, 49.85, 49.9, 49.95, 50.0, 50.05, 50.1, 50.15, 50.2, 50.25, 50.3, 50.35, 50.4, 50.45, 50.5, 50.55, 50.6, 50.65, 50.7, 50.75, 50.8, 50.85, 50.9, 50.95, 51.0, 51.05, 51.1, 51.15, 51.2, 51.25, 51.3, 51.35, 51.4, 51.45, 51.5, 51.55, 51.6, 51.65, 51.7, 51.75, 51.8, 51.85, 51.9, 51.95, 52.0], "base": [[-0.4691364285, -0.4388981351, -0.408705901, -0.3785680056, -0.3484927288, -0.31848835, -0.2885631489, -0.2587254053, -0.2289833986, -0.1993454085, -0.1698197147, -0.1404145967, -0.1111383343, -0.0819992071, -0.0530054946, -0.0241654766, 0.0045125674, 0.0330203577, 0.0613496147, 0.0894920587, 0.1174394102, 0.1451833895, 0.1727157169, 0.2000281128, 0.2271122976, 0.2539599917, 0.2805629154, 0.306912789, 0.3330013331, 0.3588202679, 0.3843613137, 0.4096161911, 0.4345766202, 0.4592343216, 0.4835810155, 0.5076084223, 0.5313082625, 0.5546722563, 0.5776921242, 0.6003595864, 0.6226663635, 0.6446041756, 0.6661647433, 0.6873397869, 0.7081210267, 0.7285001831, 0.7484689764, 0.7680191271, 0.7871423556, 0.8058303821, 0.824074927, 0.8418677108, 0.8592004538, 0.8760648763, 0.8924526987, 0.9083556414, 0.9237654247, 0.9386737691, 0.9530723949, 0.9669530224, 0.980307372, 0.9931271641, 1.0054041191, 1.0171299573, 1.0282963991, 1.0388951649, 1.048917975, 1.0583565498, 1.0672026096, 1.0754478749, 1.083084066, 1.0901029032, 1.096496107, 1.1022553977, 1.1073724956, 1.1118391212, 1.1156469948, 1.1187878367, 1.1212533674, 1.1230353072, 1.1241253765, 1.1245152956, 1.124196785, 1.1231615649, 1.1214013557, 1.1189078779, 1.1156728517, 1.1116879976, 1.1069450359, 1.101435687, 1.0951516712, 1.088084709, 1.0802265206, 1.0715688265, 1.062103347, 1.0518218025, 1.0407159134, 1.0287774, 1.0159979826, 1.0023693818, 0.9878833177, 0.9725315109, 0.9563056816, 0.9391975502, 0.9211988371, 0.9023012627, 0.8824965474, 0.8617764114, 0.8401325752, 0.8175567591, 0.7940406835, 0.7695760688, 0.7441546354, 0.7177681035, 0.6904081936, 0.6620666261, 0.6327351457, 0.6024274172, 0.5712193564, 0.5391978544, 0.5064498027, 0.4730620926, 0.4391216154, 0.4047152625, 0.3699299252, 0.3348524949, 0.2995698628, 0.2641689203, 0.2287365589, 0.1933596697, 0.1581251441, 0.1231198735, 0.0884307493, 0.0541446627, 0.0203485051, -0.0128708322, -0.0454264579, -0.0772314805, -0.1081990087, -0.1382421513, -0.1672740169, -0.1952077141, -0.2219563516, -0.2474330381, -0.2715508822, -0.2942229925, -0.3153624779, -0.3348824468, -0.3526960481, -0.3687506835, -0.3830904456, -0.395776367, -0.4068694802, -0.4164308176, -0.4245214118, -0.4312022953, -0.4365345006, -0.4405790601, -0.4433970064, -0.445049372, -0.4455971894, -0.4451014911, -0.4436233096, -0.4412236773, -0.4379636269, -0.4339041907, -0.4291064014, -0.4236312913, -0.4175398931, -0.4108932391, -0.403752362, -0.3961782941, -0.3882320681, -0.3799747164, -0.3714672714, -0.3627707658, -0.353946232, -0.3450547026, -0.3361572099, -0.3273147866, -0.3185881509, -0.3100158076, -0.3015997407, -0.2933385354, -0.2852307771, -0.2772750508, -0.2694699418, -0.2618140352, -0.2543059163, -0.2469441702, -0.2397273821, -0.2326541373, -0.2257230208, -0.218932618, -0.212281514, -0.205768294, -0.1993915431, -0.1931498466, -0.1870417897, -0.1810659576, -0.1752209354, -0.1695053084, -0.1639176617, -0.1584565805, -0.1531206501, -0.1479084556, -0.1428185822, -0.1378496151, -0.1330001395, -0.1282687406, -0.1236540036, -0.1191545137, -0.114768856, -0.1104956158, -0.1063333782, -0.1022807285, -0.0983362518, -0.0944985334, -0.0907661584, -0.087137712, -0.0836117794, -0.0801869458, -0.0768617964, -0.0736349164, -0.070504891, -0.0674703053, -0.0645297447, -0.0616817941, -0.058925039, -0.0562580643, -0.0536794555, -0.0511877975, -0.0487816757, -0.0464596752, -0.0442203812, -0.0420623789, -0.0399842535, -0.0379845901, -0.0360619741, -0.0342149905, -0.0324422246, -0.0307422616, -0.0291136866, -0.0275550848, -0.0260650415, -0.0246421418, -0.0232849709, -0.0219921141, -0.0207621564, -0.0195936832, -0.0184852795, -0.0174355307, -0.0164430218, -0.0155063381, -0.0146240647, -0.0137947869, -0.0130170898, -0.0122895587, -0.0116107787, -0.0109793351, -0.010393813, -0.0098527975, -0.009354874, -0.0088986276, -0.0084826435, -0.0081055068, -0.0077658029, -0.0074621168, -0.0071930337, -0.006957139, -0.0067530176, -0.0065792549, -0.0064344361, -0.0063171462, -0.0062259706, -0.0061594944, -0.0061163028, -0.006094981, -0.0060941142, -0.0061122875, -0.0061480863, -0.0062000956, -0.0062669006, -0.0063470866, -0.0064392388, -0.0065419423, -0.0066537823, -0.0067733441, -0.0068992127, -0.0070299735, -0.0071642116, -0.0073005122, -0.007437498, -0.0075745065, -0.0077115149, -0.0078485234, -0.0079855319, -0.0081225403, -0.0082595488, -0.0083965573, -0.0085335657, -0.0086705742, -0.0088075827, -0.0089445911, -0.0090815996, -0.0092186081, -0.0093556165, -0.009492625, -0.0096296335, -0.0097666419, -0.0099036504, -0.0100406589, -0.0101776673, -0.0103146758, -0.0104516843, -0.0105886927, -0.0107257012, -0.0108627097, -0.0109997181, -0.0111367266, -0.0112737351], [-0.6630161227, -0.679922123, -0.6967845098, -0.7135954429, -0.7303470825, -0.7470315886, -0.763641121, -0.7801678398, -0.796603905, -0.8129414766, -0.8291727146, -0.845289779, -0.8612848298, -0.8771500269, -0.8928775304, -0.9084595002, -0.9238880964, -0.939155479, -0.9542538079, -0.9691752431, -0.9839119447, -0.9984560726, -1.0127997869, -1.0269352474, -1.0408546143, -1.0545500475, -1.0680137069, -1.0812377527, -1.0942143448, -1.1069356432, -1.1193938078, -1.1315809987, -1.1434893759, -1.1551110994, -1.1664383291, -1.1774632251, -1.1881779474, -1.1985746559, -1.2086455106, -1.2183826716, -1.2277782988, -1.2368245522, -1.2455135919, -1.2538375778, -1.2617886698, -1.2693590281, -1.2765408126, -1.2833261833, -1.2897073002, -1.2956763233, -1.3012254125, -1.3063467279, -1.3110324295, -1.3152746773, -1.3190656312, -1.3223974513, -1.3252622975, -1.3276523299, -1.3295597084, -1.330976593, -1.3318951438, -1.3323075207, -1.3322058838, -1.3315823929, -1.3304292081, -1.3287384895, -1.3265023969, -1.3237130905, -1.3203627301, -1.3164434758, -1.3119474876, -1.3068669255, -1.3011939494, -1.2949207194, -1.2880393955, -1.2805421376, -1.2724211057, -1.2636684599, -1.2542763602, -1.2442369665, -1.2335424387, -1.2221849371, -1.2101566214, -1.1974496518, -1.1840561881, -1.1699683905, -1.1551784188, -1.1396784332, -1.1234605935, -1.1065170598, -1.0888399921, -1.0704215503, -1.0512538946, -1.0313291847, -1.0106395809, -0.989177243, -0.966934331, -0.943903005, -0.9200754249, -0.8954437507, -0.8700001425, -0.8437367602, -0.8166457638, -0.7887193133, -0.7599495687, -0.73032869, -0.6998488372, -0.6685021703, -0.6362808492, -0.6031770341, -0.5691828848, -0.5342905614, -0.4984922239, -0.4617800322, -0.4241461463, -0.3855827264, -0.3460819693, -0.305669358, -0.2644649031, -0.2226052824, -0.1802271732, -0.1374672532, -0.0944621998, -0.0513486907, -0.0082634032, 0.034656985, 0.0772757964, 0.1194563535, 0.1610619788, 0.2019559946, 0.2420017236, 0.2810624881, 0.3190016107, 0.3556824137, 0.3909682198, 0.4247223512, 0.4568081306, 0.4870888803, 0.5154279229, 0.5416885808, 0.5657341765, 0.5874280324, 0.606633471, 0.6232138149, 0.6370323863, 0.6479525079, 0.6558375021, 0.6605506914, 0.6619554736, 0.6599796844, 0.6547330574, 0.6463571941, 0.6349936959, 0.6207841641, 0.6038702002, 0.5843934056, 0.5624953816, 0.5383177297, 0.5120020513, 0.4836899476, 0.4535230203, 0.4216428706, 0.3881910999, 0.3533093097, 0.3171391013, 0.2798220761, 0.2414998356, 0.2023139811, 0.162406114, 0.1219178358, 0.0809907478, 0.0397664514, -0.001613452, -0.043007361, -0.0842736741, -0.12527079, -0.1658571073, -0.2058910247, -0.2452309406, -0.2837352537, -0.3212631233, -0.3577274996, -0.3931297674, -0.4274795421, -0.4607864394, -0.4930600746, -0.5243100634, -0.5545460211, -0.5837775634, -0.6120143058, -0.6392658638, -0.6655418528, -0.6908518884, -0.7152055862, -0.7386125615, -0.7610824301, -0.7826248072, -0.8032493086, -0.8229655496, -0.8417831459, -0.8597117129, -0.8767608661, -0.892940221, -0.9082593933, -0.9227279983, -0.9363556516, -0.9491519687, -0.9611265651, -0.9722890564, -0.9826490581, -0.9922161856, -1.0010000545, -1.0090102803, -1.0162564785, -1.0227482646, -1.0284952542, -1.0335070627, -1.0377933058, -1.0413635988, -1.0442275573, -1.0463947968, -1.0478749329, -1.048677581, -1.0488123567, -1.0482888755, -1.0471167528, -1.0453056043, -1.0428650454, -1.0398046916, -1.0361341585, -1.0318630616, -1.0270010163, -1.0215576383, -1.0155425429, -1.0089653458, -1.0018356625, -0.9941631084, -0.985957299, -0.97722785, -0.9679843767, -0.9582364948, -0.9479938197, -0.937265967, -0.9260625521, -0.9143931907, -0.9022674981, -0.8896950899, -0.8766855816, -0.8632485888, -0.8493937269, -0.8351306115, -0.8204688581, -0.8054180822, -0.7899878993, -0.7741879249, -0.7580277746, -0.7415170638, -0.7246654081, -0.707482423, -0.689977724, -0.6721609267, -0.6540416464, -0.6356294988, -0.6169340994, -0.5979650636, -0.578732007, -0.5592445452, -0.5395122936, -0.5195448677, -0.499351883, -0.4789429552, -0.4583276996, -0.4375157318, -0.4165166673, -0.3953401217, -0.3739957104, -0.3524930489, -0.3308417528, -0.3090514377, -0.2871317189, -0.265092212, -0.2429425326, -0.2206922961, -0.1983511181, -0.175928614, -0.1534343995, -0.13087809, -0.1082693009, -0.085617648, -0.0629327465, -0.0402242122, -0.0175016604, 0.0052255487, 0.0279529116, 0.0506802745, 0.0734076374, 0.0961350003, 0.1188623632, 0.141589726, 0.1643170889, 0.1870444518, 0.2097718147, 0.2324991776, 0.2552265405, 0.2779539034, 0.3006812663, 0.3234086291, 0.346135992, 0.3688633549, 0.3915907178, 0.4143180807, 0.4370454436, 0.4597728065, 0.4825001694, 0.5052275322, 0.5279548951, 0.550682258, 0.5734096209, 0.5961369838, 0.6188643467, 0.6415917096], [-0.5083975017, -0.5022676612, -0.4961478674, -0.4900399262, -0.4839456437, -0.4778668257, -0.4718052783, -0.4657628076, -0.4597412193, -0.4537423197, -0.4477679146, -0.44181981, -0.435899812, -0.4300097265, -0.4241513595, -0.418326517, -0.412537005, -0.4067846294, -0.4010711964, -0.3953985118, -0.3897683816, -0.3841826119, -0.3786430086, -0.3731513777, -0.3677095252, -0.3623192572, -0.3569823795, -0.3517006982, -0.3464760192, -0.3413101487, -0.3362048924, -0.3311620565, -0.3261834469, -0.3212708697, -0.3164261307, -0.311651036, -0.3069473916, -0.3023170035, -0.2977616777, -0.2932832201, -0.2888834367, -0.2845641336, -0.2803271167, -0.276174192, -0.2721071655, -0.2681278432, -0.2642380311, -0.2604395352, -0.2567341614, -0.2531237157, -0.2496100042, -0.2461948329, -0.2428800076, -0.2396673345, -0.2365586194, -0.2335556685, -0.2306602876, -0.2278742828, -0.22519946, -0.2226376253, -0.2201905846, -0.2178601439, -0.2156481093, -0.2135562867, -0.211586482, -0.2097405014, -0.2080201507, -0.206427236, -0.2049635632, -0.2036309384, -0.2024311675, -0.2013660566, -0.2004374115, -0.1996470384, -0.1989967431, -0.1984883317, -0.1981236102, -0.1979043846, -0.1978324608, -0.1979096448, -0.1981377427, -0.1985185604, -0.1990539039, -0.1997455792, -0.2005953923, -0.2016051492, -0.2027766558, -0.2041117182, -0.2056121423, -0.2072797342, -0.2091162998, -0.2111236451, -0.2133035761, -0.2156578989, -0.2181884193, -0.2208969434, -0.2237852771, -0.2268552265, -0.2301085975, -0.2335471962, -0.2371728285, -0.2409873004, -0.244992418, -0.2491899871, -0.2535818138, -0.258169704, -0.2629554639, -0.2679408992, -0.2731278162, -0.2785180206, -0.2841133186, -0.289915516, -0.295926419, -0.3021478335, -0.3085815654, -0.3152294209, -0.322093189, -0.32915968, -0.336373164, -0.343670411, -0.350988191, -0.3582632737, -0.3654324292, -0.3724324273, -0.3792000381, -0.3856720313, -0.3917851769, -0.3974762448, -0.402682005, -0.4073392274, -0.4113846818, -0.4147551382, -0.4173873665, -0.4192181367, -0.4201842186, -0.4202223821, -0.4192693972, -0.4172620339, -0.4141370619, -0.4098312513, -0.4042813719, -0.3974241936, -0.3891964865, -0.3795350203, -0.3683765651, -0.3556578907, -0.341315767, -0.325286964, -0.3075082927, -0.2879516983, -0.2666883049, -0.2438066119, -0.219395119, -0.1935423256, -0.1663367315, -0.137866836, -0.1082211389, -0.0774881397, -0.045756338, -0.0131142332, 0.0203496749, 0.0545468869, 0.0893889031, 0.1247872241, 0.1606533501, 0.1968987817, 0.2334350193, 0.2701735633, 0.3070259142, 0.3439035723, 0.3807180382, 0.4173808121, 0.4538033947, 0.4898972862, 0.5255739872, 0.560744998, 0.5953218191, 0.629215951, 0.6623388939, 0.6946021485, 0.7259177057, 0.7562322493, 0.7855494997, 0.8138784854, 0.8412282353, 0.8676077781, 0.8930261425, 0.9174923573, 0.9410154511, 0.9636044527, 0.9852683908, 1.0060162941, 1.0258571914, 1.0448001115, 1.0628540829, 1.0800281345, 1.096331295, 1.1117725931, 1.1263610575, 1.140105717, 1.1530156003, 1.1650997361, 1.1763671531, 1.1868268801, 1.1964879458, 1.205359379, 1.2134502083, 1.2207694625, 1.2273261703, 1.2331293604, 1.2381880616, 1.2425113026, 1.2461081122, 1.248987519, 1.2511585517, 1.2526302392, 1.25341161, 1.2535116931, 1.252939517, 1.2517041106, 1.2498145025, 1.2472797214, 1.2441087962, 1.2403107555, 1.235894628, 1.2308694425, 1.2252442277, 1.2190280124, 1.2122298252, 1.2048586949, 1.1969236503, 1.1884337199, 1.1793979327, 1.1698253172, 1.1597249023, 1.1491057166, 1.1379767889, 1.1263471479, 1.1142258224, 1.101621841, 1.0885442325, 1.0750020257, 1.0610042492, 1.0465599317, 1.0316781021, 1.016367789, 1.0006380211, 0.9844978272, 0.9679562361, 0.9510222764, 0.9337049768, 0.9160133662, 0.8979564732, 0.8795433265, 0.8607829549, 0.8416843871, 0.8222566518, 0.8025087778, 0.7824497938, 0.7620887285, 0.7414346107, 0.720496469, 0.6992833322, 0.6778042291, 0.6560681883, 0.6340842385, 0.6118614086, 0.5894087273, 0.5667352231, 0.543849925, 0.5207618616, 0.4974800617, 0.4740135539, 0.450371367, 0.4265625297, 0.4025960708, 0.378481019, 0.354226403, 0.3298412516, 0.3053345934, 0.2807154571, 0.2559928717, 0.2311758656, 0.2062734678, 0.1812947068, 0.1562486115, 0.1311442105, 0.1059905327, 0.0807966066, 0.0555714611, 0.0303241248, 0.0050636266, -0.0202012448, -0.0454662606, -0.0707312764, -0.0959962921, -0.1212613079, -0.1465263237, -0.1717913395, -0.1970563552, -0.222321371, -0.2475863868, -0.2728514025, -0.2981164183, -0.3233814341, -0.3486464499, -0.3739114656, -0.3991764814, -0.4244414972, -0.4497065129, -0.4749715287, -0.5002365445, -0.5255015602, -0.550766576, -0.5760315918, -0.6012966076, -0.6265616233, -0.6518266391, -0.6770916549, -0.7023566706, -0.7276216864], [-0.0125167636, -0.012565216, -0.0126134617, -0.0126614634, -0.012709184, -0.0127565864, -0.0128036333, -0.0128502876, -0.0128965122, -0.0129422698, -0.0129875234, -0.0130322356, -0.0130763694, -0.0131198877, -0.0131627531, -0.0132049287, -0.0132463771, -0.0132870612, -0.0133269439, -0.013365988, -0.0134041563, -0.0134414117, -0.013477717, -0.013513035, -0.0135473285, -0.0135805605, -0.0136126936, -0.0136436908, -0.0136735149, -0.0137021287, -0.0137294951, -0.0137555769, -0.0137803368, -0.0138037378, -0.0138257427, -0.0138463143, -0.0138654155, -0.013883009, -0.0138990578, -0.0139135246, -0.0139263723, -0.0139375636, -0.0139470616, -0.0139548289, -0.0139608284, -0.0139650229, -0.0139673753, -0.0139678484, -0.0139664051, -0.0139630081, -0.0139576203, -0.0139502046, -0.0139407237, -0.0139291406, -0.0139154179, -0.0138995187, -0.0138814056, -0.0138610416, -0.0138383894, -0.0138134119, -0.0137860719, -0.0137563323, -0.0137241559, -0.0136895056, -0.013652344, -0.0136126342, -0.0135703389, -0.013525421, -0.0134778432, -0.0134275685, -0.0133745596, -0.0133187794, -0.0132601907, -0.0131987564, -0.0131344393, -0.0130672021, -0.0129970078, -0.0129238193, -0.0128475992, -0.0127683104, -0.0126859159, -0.0126003783, -0.0125116606, -0.0124197256, -0.0123245361, -0.0122260549, -0.012124245, -0.012019069, -0.0119104898, -0.0117984703, -0.0116829734, -0.0115639617, -0.0114413983, -0.0113152458, -0.0111854672, -0.0110520252, -0.0109148828, -0.0107740027, -0.0106293477, -0.0104808808, -0.0103285646, -0.0101723622, -0.0100122362, -0.0098481496, -0.0096800651, -0.0095079456, -0.0093317539, -0.0091514529, -0.0089670054, -0.0087783742, -0.0085855222, -0.0083884122, -0.008187007, -0.0079812694, -0.0077711623, -0.0075566486, -0.0073376914, -0.0071146459, -0.0068889802, -0.0066623585, -0.0064364449, -0.0062129038, -0.0059933993, -0.0057795956, -0.0055731571, -0.0053757478, -0.0051890321, -0.0050146741, -0.0048543382, -0.0047096884, -0.0045823891, -0.0044741044, -0.0043864986, -0.004321236, -0.0042799806, -0.0042643969, -0.0042761489, -0.0043169009, -0.0043883172, -0.0044920619, -0.0046297993, -0.0048031936, -0.005013909, -0.0052636099, -0.0055539603, -0.0058866245, -0.0062632667, -0.0066855512, -0.0071551397, -0.0076715472, -0.0082282293, -0.0088175798, -0.0094319927, -0.0100638618, -0.0107055811, -0.0113495443, -0.0119881454, -0.0126137783, -0.0132188369, -0.013795715, -0.0143368066, -0.0148345055, -0.0152812056, -0.0156693008, -0.015991185, -0.0162392521, -0.0164058959, -0.0164835104, -0.0164644895, -0.016341227, -0.0161061168, -0.0157515528, -0.0152699289, -0.014653639, -0.0138950769, -0.0129866366, -0.011920712, -0.0106896969, -0.0092859852, -0.0077019708, -0.0059300946, -0.0039661178, -0.0018112603, 0.0005327497, 0.0030641842, 0.005781315, 0.008682414, 0.0117657533, 0.0150296046, 0.01847224, 0.0220919313, 0.0258869504, 0.0298555693, 0.0339960599, 0.038306694, 0.0427857436, 0.0474314806, 0.052242177, 0.0572161045, 0.0623515352, 0.067646741, 0.0730999938, 0.0787095654, 0.0844737278, 0.090390753, 0.0964589128, 0.1026764791, 0.1090417239, 0.115552919, 0.1222083364, 0.1290062481, 0.1359449258, 0.1430226415, 0.1502376672, 0.1575882747, 0.165072736, 0.172689323, 0.1804363076, 0.1883119616, 0.1963145571, 0.2044423659, 0.21269366, 0.2210667112, 0.2295597915, 0.2381711727, 0.2468991269, 0.2557419259, 0.2646978416, 0.2737651459, 0.2829421108, 0.2922270082, 0.3016181099, 0.3111136879, 0.3207120141, 0.3304113605, 0.3402099989, 0.3501062012, 0.3600982394, 0.3701843854, 0.380362911, 0.3906320883, 0.400990189, 0.4114354852, 0.4219662488, 0.4325807515, 0.4432772655, 0.4540540625, 0.4649094146, 0.4758415935, 0.4868488713, 0.4979295198, 0.5090818109, 0.5203040166, 0.5315944088, 0.5429512594, 0.5543728403, 0.5658574234, 0.5774032806, 0.5890086839, 0.6006719051, 0.6123912162, 0.6241648891, 0.6359911957, 0.6478684078, 0.6597947976, 0.6717686367, 0.6837881972, 0.695851751, 0.70795757, 0.720103926, 0.732289091, 0.744511337, 0.7567689358, 0.7690601594, 0.7813832796, 0.7937365684, 0.8061182976, 0.8185267393, 0.8309601653, 0.8434168475, 0.8558950579, 0.8683930683, 0.8809091507, 0.8934415769, 0.905988619, 0.9185485487, 0.9311196381, 0.943700159, 0.9562883834, 0.9688825832, 0.9814810302, 0.9940819964, 1.0066837996, 1.0192856304, 1.0318874613, 1.0444892921, 1.057091123, 1.0696929538, 1.0822947847, 1.0948966155, 1.1074984464, 1.1201002772, 1.1327021081, 1.1453039389, 1.1579057698, 1.1705076006, 1.1831094315, 1.1957112623, 1.2083130931, 1.220914924, 1.2335167548, 1.2461185857, 1.2587204165, 1.2713222474, 1.2839240782, 1.2965259091, 1.3091277399, 1.3217295708, 1.3343314016, 1.3469332325, 1.3595350633]]}, "spline_bb": {"columnas": ["cr(BBi, df=3, constraints=\"center\")[0]", "cr(BBi, df=3, constraints=\"center\")[1]", "cr(BBi, df=3, constraints=\"center\")[2]"], "rejilla": [10.0, 10.05, 10.1, 10.15, 10.2, 10.25, 10.3, 10.35, 10.4, 10.45, 10.5, 10.55, 10.6, 10.65, 10.7, 10.75, 10.8, 10.85, 10.9, 10.95, 11.0, 11.05, 11.1, 11.15, 11.2, 11.25, 11.3, 11.35, 11.4, 11.45, 11.5, 11.55, 11.6, 11.65, 11.7, 11.75, 11.8, 11.85, 11.9, 11.95, 12.0, 12.05, 12.1, 12.15, 12.2, 12.25, 12.3, 12.35, 12.4, 12.45, 12.5, 12.55, 12.6, 12.65, 12.7, 12.75, 12.8, 12.85, 12.9, 12.95, 13.0, 13.05, 13.1, 13.15, 13.2, 13.25, 13.3, 13.35, 13.4, 13.45, 13.5], "base": [[0.6203178673, 0.6592360354, 0.6979110844, 0.7360998952, 0.773559349, 0.8100463265, 0.8453177088, 0.8791303768, 0.9112412115, 0.9414070938, 0.9693849047, 0.994931525, 1.0178038359, 1.0377587182, 1.0545530528, 1.0679437208, 1.077687603, 1.0835415805, 1.0852625341, 1.0826073449, 1.0753328937, 1.0631960616, 1.0459537295, 1.0233627783, 0.995180089, 0.9611625426, 0.9210670199, 0.874650402, 0.8216695698, 0.7618814042, 0.6950427863, 0.6209105969, 0.5394631366, 0.4517610319, 0.3591951019, 0.2631562465, 0.1650353658, 0.0662233595, -0.0318888723, -0.1279104298, -0.2204504131, -0.3081179221, -0.3895220571, -0.4632719181, -0.5280629005, -0.5835935827, -0.6302097581, -0.6682680071, -0.6981249097, -0.7201370465, -0.7346609975, -0.7420533431, -0.7426706635, -0.7368695391, -0.72500655, -0.7074382766, -0.6845212992, -0.6566121979, -0.6240675531, -0.5872439451, -0.5464979541, -0.5021861603, -0.4546651441, -0.4042914858, -0.3514217655, -0.2964125637, -0.2396204604, -0.1814020361, -0.122113871, -0.0621125453, -0.0017546393], [0.7843443416, 0.6975207289, 0.6109829807, 0.5250169617, 0.4399085365, 0.3559435695, 0.2734079255, 0.1925874689, 0.1137680644, 0.0372355765, -0.0367241301, -0.107825191, -0.1757817415, -0.240307917, -0.301117853, -0.3579256849, -0.410445548, -0.458391578, -0.50147791, -0.5394186796, -0.5719280222, -0.5987200732, -0.6195089681, -0.6340088421, -0.6419338309, -0.6429980697, -0.6369156941, -0.6234008393, -0.602167641, -0.5729302343, -0.5354027549, -0.4892993381, -0.4345592694, -0.3722223944, -0.3036643148, -0.2302607142, -0.153387276, -0.0744196841, 0.0052663782, 0.0842952271, 0.1612911791, 0.2348785505, 0.3036816578, 0.3663248174, 0.4215150847, 0.4689213567, 0.5088330732, 0.5415500164, 0.5673719686, 0.586598712, 0.5995300287, 0.6064657011, 0.6077055112, 0.6035492414, 0.5942966739, 0.5802475909, 0.5617017746, 0.5389590072, 0.5123190709, 0.482081748, 0.4485468207, 0.4120140713, 0.3727832818, 0.3311542345, 0.2874267118, 0.2419004957, 0.1948753685, 0.1466511125, 0.0975275097, 0.0478043426, -0.0022186068], [0.0028322746, 0.0048150421, 0.0067845518, 0.0087275455, 0.0106307654, 0.0124809535, 0.0142648519, 0.0159692025, 0.0175807475, 0.0190862289, 0.0204723888, 0.0217259691, 0.022833712, 0.0237823595, 0.0245586537, 0.0251493366, 0.0255411502, 0.0257208366, 0.0256751379, 0.0253907961, 0.0248545532, 0.0240531514, 0.0229733326, 0.0216018389, 0.0199254123, 0.017930795, 0.0156047289, 0.0129339561, 0.0099052187, 0.0065052587, 0.0027208182, -0.0014613609, -0.0060154503, -0.010724565, -0.0153135325, -0.0195071663, -0.0230302797, -0.0256076861, -0.0269641989, -0.0268246315, -0.0249137972, -0.0209565095, -0.0146775818, -0.0058018273, 0.0059268625, 0.0205428163, 0.0379372783, 0.0579991082, 0.0806171658, 0.1056803106, 0.1330774024, 0.1626973008, 0.1944288656, 0.2281609562, 0.2637824325, 0.3011821541, 0.3402489807, 0.3808717719, 0.4229393874, 0.4663406869, 0.51096453, 0.5566997764, 0.6034352858, 0.6510599179, 0.6994625322, 0.7485319886, 0.7981571466, 0.8482268659, 0.8986300063, 0.9492554273, 0.9999919886]]}}, "ba": {"columnas": ["Intercept", "C(tope)[T.8.0]", "C(tope)[T.8.5]", "C(anillo)[T.0.0]", "C(anillo)[T.1.0]", "C(anillo)[T.2.0]", "C(anillo)[T.3.0]", "Kh", "EE", "cilh"], "coef": [-6.4966528594, -1.1261598606, -0.552263075, -0.146741911, 0.0816621713, 0.0309190975, -0.2096518059, 0.0786645382, 0.1324058871, 0.3048752688], "cov": [[3.121171680963, 0.042101174184, 0.107583318177, 0.08419796744, 0.177867321865, 0.319415251638, 0.381191707344, -0.076200884374, -0.001937395657, -0.01602980186], [0.042101174184, 0.019862765192, 0.019232241569, 0.000825168076, 0.002088946776, 0.017806628103, 0.022090605224, -0.001447426237, -2.9281776e-05, -7.6520214e-05], [0.107583318177, 0.019232241569, 0.030561791984, 0.003629908073, 0.009936757245, 0.028591279997, 0.034264766793, -0.003134637423, -7.1579217e-05, -0.000218250267], [0.08419796744, 0.000825168076, 0.003629908073, 0.016557748994, 0.014258578178, 0.018481877444, 0.020415363577, -0.002272412807, 8.5066937e-05, 0.000304709543], [0.177867321865, 0.002088946776, 0.009936757245, 0.014258578178, 0.026038182908, 0.030439198151, 0.034423463672, -0.00461277313, 0.000124521083, 0.000288251439], [0.319415251638, 0.017806628103, 0.028591279997, 0.018481877444, 0.030439198151, 0.062322322942, 0.065279924662, -0.008401588018, 6.2269065e-05, 5.9273456e-05], [0.381191707344, 0.022090605224, 0.034264766793, 0.020415363577, 0.034423463672, 0.065279924662, 0.205697907365, -0.010000659199, 4.1130164e-05, -1.935483e-06], [-0.076200884374, -0.001447426237, -0.003134637423, -0.002272412807, -0.00461277313, -0.008401588018, -0.010000659199, 0.001877624086, 5.7145859e-05, 0.000334865207], [-0.001937395657, -2.9281776e-05, -7.1579217e-05, 8.5066937e-05, 0.000124521083, 6.2269065e-05, 4.1130164e-05, 5.7145859e-05, 0.000248823733, -4.64987e-05], [-0.01602980186, -7.6520214e-05, -0.000218250267, 0.000304709543, 0.000288251439, 5.9273456e-05, -1.935483e-06, 0.000334865207, -4.64987e-05, 0.001328869431]], "nota": "riesgo «si se notificara» (cirujanos notificadores)"}, "experiencia": {"bins": [36.0, 36.5, 37.0, 37.5, 38.0, 38.5, 39.0, 39.5, 40.0, 40.5, 41.0, 41.5, 42.0, 42.5, 43.0, 43.5, 44.0, 44.5, 45.0, 45.5, 46.0, 46.5, 47.0, 47.5, 48.0, 48.5, 49.0, 49.5, 50.0, 50.5, 51.0, 51.5, 52.0], "n": {"+0/7.5": [0, 1, 0, 2, 7, 13, 27, 71, 135, 145, 118, 130, 130, 184, 173, 152, 142, 70, 10, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+0/8": [6, 2, 1, 4, 7, 14, 27, 92, 284, 1297, 3004, 4954, 6999, 5426, 3341, 2412, 1552, 503, 109, 59, 24, 12, 3, 3, 0, 1, 0, 0, 0, 0, 0, 0], "+0/8.5": [0, 0, 0, 0, 0, 1, 0, 2, 6, 18, 24, 72, 274, 1603, 2212, 1905, 1249, 360, 36, 5, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+1/7.5": [0, 0, 0, 0, 0, 0, 0, 3, 6, 14, 51, 67, 119, 146, 161, 164, 156, 175, 126, 44, 17, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+1/8": [1, 3, 0, 2, 1, 1, 8, 4, 16, 47, 78, 171, 1127, 6384, 10301, 11139, 9741, 4630, 1413, 478, 164, 53, 21, 8, 1, 0, 0, 0, 0, 0, 0, 0], "+1/8.5": [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 4, 2, 10, 30, 44, 74, 177, 618, 579, 146, 10, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+2/7.5": [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 5, 9, 24, 101, 180, 273, 829, 3002, 3136, 1864, 867, 304, 107, 26, 5, 5, 1, 1, 0, 0, 0, 0], "+2/8": [0, 0, 0, 0, 0, 0, 0, 3, 2, 1, 1, 4, 7, 22, 25, 46, 276, 1453, 2109, 1955, 1371, 768, 330, 133, 49, 16, 2, 1, 0, 1, 0, 0], "+2/8.5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 5, 3, 13, 28, 84, 71, 50, 19, 10, 0, 0, 0, 0, 0, 0], "+3/7.5": [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1, 1, 4, 1, 14, 81, 152, 277, 218, 92, 16, 11, 0, 2, 0, 0, 0, 0, 0, 0], "+3/8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 6, 9, 2, 26, 103, 78, 39, 11, 7, 5, 0, 0, 0, 0, 0], "-1/7.5": [0, 1, 1, 3, 7, 23, 54, 107, 199, 150, 94, 143, 150, 85, 14, 3, 6, 8, 22, 9, 9, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "-1/8": [1, 1, 4, 24, 61, 152, 372, 761, 1517, 1827, 2388, 2918, 2997, 1261, 352, 172, 136, 61, 32, 24, 8, 6, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0], "-1/8.5": [1, 0, 0, 4, 3, 9, 11, 19, 75, 453, 912, 1183, 1263, 427, 102, 30, 14, 17, 12, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "lc": {"+0/7.5": [0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+0/8": [0, 0, 0, 0, 1, 0, 2, 10, 6, 32, 50, 34, 31, 14, 5, 7, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+0/8.5": [0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 2, 3, 5, 40, 25, 15, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+1/7.5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+1/8": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 6, 26, 33, 25, 22, 19, 4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+1/8.5": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 4, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+2/7.5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 5, 3, 2, 6, 3, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+2/8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 2, 4, 13, 47, 55, 36, 14, 10, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+2/8.5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 4, 5, 11, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0], "+3/7.5": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "+3/8": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0], "-1/7.5": [0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "-1/8": [0, 0, 1, 2, 5, 22, 19, 28, 32, 43, 18, 27, 17, 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "-1/8.5": [0, 0, 0, 1, 0, 5, 5, 3, 13, 47, 53, 46, 22, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}}, "nomograma": {"39": [[-1, 8, 9.5, 8.8, 5.1], [0, 7.5, 9.0, 8.3, 5.0]], "40": [[-1, 8, 9.8, 8.9, 5.6], [0, 7.5, 9.3, 8.4, 5.4]], "41": [[-1, 8.5, 10.0, 9.3, 5.3], [0, 8, 9.5, 8.8, 5.1], [1, 7.5, 9.0, 8.3, 5.0]], "42": [[-1, 8.5, 10.3, 9.4, 5.7], [0, 8, 9.8, 8.9, 5.6], [1, 7.5, 9.3, 8.4, 5.4]], "43": [[0, 8.5, 10.0, 9.3, 5.3], [1, 8, 9.5, 8.8, 5.1], [2, 7.5, 9.0, 8.3, 5.0]], "44": [[0, 8.5, 10.3, 9.4, 5.7], [1, 8, 9.8, 8.9, 5.6], [2, 7.5, 9.3, 8.4, 5.4]], "45": [[1, 8.5, 10.0, 9.3, 5.3], [2, 7.5, 9.5, 8.5, 5.8], [3, 7.5, 9.0, 8.3, 5.0]], "46": [[2, 8, 9.8, 8.9, 5.6], [3, 7.5, 9.3, 8.4, 5.4]], "47": [[2, 8.5, 10.0, 9.3, 5.3], [3, 8, 9.5, 8.8, 5.1]], "48": [[2, 8.5, 10.3, 9.4, 5.7], [3, 8, 9.8, 8.9, 5.6]], "49": [[2, 9, 10.5, 9.8, 5.4], [3, 8.5, 10.0, 9.3, 5.3]]}, "bisagra": {"hiperUmPorD": 20, "miopeUmPorD": 16, "rZO": 3.25, "faldaEsfera": 0.06, "rFalda": 3.9, "anillo": [[0.0, 0.0], [0.4, 0.0], [2.0, 0.3], [3.0, 0.7], [3.3, 1.0], [3.5, 1.0], [4.0, 0.5], [4.5, 0.0]], "bandaEje": [[0.0, 1.0], [2.0, 0.85], [3.0, 0.53], [3.25, 0.43], [3.5, 0.27], [4.0, 0.15], [4.25, 0.09], [4.45, 0.0]], "umMedia": 7, "umAlta": 25}};
+
+</script>
+<script>/* motor.js */
+/* SBK 2.0 · motor (funciones puras, sin DOM). Réplica exacta de analysis/motor_s2.py + exportar_parametros.py.
+   Lee window.PARAMETROS (app/parametros.js, generado por analysis/exportar_parametros.py). Cualquier cambio aquí debe
+   pasar app/tests.html (paridad con Python). */
+(function (global) {
+  'use strict';
+  const P = global.PARAMETROS;
+  const CFG = P.config;
+  const rad = d => d * Math.PI / 180;
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+  const sig = z => 1 / (1 + Math.exp(-z));
+  const fmtCombo = (an, tp) => `${an >= 0 ? '+' : '−'}${Math.abs(an)}/${String(tp).replace('.', ',')}`;
+  const clave = (an, tp) => `${an >= 0 ? '+' : '-'}${Math.abs(an)}/${tp}`;   // misma clave que Python: '+1/8', '-1/8.5'
+  const parse = c => { const [a, t] = c.split('/'); return [parseInt(a, 10), parseFloat(t)]; };
+
+  // ── Refracción, huella y perfil (criterio de la calculadora v39–v42) ──
+  function cilNegativo(s, c, e) {
+    if (c > 0) return {s: s + c, c: -c, e: ((e + 90) % 180 + 180) % 180};
+    return {s, c, e};
+  }
+  function kHorizontal(kmed, kcil, keje) {
+    if (kcil > 0) { kcil = -kcil; keje = (keje + 90) % 180; }
+    return kmed + kcil / 2 * Math.cos(rad(2 * keje));
+  }
+  function huella(s, c, e) {
+    const n = cilNegativo(s, c, e);
+    const tipo = n.s <= 0.05 ? 'miopia' : (n.s + n.c >= -0.05 ? 'hiper' : 'mixto');
+    const largo = (tipo === 'miopia' && Math.abs(n.c) < 1) ? 8.0 : tipo === 'miopia' ? 8.5 : 9.0;
+    const corto = tipo === 'hiper' ? 9.0 : 8.0;
+    const co = Math.cos(rad(n.e)), si = Math.sin(rad(n.e));
+    const anchoH = Math.sqrt(largo * largo * co * co + corto * corto * si * si);
+    let perfil;
+    if (tipo === 'miopia') perfil = Math.abs(n.c) < 1 ? 1 : 2;
+    else if (tipo === 'hiper') perfil = 3;
+    else perfil = co * co >= 0.5 ? 4 : 5;
+    return {n, tipo, largo, corto, anchoH, perfil};
+  }
+  const PERFILES = {1: 'Miopía sin cilindro relevante', 2: 'Miopía con cilindro ≥ 1 D', 3: 'Hipermetropía',
+                    4: 'Mixto con eje horizontal', 5: 'Mixto con eje vertical'};
+
+  // ── Nomograma y geometría ──
+  const NOMO = {};
+  for (const [k, filas] of Object.entries(P.nomograma)) NOMO[+k] = filas.map(([an, tp, flap, estroma, bisagra]) => ({an, tp, flap, estroma, bisagra}));
+  const filaDe = kh => clamp(Math.floor(kh), 39, 49);
+  function porDefecto(fila) {
+    const r = NOMO[fila];
+    if (r.length === 3) return r[1];
+    let best = r[0];
+    for (const x of r) if (Math.abs(x.tp - 8) < Math.abs(best.tp - 8)) best = x;
+    return best;
+  }
+  function estromaModelo(fila, an, tp) {            // a007.estroma: modelo, con la fila entera
+    const flap = 9.5 + 0.25 * (fila - 41) - 0.5 * an;
+    return flap / 2 + Math.min(flap / 2, 4.0 + 0.5 * (tp - 8));
+  }
+  function flapBisagra(fila, an, tp) {              // bisagra_v45.flap_bisagra: tabla si existe, si no modelo redondeado
+    const k = clamp(fila, 39, 49);
+    const t = NOMO[k].find(x => x.an === an && Math.abs(x.tp - tp) < 1e-9);
+    if (t) return {flap: t.flap, bisagra: t.bisagra, tabla: true};
+    const flap = 9.5 + 0.25 * (k - 41) - 0.5 * an;
+    const R = flap / 2, d = Math.min(R, 4.0 + 0.5 * (tp - 8));
+    return {flap: Math.round(flap * 10) / 10, bisagra: Math.round(2 * Math.sqrt(Math.max(0, R * R - d * d)) * 10) / 10, tabla: false};
+  }
+  const FILAS_COMBO = {};
+  for (const c of P.combos) {
+    const [an, tp] = parse(c);
+    FILAS_COMBO[c] = Object.entries(NOMO).filter(([, r]) => r.some(x => x.an === an && Math.abs(x.tp - tp) < 1e-9)).map(([k]) => +k);
+  }
+
+  // ── Ablación sobre la bisagra (port de la calculadora v45) ──
+  const BIS = P.bisagra;
+  function interpTabla(pts, x) {
+    if (x <= pts[0][0]) return pts[0][1];
+    for (let i = 1; i < pts.length; i++) if (x <= pts[i][0]) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+      return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
+    }
+    return pts[pts.length - 1][1];
+  }
+  function recentrado(R, d) {
+    const th = Math.acos(clamp(d / R, -1, 1)) || 0, s = Math.sin(th), c = Math.cos(th);
+    const seg = R * R * (th - s * c), circ = Math.PI * R * R;
+    if (seg > 1e-6 && circ - seg > 1e-6) return seg * ((2 * R * s ** 3) / (3 * (th - s * c))) / (circ - seg);
+    return 0;
+  }
+  function profundidad(n, x, y) {
+    const t = rad(n.e), a = x * Math.cos(t) + y * Math.sin(t), p = -x * Math.sin(t) + y * Math.cos(t), r = Math.hypot(x, y);
+    let um = 0;
+    if (n.s < 0) {
+      const enZO = Math.max(0, 1 - (r / BIS.rZO) ** 2);
+      const f = r < BIS.rZO ? Math.max(enZO, BIS.faldaEsfera) : BIS.faldaEsfera * clamp((BIS.rFalda - r) / (BIS.rFalda - BIS.rZO), 0, 1);
+      um += BIS.miopeUmPorD * (-n.s) * f;
+    }
+    const cilM = Math.min(-n.c, Math.max(0, -(n.s + n.c)));
+    if (cilM > 0) {
+      const aMax = BIS.bandaEje[BIS.bandaEje.length - 1][0];
+      um += BIS.miopeUmPorD * cilM * interpTabla(BIS.bandaEje, Math.hypot(a / aMax, p / BIS.rZO) * aMax);
+    }
+    if (n.s > 0 && r > 0) {
+      const pos = n.s + n.c * (p * p) / (r * r);
+      if (pos > 0) um += BIS.hiperUmPorD * pos * interpTabla(BIS.anillo, r);
+    }
+    return um;
+  }
+  function ablacionBisagra(n, fila, an, tp) {
+    const g = flapBisagra(fila, an, tp), R = g.flap / 2;
+    const d = Math.sqrt(Math.max(0, R * R - (g.bisagra / 2) ** 2));
+    const rc = recentrado(R, d), dist = d + rc;
+    let um = 0;
+    for (let y = -g.bisagra / 2; y <= g.bisagra / 2 + 1e-9; y += 0.1) um = Math.max(um, profundidad(n, dist, y));
+    return {um, nivel: um >= BIS.umAlta ? 2 : um >= BIS.umMedia ? 1 : 0, dist, recentrado: rc, d};
+  }
+
+  // ── Modelos de riesgo ──
+  function interpBase(sp, x) {
+    const g = sp.rejilla, n = g.length;
+    x = clamp(x, g[0], g[n - 1]);
+    let i = Math.min(n - 2, Math.max(0, Math.floor((x - g[0]) / (g[1] - g[0]) + 1e-9)));
+    while (i > 0 && g[i] > x) i--;
+    while (i < n - 2 && g[i + 1] < x) i++;
+    const w = (x - g[i]) / (g[i + 1] - g[i]);
+    return sp.base.map(col => col[i] + w * (col[i + 1] - col[i]));
+  }
+  function quad(cov, x) {
+    let v = 0;
+    for (let i = 0; i < x.length; i++) { if (!x[i]) continue; for (let j = 0; j < x.length; j++) v += x[i] * cov[i][j] * x[j]; }
+    return v;
+  }
+  function riesgoLC(combo, v) {
+    const L = P.lc, bk = interpBase(L.spline_k, v.Kh), bb = interpBase(L.spline_bb, v.BBi);
+    const x = L.columnas.map(col => {
+      if (col === 'Intercept') return 1;
+      if (col.startsWith('C(combo)')) return col === `C(combo)[T.${combo}]` ? 1 : 0;
+      if (col.startsWith('cr(Kh')) return bk[L.spline_k.columnas.indexOf(col)];
+      if (col.startsWith('cr(BBi')) return bb[L.spline_bb.columnas.indexOf(col)];
+      if (col === 'BBfalta') return v.BBfalta;
+      if (col === 'EE') return v.EE;
+      if (col === 'cilh') return v.cilh;
+      throw new Error('columna LC desconocida: ' + col);
+    });
+    const eta = x.reduce((s, xi, i) => s + xi * L.coef[i], 0) + L.offset, se = Math.sqrt(quad(L.cov, x));
+    return {p: sig(eta), lo: sig(eta - 1.96 * se), hi: sig(eta + 1.96 * se)};
+  }
+  function riesgoBA(an, tp, v) {
+    const B = P.ba;
+    const x = B.columnas.map(col => {
+      if (col === 'Intercept') return 1;
+      let m = col.match(/^C\(tope\)\[T\.([\d.]+)\]$/); if (m) return Math.abs(tp - parseFloat(m[1])) < 1e-9 ? 1 : 0;
+      m = col.match(/^C\(anillo\)\[T\.(-?[\d.]+)\]$/); if (m) return an === parseFloat(m[1]) ? 1 : 0;
+      if (col === 'Kh') return v.Kh;
+      if (col === 'EE') return v.EE;
+      if (col === 'cilh') return v.cilh;
+      throw new Error('columna BA desconocida: ' + col);
+    });
+    const eta = x.reduce((s, xi, i) => s + xi * B.coef[i], 0), se = Math.sqrt(quad(B.cov, x));
+    return {p: sig(eta), lo: sig(eta - 1.96 * se), hi: sig(eta + 1.96 * se)};
+  }
+  function experiencia(combo, kh) {
+    const bins = P.experiencia.bins;
+    let i = bins.findIndex(b => b >= kh);                   // numpy searchsorted(side='left')
+    if (i < 0) i = bins.length;
+    i = clamp(i - 1, 0, bins.length - 2);
+    const h = P.experiencia.n[combo], e = P.experiencia.lc[combo];
+    let n = 0, lc = 0;
+    for (let j = Math.max(0, i - 2); j < i + 2 && j < h.length; j++) { n += h[j]; lc += e[j]; }
+    return {n, lc};
+  }
+  function wilson(k, n) {
+    if (!n) return [NaN, NaN];
+    const z = 1.96, p = k / n, d = 1 + z * z / n, c = (p + z * z / (2 * n)) / d, h = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
+    return [Math.max(0, c - h), Math.min(1, c + h)];
+  }
+
+  // ── Algoritmos de comparación ──
+  const RISK_V38_BLOQUEO = ['2/8.5'];
+  function v38(v) {
+    if (v.BB === null || isNaN(v.BB)) return null;
+    const hc = Math.cos(rad(v.n.e)) ** 2;
+    const cylDrive = 0.46 * Math.abs(v.n.c) ** 1.5 * hc, hyper = Math.max(0, v.n.s + v.n.c / 2);
+    const score = cylDrive + 0.58 * hyper, rd = cylDrive - 3.0 * hyper;
+    const low = Math.floor(v.Kh), frac = v.Kh - low, t = clamp(0.5 + 0.42 - 0.06 * rd, 0, 1);
+    const fila = clamp(low + (frac > 0 && frac >= t ? 1 : 0), 39, 49);
+    const rows = NOMO[fila], n = rows.length;
+    let idx = n === 3 ? 1 : rows.indexOf(porDefecto(fila));
+    if (v.BB < 11) idx = n - 1;
+    else if (v.BB >= 11.6) {
+      const eff = v.BB >= 12 ? 3.2 : 3.2 * (2.8 - (v.BB - 11.6) / 0.4 * 1.8);
+      if (score >= eff) {
+        const req = (rows[0].an === -1 && rows[0].tp === 8.5) ? eff * 2.6 : eff;
+        if (score >= req && !RISK_V38_BLOQUEO.includes(`${rows[0].an}/${rows[0].tp}`)) idx = 0;
+      }
+    }
+    return clave(rows[idx].an, rows[idx].tp);
+  }
+
+  // Calculadora en uso (~/calculadora-moria): v47 (139e5e9), v48 (be83e2a), v49 (7ff1b88) y v50. Port de analysis/calculadora_v47.py.
+  // v49: peso de cilindro 0,46 y sin subida de tope por puntuación.
+  // v50: reglas por tratamiento en las filas 39, 43, 45 y 46 (miopía sin cilindro horizontal → tope bajo si cubre; cilindro horizontal ≥ 1 D → flap o tope mayor).
+  const REGLAS_V50 = {39: {miopia: [0, 7.5]}, 43: {cilH: [0, 8]}, 45: {cilH: [1, 8]}, 46: {miopia: [2, 7.5]}};
+  // Peso del cilindro 0,5: el efectivo en la calculadora (el deslizante con paso 0,1 convierte el 0,46 declarado en 0,5).
+  const RISK_LC = {'-1/8.5': [4.754, 9423], '-1/8': [1.112, 21142], '-1/7.5': [0.633, 1106], '0/8.5': [1.518, 16663], '0/8': [0.411, 60287],
+    '0/7.5': [0.232, 3020], '1/8.5': [0.672, 3425], '1/8': [0.175, 100146], '1/7.5': [0.110, 3638], '2/8.5': [11.357, 361],
+    '2/8': [1.764, 14682], '2/7.5': [0.196, 27506], '3/8': [0.383, 261], '3/7.5': [0.052, 1916]};
+  const bloqueoV = (an, tp) => { const d = RISK_LC[`${an}/${tp}`]; if (!d) return false; const [lo] = wilson(d[0] / 100 * d[1], d[1]); return 100 * lo >= 5; };
+  function calc(v, version) {
+    if (v.BB === null || isNaN(v.BB)) return null;
+    const n = v.n, hc = Math.cos(rad(n.e)) ** 2;
+    const cylDrive = (version >= 49 ? 0.46 : 0.5) * Math.abs(n.c) ** 1.5 * hc, hyper = Math.max(0, n.s + n.c / 2);
+    const score = cylDrive, rd = cylDrive - 3.0 * hyper;
+    const hu = huella(n.s, n.c, n.e);
+    const low = Math.floor(v.Kh), frac = v.Kh - low, t = clamp(0.5 + 0.42 - 0.06 * rd, 0, 1);
+    const fila = clamp(low + (frac > 0 && frac >= t ? 1 : 0), 39, 49);
+    const rows = NOMO[fila], nn = rows.length;
+    let idx = nn === 3 ? 1 : rows.indexOf(porDefecto(fila));
+    if (v.BB < 11) idx = nn - 1;
+    else if (v.BB >= 11.6 && version < 49 && !(version >= 48 && (hu.tipo === 'miopia' || hu.tipo === 'mixto'))) {
+      const eff = v.BB >= 12 ? 3.2 : 3.2 * (2.8 - (v.BB - 11.6) / 0.4 * 1.8);
+      if (score >= eff) {
+        const req = (rows[0].an === -1 && rows[0].tp === 8.5) ? eff * 2.6 : eff;
+        if (score >= req && !bloqueoV(rows[0].an, rows[0].tp)) idx = 0;
+      }
+    }
+    const cubreV = o => estromaModelo(fila, o.an, o.tp) >= hu.anchoH - 0.2 - 1e-9;
+    let act = rows[idx];
+    if (version >= 50 && v.BB >= 11) {
+      const g = Math.abs(n.c) * hc >= 1 - 1e-9 ? 'cilH' : (hu.tipo === 'miopia' ? 'miopia' : 'otro');
+      const r = (REGLAS_V50[fila] || {})[g];
+      if (r && !(r[0] === act.an && r[1] === act.tp)) {
+        const o = {an: r[0], tp: r[1]};
+        if ((g !== 'cilH' || v.BB >= 11.6) && !bloqueoV(o.an, o.tp) && v.BB - flapBisagra(fila, o.an, o.tp).flap >= 1.5 && (g !== 'miopia' || cubreV(o))) act = o;
+      }
+    }
+    if (v.BB >= 11.6 && (version >= 48 || idx !== 0) && hu.tipo === 'mixto' && Math.cos(rad(hu.n.e)) ** 2 >= 0.5) {
+      const dA = RISK_LC[`${act.an}/${act.tp}`];
+      if (version < 48) {
+        const alto = rows[0], dT = RISK_LC[`${alto.an}/${alto.tp}`];
+        if (!cubreV(act) && cubreV(alto) && dA && dT && dT[0] - dA[0] <= 1.5 && !bloqueoV(alto.an, alto.tp)) act = alto;
+      } else if (!cubreV(act) && dA) {
+        let mejor = null; const vistos = new Set();
+        for (let k = fila - 1; k <= fila + 1; k++) for (const o of (NOMO[k] || [])) {
+          const key = `${o.an}/${o.tp}`;
+          if (vistos.has(key)) continue;
+          vistos.add(key);
+          const d = RISK_LC[key];
+          if (!d || !cubreV(o) || bloqueoV(o.an, o.tp) || d[0] - dA[0] > 1.5) continue;
+          if (v.BB - flapBisagra(fila, o.an, o.tp).flap < 1.5) continue;
+          if (!mejor || d[0] < mejor.lc) mejor = {o, lc: d[0]};
+        }
+        if (mejor) return clave(mejor.o.an, mejor.o.tp);
+      }
+    }
+    return clave(act.an, act.tp);
+  }
+
+  // ── Evaluación de un ojo ──
+  function evaluarOjo(e) {
+    const kh = kHorizontal(e.kmed, e.kcil, e.keje);
+    const hu = huella(e.sph, e.cyl, e.ax);
+    const BB = (e.bb === null || e.bb === undefined || e.bb === '' || isNaN(e.bb)) ? null : +e.bb;
+    const v = {Kh: kh, n: hu.n, BB, EE: hu.n.s + hu.n.c / 2, cilh: Math.abs(hu.n.c) * Math.cos(rad(hu.n.e)) ** 2,
+               BBi: (BB !== null && BB >= 10 && BB <= 13.5) ? BB : CFG.bb_defecto, BBfalta: BB === null ? 1 : 0};
+    const fila = filaDe(kh), F = porDefecto(fila), Fc = clave(F.an, F.tp);
+    const puedeSubir = hu.perfil === 4 && !(estromaModelo(fila, F.an, F.tp) >= hu.anchoH - 0.2);
+    // v0.6: peso de la BA según el tratamiento (miopía sin cilindro horizontal: se arriesga BA; cilindro horizontal ≥ 1 D: se arriesga LC)
+    const grupoBA = v.cilh >= (CFG.umbral_cil_h ?? 1) ? 'cil_h' : (hu.perfil <= 2 ? 'miopia' : 'otro');
+    const lam = grupoBA === 'cil_h' ? (CFG.lam_cil_h ?? CFG.lam) : grupoBA === 'miopia' ? (CFG.lam_miopia_sin_cil_h ?? CFG.lam) : CFG.lam;
+    const cands = P.combos.map(c => {
+      const [an, tp] = parse(c);
+      const lc = riesgoLC(c, v), ba = riesgoBA(an, tp, v), ex = experiencia(c, kh), g = flapBisagra(fila, an, tp);
+      const cubre = estromaModelo(fila, an, tp) >= hu.anchoH - 0.2;
+      const cerca = FILAS_COMBO[c].some(f => Math.abs(f - fila) <= 1);
+      const holgura = v.BBi - g.flap;
+      const baja = tp < F.tp, regla46 = CFG.cubrir_al_bajar_filas.includes(fila) && baja && !cubre;
+      const subeSinNecesidad = tp > CFG.tope_max_sin_necesidad && !puedeSubir;
+      const soporte = ex.n >= CFG.soporte_min;
+      const motivos = [];
+      if (lc.p >= CFG.lc_max) motivos.push(`lentículo completo estimado ${(100 * lc.p).toFixed(1)} % (≥ ${100 * CFG.lc_max} %)`);
+      if (holgura < CFG.holgura) motivos.push(`holgura BB − flap ${holgura.toFixed(1)} mm (< ${CFG.holgura})`);
+      if (regla46) motivos.push('baja el tope y deja de cubrir la ablación en horizontal');
+      const opFila = (CFG.opciones_fila || {})[String(fila)];
+      if (opFila && !opFila.includes(c)) motivos.push(`en la fila ${fila} solo ${opFila.map(x => fmtCombo(...parse(x))).join(' o ')} (decisión clínica)`);
+      if (subeSinNecesidad) motivos.push(`tope ${String(tp).replace('.', ',')} sin necesidad (solo en mixto horizontal que la de Moria no cubre)`);
+      const ok = soporte && cerca && motivos.length === 0;
+      const coste = lc.p + lam * ba.p - CFG.beneficio_mixto_h * ((cubre && hu.perfil === 4) ? 1 : 0) - CFG.inercia * (c === Fc ? 1 : 0);
+      return {combo: c, an, tp, lc, ba, ex, flap: g.flap, bisagra: g.bisagra, cubre, cerca, soporte, holgura, motivos, ok, coste,
+              estroma: estromaModelo(fila, an, tp), ablBis: ablacionBisagra(hu.n, fila, an, tp)};
+    });
+    let best = null;
+    for (const c of cands) if (c.ok && (best === null || c.coste < best.coste)) best = c;
+    // v0.7: regla clínica de fila (fila 39: miopía sin cilindro horizontal → 0/7,5 si cubre y respeta la holgura; cilindro horizontal → −1/8)
+    let regla = null;
+    const rf = (CFG.regla_fila || {})[String(fila)];
+    if (rf && rf[grupoBA]) {
+      const c = cands.find(x => x.combo === rf[grupoBA]);
+      if (c && (grupoBA !== 'miopia' || (c.cubre && c.holgura >= CFG.holgura))) {
+        regla = grupoBA === 'miopia'
+          ? `fila ${fila} sin cilindro horizontal: ${fmtCombo(c.an, c.tp)} (se arriesga bisagra ancha antes que completo; decisión clínica)`
+          : `fila ${fila} con cilindro horizontal: ${fmtCombo(c.an, c.tp)} (se acepta el riesgo de completo; decisión clínica)`;
+        best = c;
+      }
+    }
+    const sinCandidata = best === null;
+    if (sinCandidata) {
+      best = cands.find(c => c.combo === Fc) || null;
+      if (!best) {   // la combinación del fabricante no tiene modelo (p. ej. fila 49): se devuelve sin riesgos
+        const g = flapBisagra(fila, F.an, F.tp), nada = {p: NaN, lo: NaN, hi: NaN};
+        best = {combo: Fc, an: F.an, tp: F.tp, lc: nada, ba: nada, ex: {n: 0, lc: 0}, flap: g.flap, bisagra: g.bisagra,
+                cubre: estromaModelo(fila, F.an, F.tp) >= hu.anchoH - 0.2, cerca: true, soporte: false, holgura: v.BBi - g.flap,
+                motivos: ['sin experiencia ni modelo para esta combinación'], ok: false, coste: NaN, sinModelo: true,
+                estroma: estromaModelo(fila, F.an, F.tp), ablBis: ablacionBisagra(hu.n, fila, F.an, F.tp)};
+      }
+    }
+    return {entrada: e, kh, fila, huella: hu, perfil: hu.perfil, perfilTxt: PERFILES[hu.perfil], v, recomendada: best, sinCandidata, grupoBA, lam, regla,
+            fabricante: Fc, v38: v38(v), v47: calc(v, 47), v48: calc(v, 48), v49: calc(v, 49), v50: calc(v, 50), candidatas: cands};
+  }
+
+  global.SBK = {evaluarOjo, fmtCombo, clave, parse, wilson, PERFILES, NOMO, porDefecto, flapBisagra, ablacionBisagra, kHorizontal, huella, version: P.version};
+})(window);
+
+</script>
+<script>/* motor_prueba.js */
+// Página de prueba de SBK 2.0 (solo la usa prueba/construir.py).
+// La combinación recomendada la calcula ÚNICAMENTE el motor de SBK 2.0 (~/sbk2/app/motor.js con
+// parametros.js, insertados antes que este fichero). Se sustituye la función de la calculadora que
+// elige la combinación (pickIdxAndLookup); el resto de la página (riesgos de la tabla, semáforo,
+// dibujo, desplegables para cambiarla a mano) funciona igual que en la calculadora.
+// Sin unificación entre ojos: el motor decide cada ojo con su propia K.
+(function(){
+  const S = window.SBK;
+
+  const css = document.createElement('style');
+  css.textContent = `.sbk-banner{background:#8a6d1e;color:#fff;text-align:center;font-size:.82rem;font-weight:600;padding:7px 12px;}`;
+  document.head.appendChild(css);
+  const banner = document.createElement('div');
+  banner.className = 'sbk-banner';
+  banner.textContent = 'VERSIÓN DE PRUEBA · recomendación calculada con ' + (S.version || 'SBK 2.0') + ', experimental. No sustituye al criterio del cirujano.';
+  document.body.insertBefore(banner, document.body.firstChild);
+
+  const pie = document.querySelector('.footer-note .adv-hide');
+  if (pie) pie.textContent = 'Versión de prueba: la combinación recomendada la elige el motor de SBK 2.0, que estima para cada ojo el riesgo de ' +
+    'lentículo completo y de bisagra ancha con su K horizontal, su BB y su refracción (cohorte de Baviera España) y se queda con la de menor riesgo ' +
+    'combinado: en miopía sin cilindro horizontal acepta algo más de bisagra ancha para bajar el completo; con cilindro horizontal, al revés. ' +
+    'Solo elige entre combinaciones con experiencia suficiente cerca de esa K y con holgura limbar. Sin validación prospectiva.';
+
+  const original = pickIdxAndLookup;
+  pickIdxAndLookup = function(row, bb, score, P, eye){
+    try {
+      const r = S.evaluarOjo({kmed: eye.khoriz, kcil: 0, keje: 0, sph: eye.sph, cyl: eye.cyl, ax: eye.rax, bb});
+      const [ring, stop] = S.parse(r.recomendada.combo);
+      const kRow = clamp(r.fila, K_MIN, K_MAX);
+      const g = inferFlapHinge(kRow, ring, stop);
+      const nota = r.sinCandidata ? 'SBK 2.0: ninguna combinación cumple las restricciones de seguridad; se muestra la de Moria. Revisar el caso.'
+        : r.regla ? 'SBK 2.0: ' + r.regla + '.' : null;
+      return {kRow, chosen: {ring, stop, flap: g.flap, stroma: g.stroma, hinge: g.hinge}, bloqueo: null, subidaMixto: null, reglaTrat: nota};
+    } catch (err) {
+      console.error('SBK 2.0 no ha podido calcular este ojo; se usa la calculadora', err);
+      return original(row, bb, score, P, eye);
+    }
+  };
+  render();
+})();
+
+</script>
+</body>
+</html>
